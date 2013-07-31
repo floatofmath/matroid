@@ -1,6 +1,8 @@
 % Created 2013-07-25 Thu 18:08
 \documentclass[bigger]{beamer}
 \usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{decorations,arrows,shapes}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
@@ -77,11 +79,7 @@
 
 \begin{frame}
 \frametitle{Example 1: 4 Means}
-\begin{itemize}
-
-\item \textbf{/Some illustration hereabouts/}
-
-\end{itemize} % ends low level
+\input{full4}
 \end{frame}
 
 
@@ -181,11 +179,10 @@ then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
 
 \begin{frame}
 \frametitle{Independence axioms}
-
-\begin{block}
+\begin{block}{Independence}
   Consider $S$ and a collection of subsets $\mathscr{I}$ for which
   holds
-  \begin{enumerate}{Independence}
+  \begin{enumerate}
   \item $\emptyset \in \mathscr{I}$,
   \item $I \in \mathscr{I}$ and $J \subseteq I$ then $J \in
     \mathscr{I}$,
@@ -196,6 +193,7 @@ then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
   on $S$. This defines an independence relation $i \nsim_M I$ iff
   $I\cap i \in \mathscr{I}$. 
 \end{block}
+
 \begin{block}{Circuit}
   $C \subset S$ is a circuit iff $C \neq \mathscr{I}$ and for all $I
   \subset C$, $I \in \mathscr{I}$ (\ie minimally dependent set)
