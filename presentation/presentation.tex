@@ -1,0 +1,378 @@
+% Created 2013-07-25 Thu 18:08
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{bm}
+\tolerance=1000
+\usepackage{amsmath} \usepackage{algorithm} \usepackage{graphicx}
+\usepackage{amssymb} \usepackage{mathrsfs} 
+\newcommand{\bs}[1]{\bm{#1}}
+\newcommand{\ie}{{\em i.e.},~}
+\newcommand{\eg}{{\em e.g.},~}
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Matroids from families of null hypotheses}
+\author{Willi Maurer, Florian Klinglmueller}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.8.11}}
+
+\begin{document}
+
+\maketitle
+
+
+
+\begin{frame}
+\frametitle{Outline}
+\setcounter{tocdepth}{3}
+\tableofcontents
+\end{frame}
+
+
+
+
+\section{Logically dependent hypotheses}
+
+
+\begin{frame}
+\frametitle{Pairwise mean comparisons (two-sided)}
+\begin{itemize}
+
+\item Consider $\mu_i, i \in \{1,...,m\}$
+
+\item $H_k: \mu_i = \mu_j, k \in S = \{1,...,n\}$, where $n \leq m*(m-1)/2$
+
+\item Can be represented by an undirected graph $\mathscr{G} = (V,E)$:
+\begin{itemize}
+\item vertices correspond to means, \emph{i.e.}, $V = \{\mu_1,...,\mu_m\}$,
+\item edges correspond to hypotheses, \emph{i.e.}, $E =
+      \left\{e_1,...,e_n\} \right\}$, $e_l = \{\mu_i,\mu_j\}$, $i \neq
+      j$, and $e_l \neq e_k$ for $l \neq k$
+\end{itemize}
+\item Let $H_I = \bigcap_{k \in I} H_k$, $I \subseteq S$
+\item $I$ induces a subgraph $\mathscr{G}_I$ on the edge set $E_I=\{e_i: i
+  \in I\}$
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Example 1: 4 Means}
+\begin{itemize}
+
+\item \textbf{/Some illustration hereabouts/}
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{General contrast tests (two-sided)}
+\begin{itemize}
+
+\item Consider $m$-variate random variable $\bs{X} \sim F(\bs{\mu})$, $\bs{\mu} = (\mu_1,...,\mu_m)^t$
+
+\item Contrasts $\bs{c}_i = (c_{i1},...,c_{im})^t$, $\sum_{j = 1}^m
+  c_{ij} = 0$
+\item Contrast matrix  $\bs{C} = \left( \bs{c}_1,...,\bs{c}_n\right)$,
+  with sub-matrix $\bs{C}_I = \left( \bs{c}_i \right)_{i \in
+    I}$
+\item Elementary hypotheses $H_i: \bs{c}_i^t\bs{\mu} = 0$,
+\item Intersection hypotheses $H_I: \bs{C}_I^t\bs{\mu} = 0$
+
+\item Elementary hypotheses are represented by column vectors,
+  intersection hypotheses by sub-matrices of the contrast matrix
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Example 2: Contrast test}
+\begin{itemize}
+
+\item \textbf{/Some illustration hereabouts/}
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Dependent null hypotheses}
+
+\begin{itemize}
+\item $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$, induces a
+  dependence relation $\sim_H$ on $\mathcal{P}(S)$
+\item $H_I$ independent iff for all $i \in I$, $i \nsim_H I$,
+\item $I$ independent $\Leftrightarrow$ $H_{I} \subsetneq  H_{I\setminus i}$
+\item For pairwise comparisons $I$ independent iff there are no cycles in $\mathscr{G}_I$
+\item For general contrast tests $I$ independent iff $\bs{C_I}$ has full
+  column rank
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\section{Matroids}
+
+
+
+\begin{frame}
+\frametitle{Matroids}
+\begin{itemize}
+
+
+\item A matroid on $S$ endows $\mathcal{P}(S)$ with an algebraic
+  structure 
+\item Matroids generalize the structures of graphs and vector spaces,
+  \eg circuits, bases, independent sets
+\item Many ways to define a matroid
+  \begin{itemize}
+  \item From a graph perspective: Circuit axioms
+  \item From a vector space perspective: Independence axioms
+  \end{itemize}
+\item There is a dual matroid $M^*$ which can be helpful for proofs and algorithms 
+\item \textbf{/Some illustration hereabouts/}
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Circuit axioms}
+
+Consider $S$ and a collection of subsets $\mathscr{C}$ for which holds
+\begin{enumerate}
+\item $C_1 \neq C_2 \in \mathscr{C}$, then $C_1 \nsubseteq C_2$,
+\item $C_1 \neq C_2 \in \mathscr{C}$, and $i \in C_1 \cap C_2$ then
+   $\exists C_3 \subseteq (C_1 \cup C_2)$,
+\end{enumerate}
+then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
+\begin{itemize}
+
+\item \textbf{/Some illustration hereabouts/}
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Independence axioms}
+
+\begin{block}
+  Consider $S$ and a collection of subsets $\mathscr{I}$ for which
+  holds
+  \begin{enumerate}{Independence}
+  \item $\emptyset \in \mathscr{I}$,
+  \item $I \in \mathscr{I}$ and $J \subseteq I$ then $J \in
+    \mathscr{I}$,
+  \item $I,J \in \mathscr{I}$, $|I| = |J + 1|$ then $\exists j \in I
+    \setminus J$ such that $J \cup i \in \mathscr{I}$,
+  \end{enumerate}
+  then $\mathscr{I}$ is the set of independent sets of a matroid $M$
+  on $S$. This defines an independence relation $i \nsim_M I$ iff
+  $I\cap i \in \mathscr{I}$. 
+\end{block}
+\begin{block}{Circuit}
+  $C \subset S$ is a circuit iff $C \neq \mathscr{I}$ and for all $I
+  \subset C$, $I \in \mathscr{I}$ (\ie minimally dependent set)
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Dependence axioms}
+
+\begin{block}{Dependence}
+  Consider $S$ and a relation $\sim_M$ on elements and subsets of $S$,
+  then if for any $x,y_1,...,y_n,z_1,...,z_m$ holds
+  \begin{enumerate}
+  \item $y_i \sim \{y_1,...,y_n\}$ for all $i \leq n$
+  \item if $n\geq 1$, $x \sim_M \{y_1,...,y_n\}$ and $x \nsim_M
+    \{y_1,...,y_{n-1}$ then $y_n \sim \{y_1,...,y_{n-1},x\}$
+  \item if $x \sim_M \{y_1,...,y_n\}$ and for all $i \leq n$ $y_i
+    \sim_M \{z_1,...,z_m\}$ then $x \sim_M \{z_1,...,z_m\}$
+  \end{enumerate}
+  then $\sim_M$ defines a dependence relation of a matroid on $S$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Maximally independent sets}
+  \begin{itemize}
+  \item Bases are maximally independent sets of $S$
+  \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
+  \item Circuits are minimally dependent sets, \ie each subset of $C$
+    with rank $\rho C - 1$ is a maximally independent set of $C$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Maximally dependent sets}
+\begin{itemize}
+\item The closure of a set $\sigma I = \{i \in S: i \sim I\}$
+\item Closed sets {\em flats}: $\mathscr{L} = \{I \subseteq S: \sigma I = I\}$
+\item Hyperplanes are flats of rank $\rho S - 1$
+\item All flats are given by closing hyperplanes under intersection
+\item Circuits in $M^*$ are the complements of hyperplanes in $M$
+\end{itemize} % ends low level
+\end{frame}
+\section{Matroids from logically dependent hypotheses}
+
+
+
+\begin{frame}
+\frametitle{Matroids from logically dependent hypotheses}
+
+  \begin{block}{Theorem}
+    For a family of two-sided pairwise mean comparisons $H_i$, $i \in
+    S$, an intersection hypotheses $H_I$ is independent iff the
+    corresponding edge set $\{e_i:i \in I\}$ is independent in the
+    cycle matroid on $\mathscr{G}_I$.  
+
+For a family of two-sided
+    general contrast tests $H_i$, $i \in S$, an intersection
+    hypotheses $H_I$ is independent iff the corresponding contrast
+    matrix $\bs{C}_I$ is independent in the vectorial matroid on
+    $\mathbb{R}^m$.
+
+    \begin{displaymath}
+      i \sim_H I \Leftrightarrow i \sim_M I
+    \end{displaymath}
+  \end{block}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Closed test procedure}
+\begin{itemize}
+
+\item The flats of a matroid are closed under intersection
+
+\item Every elementary hypothesis is a flat
+
+\item Using local level-$\alpha$ tests for each flat we have a closed test procedure that controls the FWER in the strong sense (Closed test principle)
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Examples}
+\begin{itemize}
+
+\item Pairwise comparisons
+
+\item The flats of the complete graph correspond to the partitions of $\{1,...,m\}$
+
+\item The flats of a matroid generate a lattice, procedures testing not all possible comparisons correspond to intervals on that lattice
+
+\end{itemize} % ends low level
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Connections to existing procedures}
+
+\textbf{Old wine in new bottles ((c) L. Hothorn)}
+\begin{itemize}
+
+\item Flats <-> Weakly Exhaustive set (Hommel, Bergmann)
+
+\item Lemma 1.5 in (Bernhard) about weakly exhaustive sets are ``closure axioms'' of a matroid
+
+\item Graphical procedures for pairwise comparisons (Weichert) identify dependence using cycle in the graph
+
+
+\item \emph{However:}
+\begin{itemize}
+\item proofs are shorter (more elegant),
+\item efficient algorithms exist to find the flats of matroids,
+\item we may define procedures using independent sets,
+\item \ldots{}
+\end{itemize}
+
+\end{itemize} % ends low level
+\end{frame}
+\section{Graphical approaches for logically dependent hypotheses}
+
+
+
+\begin{frame}
+\frametitle{Reminder: Graphical approaches}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Hierarchical tests}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{General weighting strategies}
+\end{frame}
+\section{Matriods from general families of hypotheses}
+
+
+
+\begin{frame}
+\frametitle{Matroid conditions}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Flats <-> Weakliy exhaustive sets}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Flats <-> Strictly exhaustive sets}
+\end{frame}
+\section{Summary \& Outlook}
+
+
+
+\begin{frame}
+\frametitle{Summary}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Outlook}
+
+\end{frame}
+
+\end{document}
