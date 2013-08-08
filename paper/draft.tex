@@ -34,7 +34,9 @@
 %\newcommand{\fcomment}[1]{ } % Turn off
 \newcommand{\fcomment}[1]{\footnote{{\color{red} #1}}} % Turn on
 \newcommand{\ie}{{\em i.e.,}~}
-\newcommand{\cf}[1]{\mathbf{1}_{\left\{#1\right\}}}
+\newcommand{\indf}[1]{\mathbf{1}_{\left\{#1\right\}}}
+%\newcommand{\text}[1]{\textrm{#1}}
+\newcommand{\R}{\mathbb{R}}
 
 \title{Multiple testing with logical dependencies}
 
@@ -874,6 +876,91 @@ hypotheses. In many practical applications however the questions of
 interest are better addressed by one sided null hypotheses. For
 example in a clinical trial one generally only interested whether the
 a new treatment is better than some comparator. 
+
+From conditions \ref{} it can be easily seen that while problems of
+one sided hypotheses may be treated by matroids, already for simple
+problems the correspondence between flats and strictly exhaustive sets
+is not one to one. Nevertheless an alternative approach to this class
+of problems can be found in the theory of oriented matroids.
+
+First let us define a one sided multiple testing problem
+
+\begin{definition}
+  Let $\bs{X}$ denote an $m$ dimensional random vector with
+  distribution function $P_{\bs{\mu}}$ from some parametric family
+  $\mathscr{P} = \{P_{\bs{\theta}}: \bs{\theta} \in \mathbb{R}^m\}$. A
+  family of {\em one sided linear contrast hypotheses} is defined by a
+  contrast matrix $\bs{A} \in \mathbb{R}^{m\times n}$ and vector
+  $\bs{b} \in \mathbb{R}^n$ that define a the family of null
+  hypotheses of the form $\mathscr{H} = \{H_i: \bs{A_i}^t\bs{\mu} \leq
+  b_i,i \in \{1,...,n\}\}$, where $\bs{A}_i$ denotes the $i$-th column
+  of $\bs{A}$ and $b_i$ the $i$-th componenth of $\bs{b}$.
+\end{definition}
+
+Now observe that each hypothesis $H_i$ corresponds to a hyperplane
+$h_i = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} = b_i\}$ that divides
+$\mathbb{R}^m$ into two regions $h_i^+ = \{\bs{x} \in \mathbb{R}^m:
+\bs{A}_i^t\bs{x} < b_i\}$ and $h_i^- = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} >
+b_i\}$ giving rise to a sign function:
+\begin{equation}
+  \label{eq:sign}
+  \delta_i(\bs{x}) = \left\{
+\begin{array}{ll}
+  + & \text{if } \bs{x} \in h_i^+\\
+  0 & \text{if } \bs{x} \in h_i \\
+  - & \text{if } \bs{x} \in h_i^-\\
+\end{array}\right.
+\end{equation}
+
+Further for every $\bs{x} \in \mathbb{R}^m$ we have  sign vector
+$\bs{\delta}{\bs{x}}= (\delta_1(\bs{x}),...,\delta_n(\bs{x}))$. Now
+for each $i$ and some parameter value $\bs{\theta} \in \bs{\Theta} = \R^m$,
+$\delta_i(\bs{\theta})$ tells us whether the corresponding value is under the null
+hypotheses on its border, or under the alternative. Accordingly,
+$\bs{\delta}(\bs{\theta})$ tells us in which combination of true and
+false null hypotheses $H_i$ correspond to $\bs{\theta}$. Let
+\begin{equation}
+\label{eq:faces}
+\mathcal{F}(\bs{A},\bs{b} = \{\bs{\delta}(\bs{x}): \bs{x} \in \R^m\}
+\end{equation}
+
+and for some $F \in \mathcal{F}$ define
+\begin{equation}
+  \label{eq:partition}
+  \Theta_F = \{\bs{x} \in \R^m: \bs{\delta}(\bs{x}) = F\}
+\end{equation}
+
+then we have $\bigcup_{F \in \mathcal{F}} \Theta_F = \bs{\Theta} =
+\R^m$ and for any $\Theta_F \cap \Theta_G = \emptyset$ for any $F \neq
+G$. Consequently, $\{\Theta_F:F \in \mathcal{F}$ represents a
+partition of the parameter space and each element in $\mathcal{F}$
+uniquely identifies some {\em non-empty} element of that partition. Consequently,
+following the Partitioning Principle \cite[]{finner2002partitioning}
+if we have level $\alpha$ tests $\varphi_F(X)$ for each $F \in
+\mathcal{F}$ a test that rejects $H_i$ for observed values $X$ if
+$\varphi_F(X) = 1$ for all $F$ with $F_i \geq 1$ controls the FWER in
+the strong sense. For example one may use  weighted Bonferroni tests
+\begin{equation}
+  \label{eq:bonferroni}
+  \varphi_F = \indf{\min_{i:F_i \geq 0}p_i \leq w_{F,i}}
+\end{equation}
+where the $w_{F,i}$ are can be computed using a graphical approach.
+
+Note that as $\Theta_F$, $F \in \mathcal{F}$ the $\mathscr{L} = \{I \subset \{1,...,m\}: \exists F \in
+\mathcal{F}: F_i \geq 0 \forall i \in I\}$ are all strictly exhaustive sets.  
+
+The question remains how to compute $\mathcal{F}$. For this observe
+that the $h_i$ define a hyperplane configuration and $\mathcal{F}$ is
+just the face lattice of the corresponding oriented
+matroid. Consequently, $\mathcal{F}$ can be found using algorithms
+for arrangement construction from polyhedral programming
+\cite{Avis-KF-92,Avis-KF-96,Ferrez-KF-Liebling-01} which are
+polynomial in time and input size and compact in space!
+
+
+\begin{definition}
+  Consider a family of hypotheses $\mathscr{H} =$
+\end{definition}
 
 
 
