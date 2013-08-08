@@ -1,0 +1,967 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+%\usepackage{titlesec}
+\usepackage{multirow}
+\setlength\parindent{0in}
+\usepackage[hdivide={2cm,*,2cm},vdivide={1in,*,1in}]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\newcommand{\ud}{\, {\rm d} \kern-.015em }
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{comment}{Comment}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{bsp}{Example}
+\usepackage{natbib}
+\usepackage{color}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1:} }{}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\usepackage{authblk}
+\usepackage{lineno}
+%\titlelabel{\thetitle.\quad}
+\newcommand{\gmcp}{\mathcal{G}}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+%% Comments
+%\newcommand{\fcomment}[1]{ } % Turn off
+\newcommand{\fcomment}[1]{\footnote{{\color{red} #1}}} % Turn on
+\newcommand{\ie}{{\em i.e.,}~}
+\newcommand{\indf}[1]{\mathbf{1}_{\left\{#1\right\}}}
+%\newcommand{\text}[1]{\textrm{#1}}
+\newcommand{\R}{\mathbb{R}}
+
+\title{Multiple testing with logical dependencies}
+
+\author{Florian Klinglmueller, Willi Maurer}
+
+%\affil[1]{Medical and Pharmaceutical Statistics Research Unit,
+%Lancaster University, Lancaster, United Kingdom}
+%\affil[2]{European Medicines Agency, London, United Kingdom}
+%\affil[3]{Center for Medical Statistics, Informatics and Intelligent Systems, Medical University of Vienna, Vienna, Austria%}
+%\affil[*]{{\small To whom correspondence should be
+%addressed: E-mail: florian.klinglmueller@meduniwien.ac.at}}
+
+\date{}
+
+\begin{document}
+
+
+\maketitle
+
+\section{Introduction}
+
+Closed testing procedures provide powerful multiple tests for a wide
+array of general multiple comparison problems. Recently, methods based
+on closed tests of (weighted) Bonferroni tests have gotten much
+attention in the literature. They do not require any assumptions on or
+knowledge about the correlation structure between test statistics. In
+combination with weighting strategies such procedures may be tailored
+to reflect contextual relations and differences between the elementary
+hypotheses in practical applications. Graphical methods are available
+that offer a visually accessible tool to design and communicate such
+procedures.
+
+\section{Examples}
+
+\subsection{Pairwise comparisons of population means}
+\begin{itemize}
+\item All pairwise
+\item Gold standard designs
+\item Change point analysis
+\item General treatment control - treatment treatment situations
+\end{itemize}
+
+\subsection{General linear contrast tests}
+\begin{itemize}
+\item Cost effectiveness (Georg)
+\item SNP Studies (Hothorn-Hothorn)
+\item Order restriction contrasts (Williams, ...)
+\end{itemize}
+
+\subsection{Further examples}
+
+\begin{description}
+\item[Test for the degree of a polynomial]
+\item[Model selection]
+\item[Compositional data]
+\item[Monotonicity restrictions not arising from linear dependencies]
+\end{description}
+
+\section{Two sided hypotheses}
+
+\subsection{Some observations on pairwise comparisons}
+
+\begin{definition}
+  Let $X$ be a random variable taking values in $\mathbb{R}^m$ with
+  multivariate distribution $F(\bs{\mu})$ having mean vector $\bs{\mu}
+  \in \mathbb{R}^m$. Let $R \subset \{1,...,m\}^2$, such that $i <
+  j$ for all $(i,j) \in R$. For $(i,j) \in R$ $H_{ij} = \mu_i =
+  \mu_j$. We call the family of elementary hypotheses $\dot{R}
+  = \{H_{ij}: (i,j) \in R\}$ a {\bf two-sided pairwise comparison
+    problem. (tPCP)} Let $\dot{\mathcal{T}}(m)$ denote the set of all
+  possible pairwise comparison problems of $m$ means.
+\end{definition}
+
+\begin{bsp}
+  Consider $X \sim N((\mu_1,\mu_2,\mu_3,\mu_4),\sigma \mathbb{I}_4)$
+  let $R = \{(1,2),(1,3),(1,4)\}$ and $S =
+  \{(1,4),(2,4),(3,4),(1,3),(1,2),(2,3)\}$. Then the
+  corresponding tPCP's $\dot{R},\dot{S} \in \dot{\mathcal{T}}(4)$.
+\end{bsp}
+
+\begin{definition}
+  A two-sided pairwise comparison problem $\dot{S}$ defines an
+  undirected graph $G(\dot{S}) = \{M,T\}$ with Nodes $M = \{1,...,m\}$
+  and Edges $T$. We call $G(\dot{S})$ the {\bf comparigram}. We denote
+  by $V(G(\dot{S})$, $E(G(\dot{S})$ the vertex and edge sets of the
+  corresponding comparigram. If clear from the context we may just use
+  $E(\dot{S}),V(\dot{S})$. 
+\end{definition}
+
+\begin{bsp}
+  $\dot{R}$ in above Example is represented by a claw with 3 edges,
+  $\dot{S}$ is represented by the complete graph $K_4$ with 4 vertices.
+\end{bsp}
+
+\begin{definition}
+  Let $h_{lk}:  M^2 \rightarrow \dot{\mathcal{T}}(m)$,
+  $(l,k) \mapsto \{H_{ij}: (i,j) \in T\setminus \{(l,j)\}\}$ define the
+  {\bf rejection operator}. We write $h_{lk} \circ \dot{S} =
+  \dot{S}\setminus (l,k)$. Clearly   $h_{a} \circ h_{b} \circ \dot{S}
+  = h_{b} \circ h_{a} \circ \dot{S}$.
+\end{definition}
+
+\begin{definition}
+  Consider $\dot{R},\dot{S} \in \dot{\mathcal{T}}(m)$ with associated
+  comparigrams $L = G(\dot{R}), K = G(\dot{R})$ respectively. We say
+  that $\dot{R}$ {\bf isomorphic} to $\dot{S}$, $\dot{R} \cong
+  \dot{S}$ if $L$ is isomorphic to $K$, that is there exists a
+  bijection between nodes of the graphs $f:V(K) \rightarrow V(L)$, $a
+  \mapsto u$ such that for $a,b \in V(K)$, $f(a)$ is adjacent to
+  $f(b)$, if and only if $a$ and $b$ are adjacent to each other.
+\end{definition}
+
+\begin{definition}
+  Consider $\dot{S} \in \dot{\mathcal{T}}(m)$ and $h_a,h_b$, $a,b \in
+  E(S)$ we say that $h_a \cong h_b$ are {\bf equivalent rejections} if $h_a
+  \circ \dot{S} \cong h_b \circ \dot{S}$.
+\end{definition}
+
+\begin{definition}
+  Let $h = (h_1,...,h_n)$ whith $h_i \in T$ and $n \leq |T|$ define a
+  {\bf fixed rejection sequence} of length $n$.
+\end{definition}
+
+\begin{definition}
+  Consider PCP $\dot{S}$. Two fixed rejection sequences $h, e$ are
+  called {\bf equivalent} if $h_1\circ ... \circ h_i \circ \dot{S} \cong e_1 \circ
+  ... \circ e_i \circ \dot{S}$ for all   $i \in \{1,...,n\}$
+\end{definition}
+\begin{definition}
+  Let $\dot{K}_n$ denote the $tPCP$ consisting of all pairwise
+  comparisons of $n$ different means.
+\end{definition}
+
+\begin{theorem}
+  Properties of $\circ$:
+  \begin{enumerate}
+    \item $\dot{S} \circ e_1 \circ e_2 \dot{S} \circ e_2 \circ e_1$
+    \item For $e,f,u,v \in E(\dot{S})$, such that $\dot{S} \circ e
+      \cong \dot{S} \circ f$, and $\dot{S} \circ e \circ u \cong
+      \dot{S} \circ u \circ v$ then $\exists z \in E(\dot{S} \circ f)$
+      such that $\dot{S} \circ f \circ z \cong \dot{S} \circ e \circ
+      u$. 
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+  The tPCP $\dot{K}_4$ has 6 distinct (up to isomorphism) fixed
+  rejection sequences. Figure \ref{fig:k4} shows a graphical
+  representation of the distinct rejection sequences for
+  $K_4$. $\dot{K}_5$ has $657$ and $\dot{K}_6$ has $4836277$ it seems
+  that this sequence grows in the order of $\mathcal{O}(e^{n^2})$.
+\end{theorem}
+
+\begin{proof}
+  Proof by exhaustive computer search.
+\end{proof}
+
+\begin{figure}
+
+  \caption{Rejection tree for $\dot{K}_4$}
+  \label{fig:k4}
+\end{figure}
+
+\begin{theorem}
+  $\dot{K}_4$ can be represented by the complete graph $K_4$ with 4
+  vertices and 6 edges. The resulting null hypotheses are vertices of
+  the line-graph $\mathcal{L}{K_4}$. $\mathcal{L}{K_4}$ is an
+  octahedron. The exhaustive sets of $\dot{K_4}$ correspond to
+  $\mathcal{L}(K_4)$, the 3 faces of the octahedron with differently
+  labeled edges representing cliques of size 3 in $K_4$, the 3 edges
+  in the complementary graph of $\mathcal{L}(K_4)$, and the $6$
+  vertices themselves.
+\end{theorem}
+
+
+\subsection{Connections to matroid theory}
+
+In this section we first show that any (finite (?)) system of null
+hypotheses together with its exhaustive sets defines a matroid. The
+closure operator of that matroid is the function that for a given
+index set assigns the smallest containing exhaustive index set. We
+then focus on the specific problem of embedding two-sided pairwise
+comparisons in matroid theory. We show that the exhaustive sets of a
+tPCP are flats in the cycle matroid of the comparigram, and vice
+versa. 
+
+
+Let $X$ denote a random variable describing the outcome of an
+experiment, e.g., the results of a randomized clinical trial, with
+distribution $F^\theta$ from parametric family $\mathcal{F} =
+{F_\vartheta|\vartheta \in \Theta}$. Let $\mathcal{H} \ \{H_i: \theta
+\in \Theta_i, \Theta_i \subset \Theta, i \in S\}$ denote a family of
+null hypotheses about true parameter $\theta$ with associated index
+set $S = \{1,...,n\}$. Let $H_I : \theta \in \bigcap_{i \in I}
+\Theta_i$ denote the intersection hypothesis associated with $I$, \ie
+that assumes that all $H_i$, $i \in I$ are true simultaneously. For
+completeness define $H_\emptyset : \theta \in \Theta$. To shorten
+notation we will write $H_I = \bigcap_I \Theta_i$. We define a subset
+$I \in S$ to be independent if the corresponding intersection
+hypothesis is altered if any index is removed from $I$, that is
+
+\begin{definition}{\bf Independent index set}
+\label{def:indep}
+  Let $I \subseteq S$. We say that $I$ is independent if $\bigcap_{i
+    \in I} \Theta_i \subsetneq \bigcap_{i \in I\setminus \{j\}}
+  \Theta_i$ for all $j \in I$. 
+\end{definition}
+
+Unfortunately this rather simple definition of independence is not
+enough such that the system of intersection hypotheses is a
+matroid. An additional requirement is needed.
+
+
+\begin{theorem}
+  Consider a family of hypotheses $\mathcal{H} = \{H_i:\theta \in
+  \Theta_i,i \in S\}$. Let $\mathscr{I} = \{I \subseteq S: I \text{
+    independent}\}$ denote the set of independent sets of
+  $\mathcal{H}$. If for all $I,J \in \mathscr{I}$ with $|I| = |J|+1$,
+  holds 
+  \begin{align}
+    \label{cond:matroida}
+    \bigcap_J \Theta_i &\nsubseteq \bigcap_{I\setminus J} \Theta_i,
+    \text{ and} \\
+    \label{cond:matroidb}
+    \bigcap_{J}\Theta_i &\nsupseteq     \bigcup_{I \setminus J} \Theta_i ,
+  \end{align}
+  then $\mathscr{I}$ defines a matroid $M(\mathcal{H})$ over $S$.
+\end{theorem}
+
+\begin{proof}
+  We need to show the independence axioms:
+  \begin{enumerate}
+  \item $\emptyset \in \mathscr{I}$
+  \item $I  \in \mathscr{I}: J \subset I \Rightarrow J \in \mathscr{I}$
+  \item $I,J \in \mathscr{I}$: $|I|=|J|+1 \Rightarrow \exists j \in
+    I\setminus J: J \cup j \in \mathscr{I}$ 
+  \end{enumerate}
+  The first axiom follows directly from $\Theta_i \neq \Theta$ and
+  $H_\emptyset = \Theta$. 
+
+  To show the second axiom let, without loss of generality, $I =
+  \{1,....,k\}$ $J = \{1,...,l\}$ $l \leq k$. We use induction. For $l
+  = k$, $I = J$ and the result is obviously true. For $l = k-1$ assume
+  there is some $j \in J$, such that $\bigcap_{J \setminus j} \Theta_i
+  = \bigcap_{J} \Theta_i$. Since $I \in \mathscr{I}$, we have
+  $\bigcap_{I} \Theta_i \subsetneq \bigcap_{J} \Theta_i$ and
+  $\bigcap_I \Theta_i \subsetneq \bigcap_{I \setminus j} \Theta_i =
+  \Theta_k \cap \bigcap_{J \setminus j} \Theta_i= \Theta_k \cap \bigcap_{J}
+  \Theta_i= \bigcap_I \Theta_i$. Assume that it holds for $l = k - m$
+  then using the same arguments it follows that it also holds for $l =
+  k - (m + 1)$.
+
+  To show the third axiom some additional assumptions on the sets
+  $\Theta_i$ are required. We need to show that for $I,J \in
+  \mathscr{I}$ there is a $j \in I \setminus J$ such that $\bigcap_{J
+    \cup j}\Theta_i \subsetneq \bigcap_{(J\cup j)\setminus l}
+  \Theta_i$ for all $l \in (J \cup j)$. One can write down necessary
+  and sufficient conditions for the exchange axiom by enumeration of
+  all possible cases of $I,J$. First observe that the axiom holds for
+  $J \subset I$ with $l = I \setminus J$ otherwise consider $0 < l <
+  k$ and $J = \{i_1,...,i_k\}$ and $I =
+  \{i_{k+1-l},...,i_{2k-l+1}\}$. Then assuming that the exchange axiom
+  does not hold for $k = 1$, $l = 1$, \ie $J = \{i_1\}$
+  and $I =   \{i_2,i_3\}$, we have $\Theta_{i_1} \cap \Theta_{i_2} = \Theta_{i_1}$
+  or $\Theta_{i_1} \cap \Theta_{i_2} = \Theta_{i_2}$, and $\Theta_{i_1} \cap
+  \Theta_{i_3} = \Theta_{i_1}$ or $\Theta_{i_1} \cap \Theta_{i_3} = \Theta_{i_3}$. Now $\Theta_{i_1} \cap \Theta_{i_2} = \Theta_{i_1}$ that is
+  $\Theta_{i_2} \subseteq \Theta_{i_1}$ and $\Theta_{i_1} \cap \Theta_{i_3} =
+  \Theta_{i_3}$, \ie $\Theta_{i_1} \subseteq \Theta_{i_3}$, gives $\Theta_{i_2}
+  \subseteq \Theta_{i_3}$ which contradicts the independece of $i_2$
+  and $i_3$, and the same holds vice versa. Consequently either
+  $\Theta_1 \subseteq \Theta_2$ and $\Theta_1 \subseteq \Theta_3$ or
+  $\Theta_2 \subseteq \Theta_1$ and $\Theta_3 \subseteq \Theta_1$. Now
+  a sufficient and necessary condition for the former is $\Theta_1 \in
+  \Theta_2 \cap \Theta_3$ and for the latter $\Theta_2 \cup \Theta_3
+  \subset \Theta_1$. As these conditions are necessary and sufficient
+  negating them provides necessary and sufficient conditions for the
+  exchange axiom that is:
+  \begin{description}
+  \item[$k=1,l=1$:] $\Theta_{i_1} \nsubseteq \Theta_{i_2} \cap
+    \Theta_{i_3}$ and $\Theta_{i_2} \cup \Theta_{i_3} \nsubseteq \Theta_{i_1}$
+  \item[$k=2,l=1$:] $\Theta_{i_1} \cap \Theta_{i_2} \nsubseteq
+    \Theta_{i_3} \cap \Theta_{i_4}$ and $\Theta_{i_3} \cup \Theta_{i_4} \nsubseteq \Theta_{i_1} \cap \Theta_{i_2}$
+  \item[$k=2,l=0$:] $\Theta_{i_1} \cap \Theta_{i_2} \nsubseteq
+    \Theta_{i_3} \cap \Theta_{i_4} \cap \Theta_{i_5}$ and
+    $\Theta_{i_3} \cup \Theta_{i_4} \cup \Theta_{i_5} \nsubseteq \Theta_{i_1} \cap \Theta_{i_2}$
+  \item[$k=3,l=2$:] $\Theta_{i_1} \cap \Theta_{i_2} \cap \Theta_{i_3}\nsubseteq
+    \Theta_{i_4} \cap \Theta_{i_5}$ and $\Theta_{i_4} \cup
+    \Theta_{i_5} \nsubseteq \Theta_{i_1} \cap \Theta_{i_2} \cap \Theta_{i_3}$
+  \item[....]
+  \item[General $k,l$:] $\bigcap_{r \leq k-l} \Theta_{i_r} \nsubseteq
+    \bigcap_{k+1 \leq s \leq 2k-l+1} \Theta_{i_s}$ and $\bigcup_{k+1
+      \leq s \leq 2k-l+1} \Theta_{i_s} \nsubseteq \bigcap_{r \leq k-l} \Theta_{i_r}$.
+  \end{description}
+  For $m = \max \{|I|: I \in \mathscr{I}\}$ above conditions need to
+  hold for all $k,l$ $k \leq m-2$ and $\max\{0,2-k\} \leq l \leq
+  k-1$.
+\end{proof}
+
+
+For notational purposes it is practical to define a dependence
+relation ``$\sim$''.
+
+\begin{definition}
+  For $j \in S$ $I \subseteq S$ define $j \sim I$ iff there is a subset
+  $J \subseteq I$ such that $\bigcap_J \Theta_i \subseteq \Theta_j$.
+\end{definition}
+
+It follows immediatly that $\nsim$ is independence in the above sense.
+
+\begin{proposition}
+  $I \in \mathscr{I}$ if and only if for all $i \in I$, $i \nsim
+  I\setminus i$.
+\end{proposition}
+
+\begin{comment}
+  Some interesting notes on above matroid.
+  \begin{itemize}
+  \item We have $\emptyset \sim i$ for all $i \in S$, but $i \nsim
+    \emptyset$ unless $\Theta_i = \Theta$. Essentially this means that
+    there are no loops in $M(\mathcal{H})$
+  \item For hypotheses $H_i,H_j$ such that $\Theta_j \subset \Theta_i$
+    we have $i \sim j$ and this for example is the case for combined
+    non-inferiority superiority testing.
+  \item The rank function of an index set $I$ is given by the
+    cardinality of its maximally independent subsets, \ie $\rho I =
+    \max \{|J|:J\subseteq I, J \in \mathscr{I}\}$.
+  \item To give some intuition to condition \ref{cond:matroida} one
+    may see that for the simple case of $J = \{i\}$ and $I = \{j,l\}$
+    the condition requires that for parallels $i \sim j$ we have $i
+    \nsim l$ as $i \sim l$ would imply also $j \sim l$ which is in
+    contradiction to the independence of $I$. For $|J|>1$ the
+    condition does not necesarily involve parallels.
+  \item As a system of null hypotheses that does not conform to
+    \ref{cond:matroida} consider the following set of hypotheses:
+    \begin{align*}
+      H_1:& (\mu_1 \leq 0) &, (\mu_2 \leq 0) \\
+      H_2:& \mu_1 &\leq 0 \\
+      H_3:& \mu_2 &\leq 0,
+    \end{align*}
+    according to Definition \ref{def:indep} $\{1\},\{2,3\} \in
+    \mathscr{I}$, however $\Theta_1 = \Theta_2 \cap \Theta_3$. From a
+    testing perspective we may simple drop $H_1$ as it is simply $H_2
+    \cap H_3$ which would be tested anyways.
+  \item Now consider for $\delta > 0$,
+    \begin{align*}
+      H_1:& (\mu_1 \leq 0) &, (\mu_2 \leq 0) \\
+      H_2:& \mu_1 &\leq \delta \\
+      H_3:& \mu_2 &\leq \delta.
+    \end{align*}
+    Again, Condition \ref{cond:matroida} does not hold. However, in
+    this case replacing the system by an equivalent system of null
+    hypotheses is not as straight forward. A solution may be to
+    replace $H_1$ by:
+    \begin{align*}
+      H_{1a}:& \mu_1 &\leq 0 \\
+      H_{1b}:& \mu_2 &\leq 0,
+    \end{align*}
+  \end{itemize}
+\end{comment}
+
+Next we show an important connection between matroid theory and
+multiple testing theory
+
+\begin{theorem}
+  Consider a family of null hypotheses for which conditions
+  (\ref{cond:matroida}-\ref{cond:matroidb}) hold. Then an index set $I \subseteq S$ is
+  weakly exhaustive if and only if $I$ is a flat in $M$.
+\end{theorem}
+
+\begin{proof}
+  Not yet done!
+\end{proof}
+
+To get a result on strictly exhaustive set we need to restrict
+condition (\ref{cond:matroida}) further.
+
+\begin{theorem}
+  Consider a family of null hypotheses $\mathcal{H}$ for which above
+  the more stringent conditions hold:
+  \begin{align}
+    \label{cond:matroid2}
+    \bigcap_J \Theta_i &\nsubseteq \bigcup_{I\setminus J} \Theta_i,
+    \text{ and} \\
+    \bigcap_{J}\Theta_i &\nsupseteq     \bigcup_{I \setminus J} \Theta_i ,
+  \end{align}
+  % and additionally $\bigcap_S \Theta_i^C \neq
+  % \emptyset$ (practically that means that all alternatives may be true
+  % at the same time).
+  Then independence as defined in Definition \ref{def:indep} gives a
+  matroid for   which every flat corresponds to a strictly exhaustive
+  index set and vice versa.
+\end{theorem}
+
+\begin{proof}
+  Not yet done!
+  % We first show by contradiction that every flat is strictly
+  % exhaustive: Consider $I$ is a flat but that $I$ is not strictly
+  % exhaustive. As $I$ is a flat, we have for every $l \in S\setminus
+  % I$, $l \sim I$. Let $J \in \mathscr{I}$ be a maximally independent
+  % set in $I$. Then $J \cup l \in \mathscr{I}$ and $|J \cup l| =
+  % |J|+1$. If $I$ were not strictly exhaustive, then $\bigcap_{I}
+  % \Theta_i \cap \bigcap_{S\setminus I} \Theta^c_i = \emptyset$. 
+\end{proof}
+
+\begin{comment}
+  Above restriction (\ref{cond:matroid2}), already for the simple case
+  of $|J|=1$, is no longer a statment about the parallels of
+  $M$. 
+\end{comment}
+
+
+
+On the other hand if we look at a system of hypotheses and consider
+exhaustiveness as defined in [hommel, bergmann] we can define a
+matroid. 
+
+\begin{theorem}
+\label{the:matroid}
+  Consider a (finite) family of null hypotheses $\mathcal{H} = \{H_i,
+  i \in S\}$ with assiciated index set $S$. Let $\mathcal{P}(S) = \{I
+  \subseteq S\}$ denote the power set of $S$ and $SE:\mathcal{P}(S)
+  \rightarrow \mathcal{P}(S)$ the function that assigns to each $I
+  \subseteq S$ the smallest exhaustive set $SE(I)$ such that $I \in
+  SE(I)$. Taken as a closure operator $SE$ defines a matroid $M$ on
+  $\mathcal{P(S)}$.
+\end{theorem}
+
+\begin{proof}
+  We need to show that the closure axioms hold for $SE$:
+  \begin{enumerate}
+  \item $I \subseteq SE(I)$ holds by definition
+  \item $J \subseteq I \Rightarrow SE(J) \subseteq SE(I)$ and,
+  \item $SE(I) = SE(SE(I))$ and,
+  \item $j \notin I$, $j \in SE(I \cup i) \rightarrow i \in SE(I \cup
+    j)$ follow immediately from Lemma $1.5$ in [Bernhard, 91].
+  \end{enumerate}
+\end{proof}
+
+\subsection{Matroid of tPCP}
+
+\begin{definition}
+  Let $\dot{S}$ be a tPCP with associated comparigram $G(\dot{S})$ we
+  denote the cycle matroid of $G(\dot{S})$ by $M(\dot{S})$ or simply
+  $M$ in case were clear from the context. 
+\end{definition}
+
+For convenience we reproduce here some of the properties of the cycle
+matroid $M$ of a graph $G$. 
+
+\begin{proposition}{Properties of $M$ (Welsh, 2010)}
+\label{the:cyclemat}
+  \begin{enumerate}
+  \item The cycles of $G$ are the circuits of $M$ 
+  \item The spanning forests of $G$ are the bases of $M$
+  \item If $G$ is connected the bases of $M$ are the spanning trees of $G$
+  \item A set $X$ of edges of $G$ is independent in $M$ if and only if
+    $X$ contains no cycle
+  \item The rank of $M$ is $|V(G)| - k(G)$ where $k(G)$ denotes the
+    number of connected components in $G$
+  \item For any subset $A \subseteq E(G)$ the rank of $A$ in $M$ is
+    given by
+    \begin{displaymath}
+      \rho_G(A) = |V(A)| - k(A)
+    \end{displaymath}
+    where $V(A)$ and $k(A)$ denote the set of vertices and number of
+    connected componenents in the subgraph of $G$ induced by $A$
+  \item Loops, and parallel edges correspond in $G$ and $M$
+  \item Let $A \subset E(G)$, let $e \in E(G)\setminus A$. Then $e$
+    belongs to the closure of $A$ in $M(G)$ if and only if there is a
+    cycle $C$ of $G$ with
+    \begin{displaymath}
+      e \in C \subseteq A \cup e.
+    \end{displaymath}
+
+  \end{enumerate}
+\end{proposition}
+
+Next we give some useful notation and results on exhaustive index sets
+of pairwise comparisons.
+
+\begin{proposition}
+  Let $X \subseteq S$ then there is a unique collection of mutually
+  exclusive index sets $s(X) = \{X_i = \{i_1,...,i_{m_i}\} \subseteq
+  V(\dot{S}), i \in \{1,...,M\}: X_i \cap X_j = \emptyset\}$, such
+  that $H_X$ is the intersection of hypotheses of the form $H_{X_i}:
+  \mu_{i_1} = ... = \mu_{i_{m_i}}$, \ie $H_X = \bigcap_{1:M}
+  H_{X_i}$. We call $s(X)$ the {\em associated partition hypothesis}.
+\end{proposition}
+
+It follows directly that 
+
+\begin{theorem}
+  Consider $I, J \in R$, $H_I = H_J$ if and only if $s(I) = s(J)$. 
+\end{theorem}
+
+The following Lemma will be helpfull for the proof of Theorem
+\ref{the:compmat}. 
+
+\begin{lemma}
+  Let $X \subseteq R$ then $H_{s(X)} = H_X$. 
+\end{lemma}
+
+\begin{proof}
+  Consider that $H_{\sigma X} \neq H_X$. $\sigma X$ is exhaustive and
+  $X \subseteq \sigma X$ follows by definition. Therefore, $H_{\sigma
+    X}$ is a proper subset of $H_X$. Consequently there exist $A \in
+  s(X)$ and $B \in s(\sigma X)$ such that $A$ is a proper subset of
+  $B$. Now consider $\bigcup_{X_i \in (s(\sigma X)\setminus B)\cup A}
+  H_{X_i}$ and $Y = \{(a,b) \in R: a,b \in X_i \in (s(\sigma
+  X)\setminus B)\cup A\}$ then $X \subset Y$ and since $H_x \subset
+  H_Y$ and $X$ exhaustive $Y \subset \sigma X$. However, $Y$ is
+  exhaustive, which contradicts that $\sigma X$ is the smallest
+  exhaustive index set in $\mathcal{P}(R)$.
+\end{proof}
+
+From this one immediately sees how the smallest containing exhaustive
+index sets can be constructed.
+
+\begin{corollary}
+  $SE(X) = \{(a,b) \in R:\exists A \in s(X), a,b \in A\}$
+\end{corollary}
+
+
+Using these properties we show the following theorem. 
+
+\begin{theorem}
+  Consider a tPCP $\dot{S}$ with comparigram $G$. Let $M$ be the
+  associated cycle matroid of $G$ then an index set $I \subseteq R$ is
+  exhaustive if and only if it is a flat in $M$.
+\end{theorem}
+
+\begin{proof}
+  Consider $I$ exhaustive and assume that is not a flat. Let $x \in
+  \sigma I \setminus I$. Then $\rho(I) = |V(I)| - k(I) = \rho(I \cup
+  x) = |V(I \cup x)| - k(I \cup x)$. By adding an edge to $I$, $|V(I
+  \cup x)| = |V(I)| + d$ where $d$ is either $0$, $1$ or $2$. Iince
+  $G$ simple and $I$ exhaustive, any endpoints of $x$ in $V(I)$ has to
+  be isolated in $I$. For $d = 0$, $x$ connects isolated vertices $a,
+  b \in V(I)$ accordingly that $k(I \cup x) = k(I) - 1$ which is a
+  contradiction. Iimilarly, $d = 1$ gives $k(I\cup x) = k(I)$ and $d =
+  2$ leads to $k(I\cup x) = k(I)+1$ in either case the rank of $I$ is
+  increased by $1$.
+
+  Assume that $I$ is a flat in $M$ but $I$ is not
+  exhaustive. Consequently there exists $I' \subseteq R$ such that $I$
+  is a proper subset of $I'$ and $H_I = H_{I'}$. Therefore we have
+  $s(I) = s(I')$. Let $e = (a,b) \in  I'\setminus I$ then there is $A
+  \in s(I)$ such that $a,b \in A$. As $e \notin I$, there is at least
+  one $c \in A$ such that $(a,c),(b,c) \in I$. Now
+  $C = \{(a,b),(b,c),(a,c)\} \in \mathcal{C}$ such that $(a,b) \in
+  C\setminus I$ which contradicts that $I$ is flat.
+\end{proof}
+
+We next show how the operation that for each index set identifies the
+smallest containing exhaustive index set induces a matroid.
+
+
+\begin{theorem}
+  Consider a tPCP $\dot{S}$ for any $I \subseteq R$ let
+  \begin{displaymath}
+    \hat{\sigma} I = SE(I)
+  \end{displaymath}
+  where $SE(I)$ is the smallest exhaustive index set in
+  $\mathcal{P}(R)$ cointaining $I$. Then $\hat{\sigma} I$ is the closure
+  operator of a matroid $M$.
+\label{the:compmat}
+\end{theorem}
+
+
+We now proof Theorem \ref{the:compmat}.
+
+\begin{proof}
+  Actually this follows directly from Theorem \ref{the:matroid}. I
+  leave the old proof for completeness.
+
+  We need to show
+  \begin{enumerate}
+  \item $X \subseteq \hat{\sigma} X$, 
+  \item For $Y \subseteq X$ then $\hat{\sigma}(Y) \subseteq \hat{\sigma}(X)$, and 
+  \item $\hat{\sigma} X = \hat{\sigma} \hat{\sigma} X$
+  \item If $y \notin \hat{\sigma} X$, $y \in \hat{\sigma}(X \cup x)$ then $x \in
+    \hat{\sigma}(X \cup y)$.
+  \end{enumerate}
+  (1) holds by definition. 
+
+  (2) assume $Y \subset X$ and $\hat{\sigma} Y \setminus \hat{\sigma} X \neq
+  \emptyset$. Let $h \in \hat{\sigma} Y \setminus \hat{\sigma} X$ and let $h =
+  (a,b)$. Then there is $A \in s(Y)$ with $a,b \in A$ but no $B \in
+  s(X)$ with $a,b \in B$. Since $Y \subset X$, for all $A \in s(Y)$,
+  $B \in s(X)$ such that $A \subset B$. Which leads to a
+  contradiction. 
+
+  (3) follows trivially. 
+
+  (4) let $x = (a,b)$, there is no $A \in s(X)$ with $a,b \in A$ but
+  there is some $B \in s(X \cup y)$ with $a,b \in B$. Let $y = (c,d)$
+  we can distinguish 3 cases: (a) $\{c,d\} \cap B = \emptyset$ for all
+  $B \in s(X)$ then $s(X \cup y) = s(X) \cup \{c,d\}$ such that $B =
+  \{c,d\}$ and $x = y$. (b) Ther is $C \in s(X)$, $c \in C$ but
+  no $D \in s(X)$ with $d \in D$. Then $s(X \cup y) = (s(X)\setminus C) \cup (C
+  \cup d)$ and since this is the only set that has changed by adding
+  $y$, $x \in (C\cup d)$, therefore $b = d$ and consequently
+  $c,d \in C\cup b$ and also $y \in \hat{\sigma}(X \cup x)$. (c) There are
+  $C,D \in s(X)$ such that $c \in C$ and $d \in D$ then $s(X \cup y) =
+  (s(X)\setminus \{C,D\})\cup (C \cup D)$ and since $C\cup D$ is the
+  only set changed from $s(X)$ $a \in C$ and $b \in D$ such that also
+  $y \in \hat{\sigma}(X\cup x)$. 
+\end{proof}
+
+As the cycle matroid of the comparigram and the matroid defined by
+$\hat{\sigma}$ have identical closed sets it follows directly that
+they are the same matroid
+
+\begin{corollary}
+  The matroid $\hat{M}$ on $\dot{S}$ defined by the closure operation 
+  $\hat{\sigma}I = SE(I)$, $I \subseteq \dot{S}$ is the cycle matroid
+  of the comparigram $G(\dot{S})$
+\end{corollary}
+
+Accordingly all porperties given in \ref{the:cyclemat} also hold for
+the matroid on exhaustive sets. 
+
+The following theorem shows an important connection between the flats
+of the cycle matroid of a complete graph and the partitions of a
+finite set. 
+
+\begin{theorem}{[Welsh]}
+\label{the:partition.lattice}
+  The lattice of flats of $M(K_n)$ is isomorphic to the distributive
+  lattice of all partitions of a set with $n$ elements ordered by
+  refinement. 
+\end{theorem}
+
+Translated to pairwise comparison problems this means that the system
+of exhaustive sets and the associated partial order induced by the 
+inclusion operator is just corresponds to the partitions of the set of
+independent population means ordered by refinement. This is not
+surprising as $s(X)$ associates each index set with a partition of the
+set $V(R)$ and restricted to the family of flats $\mathcal{L}(R)$,
+$s(X)$ is one to one. Recognizing that any partition of means
+corresponds to a decomposition of $K_n$ into cliques this provides an
+alternative proof to the main result of Weichert on two-sided pairwise
+comparisons. 
+
+The properties of set partitions have been already extensively
+studied. For example, this correspondence provides us with efficient
+algorithms to generate all exhaustive sets. Further, the number of
+exhaustive sets resulting from all pairwise compinations is given by
+the Bell numbers.
+
+If not all pairwise comparisons are of interest we can still apply
+Theorem \ref{the:partition.lattice} using the following results on
+matroid minors. Let $|$ and $.$ denote the operators for restriction
+and contraction, then
+
+\begin{theorem}{Theorem 2 [Welsh, p.66]}
+  If $\mathcal{L}$ is the geometric lattice of the simple matroid M,
+  the interval $[o,T]$ is the lattice of $M|T$, for any flat $T$ of
+  $M$. 
+\end{theorem}
+
+\begin{theorem}
+\label{the:interval}
+  Consider a tPCP $\dot{S} \in \dot{\mathcal{T}}(n)$. The exhaustive
+  sets of $\dot{S}$ generate a geometric lattice
+  $\mathcal{L}(\dot{S})$ that is isomorphic to: 
+  \begin{displaymath}
+    [\emptyset,\sigma_{K_n} S] \cap S,
+  \end{displaymath}
+  which is the interval sublatticee of the partition lattice of rank
+  $n$ where for each subset the intersected with the set of
+  comparisons $S$ is taken. 
+\end{theorem}
+
+\begin{proof}
+  The closure operator of $M|S$ is given by $\sigma_R(A) = \sigma A
+  \cap S$. Consider $L = \mathcal{L}(M|S)$ and $K = \mathcal{L}(M|\sigma
+  S)$ then it can be easily seen that for $A,B \in K$ there are unique $A',B'
+  \in K \cap R$ such that $(A \land B)' = A' \land B'$ and $(A
+  \lor B)' = A' \lor B'$. 
+\end{proof}
+
+Above result does show a way how to construct the exhaustive sets for
+a general pairwise comparison problem. The intervall lattice
+$[\emptyset,=\sigma_{K_n} S]$ can be constrcuted by refinement of
+$V(\sigma_{K_n} R)$.  However, if $\sigma_{K_n} S = K_n$ the
+corresponding intervall lattice is identical to the full
+lattice. Nevertheless one can reduce the problem in the following
+way. Perfom one refinement step of $\sigma_{K_n} S$ and intersect with
+$S$ to get all hyperplanes of $M|S$. Then all consecutive flats of
+$M|S$ can be found by closing the set of hyperplanes with regard to
+intersection.
+
+\subsection{Hierarchical testing of pairwise comparisons}
+
+\begin{theorem}
+  Consider a hierarchical testing procedure that tests $H_{i_r}$ at
+  level $\alpha$ according to a prefixed order $(i_1,...,i_n)$. Assume
+  that hypotheses with indeces $i_1$ through $i_k$ have been
+  rejected. If for $k+1$ to $k+l$ there is $i_s$, $s \leq k$ such that
+  \begin{equation}
+    \label{eq:condh}
+    \rho \{i_s,i_{k+1}\} = \rho \{i_s,i_{k+1}...,i_{k+l}\},
+  \end{equation}
+  hypotheses each $H_{i_{k+1}}$ through   $H_{i_{k+l}}$ can be tested
+  simultaneously at full level $\alpha$. 
+\end{theorem}
+
+\begin{proof}
+  Due to \ref{eq:condh} for any $k+1 \leq m' < m \leq k+l$, $i_m \in
+  \sigma \{i_s,i_{m'}\}$ and consequently also $i_s \in \sigma
+  \{i_m,i_{m'}\}$. Therefore $i_s \in \sigma J$ for all $J$ with
+  $i_m,i_{m'} \in J$. Since $p_s \leq \alpha$ all intersection
+  hypotheses corresponding to exhaustive sets containing $i_{m}$
+  and $i_{m'}$ for all $k+1 \leq m' < m$ have been rejected. Such that
+  $p_{i_{m}} \leq \alpha$ rejects $H_{i_{m}}$.
+\end{proof}
+
+\subsection{Graphical procedure for pairwise comparison problems}
+
+Above properties of tPCPs can be used to derive weighted multiple
+testing procedures, that
+\begin{enumerate}
+\item control the FWER,
+\item use a weighting strategy defined by a graph,
+\item exploits logical dependencies between hypotheses to yield
+  improved power,
+\item produces significance statements that are consistent with
+  logical dependencies between hypotheses.
+\end{enumerate}
+
+Some additional notation let $\gmcp$ denote a graphical weighting
+procedure, such that $\gmcp(I)$ gives the weights for intersection
+hypothesis $H = \bigcup_{i \in I} H_i$. $gMCP(n)$ is the class of all
+graphical procedures for $n$ hypotheses. Define $h(S)$ the set of
+hyperplanes of $S$ in $M$. 
+
+\begin{algorithmic}
+  \REQUIRE $\dot{S} \in \dot{\mathcal{T}(m)}$, $\gmcp \in gMCP(n)$, 
+  $p \in [0,1]^n$, $\alpha$
+  \ENSURE $n = |E(\dot{S})| \leq m*(m-1)/2, \alpha \in [0,1]$
+  \STATE $w \gets \gmcp(R)$
+  \STATE $R \gets \{i \in R: p_i \leq w_i \alpha\}$
+  \STATE $S \gets S \setminus R$
+  \STATE $EI \gets h(\dot(S))$
+  \WHILE{$|R| < n$}
+  \STATE For all $E \in EI$, $w_E \gets \gmcp(E)$
+  \STATE For all $i \in S\setminus R$, $w_i^\star \gets \min_{E \in
+    EI}w_{i,E}$
+  \STATE $r \gets \{i:p_i \leq w_i^\star*\alpha$
+  \STATE $v \gets \{i \in S\setminus R:i \notin E, \forall E \in EI\}$
+  \IF{$r = v = \emptyset$}
+  \STATE Reject $R$ and stop
+  \ENDIF
+  \STATE $R \gets R \cup r$
+  \STATE $S \gets S\setminus r$
+  \STATE $EI \gets h(\dot(S))$
+  \ENDWHILE
+  \STATE Reject $R$ and stop
+\end{algorithmic}
+
+Taking the minimum weight accross all flats in above procedure may be
+improved:
+
+\begin{algorithmic}
+  \REQUIRE $\dot{S} \in \dot{\mathcal{T}(m)}$, $\gmcp \in gMCP(n)$, 
+  $p \in [0,1]^n$, $\alpha$
+  \ENSURE $n = |E(\dot{S})| \leq m*(m-1)/2, \alpha \in [0,1]$
+  \STATE $w \gets \gmcp(R)$
+  \STATE $R \gets \{i \in R: p_i \leq w_i \alpha\}$
+  \STATE $S \gets S \setminus R$
+  \STATE $EI \gets h(\dot(S))$
+  \WHILE{$|R| < n$}
+  \STATE For all $E \in EI$, $w_E \gets \gmcp(E)$
+  \STATE $r \gets \{i:\forall E \in EI, i \in E,p_i \leq w_i \alpha\}$
+  \STATE $v \gets \{i \in S\setminus R:i \notin E, \forall E \in EI\}$
+  \IF{$r = v = \emptyset$}
+  \STATE Reject $R$ and stop
+  \ENDIF
+  \STATE $R \gets R \cup r$
+  \STATE $S \gets S\setminus r$
+  \STATE $EI \gets h(\dot(S))$
+  \ENDWHILE
+  \STATE Reject $R$ and stop
+\end{algorithmic}
+
+Comments: Above procedures are valid for all families of hypotheses
+for which exhaustive sets are identical with strictly exhaustive
+sets. The crucial part of the algorithms is finding $h(S)$. For $tPCP$
+this can be achieved using Theorem \ref{the:interval}.
+
+
+
+
+
+\subsection{General contrast tests}
+
+Realizing that each pairwise comparison may be represented by a
+general contrast test we next investigate the connections between such
+tests and vectorial matroids. 
+
+Some interesting observations:
+\begin{itemize}
+\item Pairwise comparisons (as a contrast) are represented by a vector
+  having a $1$ at the component corresponding to the first and a $-1$
+  at the component corresponding to the second mean in the
+  comparison. For example if $m = 4$, $H_{13}: \mu_1 = \mu_3$
+  corresponds to  $c_{13} = (1,0,-1,0)$ 
+\item If we consider only two-sided hypotheses the $c_{ij} = -c_{ji}$ and
+  $-c_{ij} = c_{ji}$  represent the same hypothesis. Consequently,
+  without loss of generality we can represent $H_{ij}$ by a vector
+  $e_{ij}$ over $GF(2)$ with entries $1$ at $i$ and $j$.
+\item From representation theory over matroids we now that every graph,
+  and consequently tPCP, may be represented over $GF(2)$ by using the
+  incidence matrix.
+\item Given that a representation is defined as a map that conserves
+  the rank. The maximum rank of a tPCP is $m-1$.
+\item It can be easily seen that the corresponding contrast matrix
+  maybe reduced to a rank $\leq m-1$ upper diagonal matrix.
+\item A general contrast test may, however, have up to rank $m$ and
+  can not be represented over $GF(2)$.
+\end{itemize}
+
+\begin{definition}
+  Consider $X \sim N(\bs{\mu},\sigma \mathbb{1}_m)$ and a contrast $A
+  \in \mathbb{R}^{m \times n}$ with column vectors $a_i \in
+  \mathcal{R}^m$. We call the MTP given by by the family $\mathcal{H}
+  = \left\{H_i: a_i\mu = 0; i \in \{1,...,n\}\right\}$ a (finite)
+  linear  contrast problem (LCP).
+\end{definition}
+
+
+\section{One sided problems}
+
+So far we have only considered two sided hypotheses \ie point
+hypotheses. In many practical applications however the questions of
+interest are better addressed by one sided null hypotheses. For
+example in a clinical trial one generally only interested whether the
+a new treatment is better than some comparator. 
+
+From conditions \ref{} it can be easily seen that while problems of
+one sided hypotheses may be treated by matroids, already for simple
+problems the correspondence between flats and strictly exhaustive sets
+is not one to one. Nevertheless an alternative approach to this class
+of problems can be found in the theory of oriented matroids.
+
+First let us define a one sided multiple testing problem
+
+\begin{definition}
+  Let $\bs{X}$ denote an $m$ dimensional random vector with
+  distribution function $P_{\bs{\mu}}$ from some parametric family
+  $\mathscr{P} = \{P_{\bs{\theta}}: \bs{\theta} \in \mathbb{R}^m\}$. A
+  family of {\em one sided linear contrast hypotheses} is defined by a
+  contrast matrix $\bs{A} \in \mathbb{R}^{m\times n}$ and vector
+  $\bs{b} \in \mathbb{R}^n$ that define a the family of null
+  hypotheses of the form $\mathscr{H} = \{H_i: \bs{A_i}^t\bs{\mu} \leq
+  b_i,i \in \{1,...,n\}\}$, where $\bs{A}_i$ denotes the $i$-th column
+  of $\bs{A}$ and $b_i$ the $i$-th componenth of $\bs{b}$.
+\end{definition}
+
+Now observe that each hypothesis $H_i$ corresponds to a hyperplane
+$h_i = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} = b_i\}$ that divides
+$\mathbb{R}^m$ into two regions $h_i^+ = \{\bs{x} \in \mathbb{R}^m:
+\bs{A}_i^t\bs{x} < b_i\}$ and $h_i^- = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} >
+b_i\}$ giving rise to a sign function:
+\begin{equation}
+  \label{eq:sign}
+  \delta_i(\bs{x}) = \left\{
+\begin{array}{ll}
+  + & \text{if } \bs{x} \in h_i^+\\
+  0 & \text{if } \bs{x} \in h_i \\
+  - & \text{if } \bs{x} \in h_i^-\\
+\end{array}\right.
+\end{equation}
+
+Further for every $\bs{x} \in \mathbb{R}^m$ we have  sign vector
+$\bs{\delta}{\bs{x}}= (\delta_1(\bs{x}),...,\delta_n(\bs{x}))$. Now
+for each $i$ and some parameter value $\bs{\theta} \in \bs{\Theta} = \R^m$,
+$\delta_i(\bs{\theta})$ tells us whether the corresponding value is under the null
+hypotheses on its border, or under the alternative. Accordingly,
+$\bs{\delta}(\bs{\theta})$ tells us in which combination of true and
+false null hypotheses $H_i$ correspond to $\bs{\theta}$. Let
+\begin{equation}
+\label{eq:faces}
+\mathcal{F}(\bs{A},\bs{b} = \{\bs{\delta}(\bs{x}): \bs{x} \in \R^m\}
+\end{equation}
+
+and for some $F \in \mathcal{F}$ define
+\begin{equation}
+  \label{eq:partition}
+  \Theta_F = \{\bs{x} \in \R^m: \bs{\delta}(\bs{x}) = F\}
+\end{equation}
+
+then we have $\bigcup_{F \in \mathcal{F}} \Theta_F = \bs{\Theta} =
+\R^m$ and for any $\Theta_F \cap \Theta_G = \emptyset$ for any $F \neq
+G$. Consequently, $\{\Theta_F:F \in \mathcal{F}$ represents a
+partition of the parameter space and each element in $\mathcal{F}$
+uniquely identifies some {\em non-empty} element of that partition. Consequently,
+following the Partitioning Principle \cite[]{finner2002partitioning}
+if we have level $\alpha$ tests $\varphi_F(X)$ for each $F \in
+\mathcal{F}$ a test that rejects $H_i$ for observed values $X$ if
+$\varphi_F(X) = 1$ for all $F$ with $F_i \geq 1$ controls the FWER in
+the strong sense. For example one may use  weighted Bonferroni tests
+\begin{equation}
+  \label{eq:bonferroni}
+  \varphi_F = \indf{\min_{i:F_i \geq 0}p_i \leq w_{F,i}}
+\end{equation}
+where the $w_{F,i}$ are can be computed using a graphical approach.
+
+Note that as $\Theta_F$, $F \in \mathcal{F}$ the $\mathscr{L} = \{I \subset \{1,...,m\}: \exists F \in
+\mathcal{F}: F_i \geq 0 \forall i \in I\}$ are all strictly exhaustive sets.  
+
+The question remains how to compute $\mathcal{F}$. For this observe
+that the $h_i$ define a hyperplane configuration and $\mathcal{F}$ is
+just the face lattice of the corresponding oriented
+matroid. Consequently, $\mathcal{F}$ can be found using algorithms
+for arrangement construction from polyhedral programming
+\cite{Avis-KF-92,Avis-KF-96,Ferrez-KF-Liebling-01} which are
+polynomial in time and input size and compact in space!
+
+
+\begin{definition}
+  Consider a family of hypotheses $\mathscr{H} =$
+\end{definition}
+
+
+
+\end{document}

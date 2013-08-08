@@ -1,0 +1,14 @@
+Package: mldh
+Version: 0.1-1
+Date: 2013-08-05
+Title: Matroid based graphical approaches multiple comparison procedures for logically dependent hypotheses
+Authors@R: c(person("Florian Klinglmueller", "Developer", role = c("aut", "cre"),email = "float@lefant.net"))
+Author: Florian Klinglmueller
+Maintainer: Florian Klingmueller <float@lefant.net>
+Depends: R (>= 1.8.0), gMCP, igraph, e1071
+Suggests: MASS
+Description: Provides weighted closed testing procedures for logically
+dependent hypotheses. Weighting strategies may be specified using
+graphical approaches.
+License: GPL (>= 2)
+URL: http://float.lefant.net
