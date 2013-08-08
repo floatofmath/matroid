@@ -334,6 +334,24 @@ For a family of two-sided
 
 \end{itemize} % ends low level
 \end{frame}
+
+
+\begin{frame}{Matroid procedures for pairwise mean comparisons}
+
+  \begin{itemize}
+  \item Two-sided comparisons between $m$ means
+  \item The cycle matroid of the corresponding graph representation
+    provides an equivalent dependence structure
+  \item The flats of a (simple) complete graph are
+    isomporphic to the partitions of a set of size $m$
+  \item Provides an efficient way to generate all exhaustive sets by
+    enumeration of all partitions [ER '88] or hyperplanes 
+  \item The number of exhaustive sets are given by the Bell numbers
+    
+  \end{itemize}
+  
+\end{frame}
+
 \section{Graphical approaches for logically dependent hypotheses}
 
 
@@ -352,6 +370,21 @@ For a family of two-sided
 
 \begin{frame}
 \frametitle{General weighting strategies}
+
+\begin{enumerate}
+\item Pretest using weighted Bonferroni or conventional graphical
+  approach $R = \{i \in S: H_i \textrm{ rejected by pretest}\}$
+\item Compute all matroid hyperplanes $\mathscr{H}$ for the matroid on
+  the remaining hypotheses $I$
+\item $R \gets R \cup \{i: p_i \leq \min_J w_{i,J} \alpha, J \in \mathscr{H}\}$
+\item $A \gets \{\bigcup J: \min_j (p_j / w_{j,J}) > \alpha\}$ 
+\item $I \gets I \setminus R$
+\item Refine: $\mathscr{H} \gets \{J\in \mathscr{L}: \rho J = \rho
+  \mathscr{H} - 1\}$ 
+\item Prune: $\mathscr{H} \gets \{J \in \mathscr{H}: J \cap R = \emptyset\}$
+\item Repeat until $\rho \mathscr {H} = 0$
+\item Reject $R$ and $I \setminus A$
+\end{enumerate}
 \end{frame}
 \section{Matriods from general families of hypotheses}
 
