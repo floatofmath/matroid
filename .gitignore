@@ -1,3 +1,12 @@
 *.log
 *.bbs
 *.aux
+*.ps.gz
+*.pdf
+*.snm
+*.nav
+*.toc
+*.out
+*.dvi
+*.Rd
+*.el
