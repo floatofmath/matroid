@@ -48,7 +48,8 @@ exportUDgraph <- function(graph, file = NULL,package="TikZ", scale=1, alpha=0.05
 				" at (",x+offset[1],"bp,",-y-offset[2],"bp)",
 				"[draw,circle,",ifelse(missing(nodeTikZ),"",paste(nodeTikZ,", ",sep="")),double,"fill=",nodeColor,"]",
                                 ##  " {$",node,"$ \\nodepart{lower} $",weight,"$};",sep="")
-                                  " {$",sub("H","\\\\mu_",node),"$};",sep="")
+                                ##  " {$",sub("H","\\\\mu_",node),"$};",sep="")
+                                  " {$",node,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 
