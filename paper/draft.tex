@@ -897,11 +897,57 @@ First let us define a one sided multiple testing problem
   of $\bs{A}$ and $b_i$ the $i$-th componenth of $\bs{b}$.
 \end{definition}
 
+\subsection{Arrangements of hyperplanes}
+\label{sec:hyperplanes}
+
 Now observe that each hypothesis $H_i$ corresponds to a hyperplane
-$h_i = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} = b_i\}$ that divides
+$h_i = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} = b_i\}$. The
+family of null hypotheses $\mathscr{H}$ therefore is full determined
+by an arrangement of hyperplanes $\mathscr{A} = \{h_i:i=
+\{1,...,n\}\}$. 
+
+\begin{definition}
+  An arrangement of hyperplanes is said to be regular if there is a
+  subset of $\mathscr{A}$ whose intersection is a single point
+\end{definition}
+
+Two important cases for non-regular hyperplane arrangements come to
+mind. First, all pairwise intersections of hyperplanes are empty. If
+that is the case then all hypotheses are nested. Such a case is very
+simple an appropriate testing algorithm would be a hierarchical
+approach starting with the {\em smallest} null hypotheses. Second, all
+hypotheses intersect in more than one point. In this case, however, we
+know from basic linear algebra that the intersection is an affine
+subspace. Consequently one can find a hyperplane that is orthogonal to
+this subspace onto which we can project $\mathscr{A}$ to get a central
+regular arrangement of lower dimensionality. An example of this would
+be the family of hypotheses defined by contrast matrix
+
+\begin{equation}
+  \label{eq:example:ordered}
+  \bs{A} = \left\{
+    \begin{array}{ccc}
+      1 & -1 & 0 \\
+      1 & 0 & -1 \\
+      0 & 1 & -1 
+    \end{array}
+  \right\}
+\end{equation}
+
+and vector $\bs{b} = (0,0,0)^t$. Here all points of the form $(x,x,x)$, $x
+\in \R^3$ are a solution to the corresponding system of linear
+equations. On can now project use the plane $x_1 + x_2 + x_3 = 0$ as a
+ground and represent the hyperplanes corresponding to $\bs{A}$, and
+$\bs{b}$ by the lines $l_1,l_2,l_3$
+{\tt Derive the appropriate projection onto the plane rectangular to
+  $(1,1,1)x=0$ and put here}
+
+
+Notice that each hyperplane $h_i$ divides
 $\mathbb{R}^m$ into two regions $h_i^+ = \{\bs{x} \in \mathbb{R}^m:
 \bs{A}_i^t\bs{x} < b_i\}$ and $h_i^- = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} >
-b_i\}$ giving rise to a sign function:
+b_i\}$. For any point $x$ in the parameter space and elementary
+hypotheses $H_i$ we define sign function: 
 \begin{equation}
   \label{eq:sign}
   \delta_i(\bs{x}) = \left\{
@@ -912,34 +958,63 @@ b_i\}$ giving rise to a sign function:
 \end{array}\right.
 \end{equation}
 
-Further for every $\bs{x} \in \mathbb{R}^m$ we have  sign vector
-$\bs{\delta}{\bs{x}}= (\delta_1(\bs{x}),...,\delta_n(\bs{x}))$. Now
-for each $i$ and some parameter value $\bs{\theta} \in \bs{\Theta} = \R^m$,
-$\delta_i(\bs{\theta})$ tells us whether the corresponding value is under the null
-hypotheses on its border, or under the alternative. Accordingly,
-$\bs{\delta}(\bs{\theta})$ tells us in which combination of true and
-false null hypotheses $H_i$ correspond to $\bs{\theta}$. Let
+{\em I.e.,} $\delta_i$ is takes value $-$ if $H_i$ at $x$ is false and
+$0$ or $+$ otherwise.
+
+Now, for every $\bs{x} \in \mathbb{R}^m$ we define a sign vector
+$\bs{\delta}{\bs{x}}=
+(\delta_1(\bs{x}),...,\delta_n(\bs{x}))$. Accordingly,
+$\bs{\delta}(\bs{x})$ tells us to which 
+combination of true and false null hypotheses some $\bs{x}$
+belongs. Let
 \begin{equation}
 \label{eq:faces}
-\mathcal{F}(\bs{A},\bs{b} = \{\bs{\delta}(\bs{x}): \bs{x} \in \R^m\}
+\mathcal{F}(\mathscr{H}) = \{\bs{\delta}(\bs{x}): \bs{x} \in \R^m\}
 \end{equation}
 
-and for some $F \in \mathcal{F}$ define
-\begin{equation}
-  \label{eq:partition}
-  \Theta_F = \{\bs{x} \in \R^m: \bs{\delta}(\bs{x}) = F\}
-\end{equation}
+denote the set of all sign patterns defined by 
+$\mathscr{H}$.  Further it
+provides a multiple testing procedure for $\mathscr{H}$ that controls
+the FWER in the strong sense:
 
-then we have $\bigcup_{F \in \mathcal{F}} \Theta_F = \bs{\Theta} =
-\R^m$ and for any $\Theta_F \cap \Theta_G = \emptyset$ for any $F \neq
-G$. Consequently, $\{\Theta_F:F \in \mathcal{F}$ represents a
-partition of the parameter space and each element in $\mathcal{F}$
-uniquely identifies some {\em non-empty} element of that partition. Consequently,
-following the Partitioning Principle \cite[]{finner2002partitioning}
-if we have level $\alpha$ tests $\varphi_F(X)$ for each $F \in
-\mathcal{F}$ a test that rejects $H_i$ for observed values $X$ if
-$\varphi_F(X) = 1$ for all $F$ with $F_i \geq 1$ controls the FWER in
-the strong sense. For example one may use  weighted Bonferroni tests
+\begin{theorem}
+  Consider a family of general contrast hypotheses $\mathscr{H} =
+  \{H_i: \bs{A_i}^t\bs{\mu} \leq b_i,i \in \{1,...,n\}\}$ and let
+  $\mathscr{F}(\mathscr{H}) = \{ \bs{delta}(\bs{x}): \bs{x} \in
+  \R^m\}$ denote the corresponding set of sign patterns. Consider a
+  set of decision rules $\varphi_F: \R^n \rightarrow \{0,1\}$ for
+  which hold $P(\varphi_F = 1 | H_i: F_i \geq 0) \leq \alpha$. Then a
+  corresponding decision rule for each elementary hypotheses $H_i$ is
+  given by 
+  \begin{equation}
+    \label{eq:signtest}
+    \psi_i = \min_{F: F_i \geq 0} \varphi_F,
+  \end{equation}
+  which controls the FWER at level $\alpha$ in the strong sense. 
+\end{theorem}
+
+
+\begin{proof}
+  For all $F \in \mathcal{F}$ define
+  \begin{equation}
+    \label{eq:partition}
+    \Theta_F = \{\bs{x} \in \R^m: \bs{\delta}(\bs{x}) = F\},
+  \end{equation}
+
+  which is a subset of the parameter space. We have $\bigcup_{F \in
+    \mathcal{F}} \Theta_F = \bs{\Theta} = \R^m$ and for any $\Theta_F
+  \cap \Theta_G = \emptyset$ for any $F \neq G$. Consequently,
+  $\{\Theta_F:F \in \mathcal{F}$ represents a partition of the
+  parameter space and each element in $\mathcal{F}$ uniquely
+  identifies some {\em non-empty} element of that
+  partition. Consequently, following the Partitioning Principle
+  \cite[]{finner2002partitioning} if we have level $\alpha$ tests
+  $\varphi_F(X)$ for each $F \in \mathcal{F}$ a test that rejects
+  $H_i$ for observed values $X$ if $\varphi_F(X) = 1$ for all $F$ with
+  $F_i \geq 1$ controls the FWER in the strong sense.
+\end{proof}
+
+For example one may use  weighted Bonferroni tests
 \begin{equation}
   \label{eq:bonferroni}
   \varphi_F = \indf{\min_{i:F_i \geq 0}p_i \leq w_{F,i}}
