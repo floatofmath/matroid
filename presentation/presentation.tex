@@ -23,6 +23,8 @@
 \newcommand{\bs}[1]{\bm{#1}}
 \newcommand{\ie}{{\em i.e.},~}
 \newcommand{\eg}{{\em e.g.},~}
+\newcommand{\parentd}{../}
+
 \providecommand{\alert}[1]{\textbf{#1}}
 
 \title{Matroids from families of null hypotheses}
@@ -147,11 +149,40 @@ Shaffer (1986) : Modified Sequentially Rejective Multiple test procedures; Examp
 
 \begin{frame}
 \frametitle{Example 2: Contrast test}
-\begin{itemize}
 
-\item \textbf{/Some illustration hereabouts/}
 
-\end{itemize} % ends low level
+\begin{tabular}{ll}
+  \begin{minipage}{.45\textwidth}
+    All pairwise comparisons of 4 means 
+    \begin{displaymath}
+    \bs{C}^t = \left(
+      \begin{array}{llll}
+      -1 & 1 & 0 & 0 \\
+      -1 & 0 & 1 & 0 \\
+      -1 & 0 & 0 & 1 \\
+      0 & -1 & 1 & 0 \\
+      0 & -1 & 0 & 1 \\
+      0 & 0 & -1 & 1 
+    \end{array}
+    \right)
+    \end{displaymath}
+  \end{minipage} &
+  \begin{minipage}{.55\textwidth}
+    Modified Williams Contrasts for Dose Response
+    \begin{displaymath}
+      \bs{C}^t=\left(
+      \begin{array}{llll}
+        1 & 0 & 0 & -1\\
+        1 & 0 &-.51 & -.49 \\
+        1 & -.35 & -.33 & -.32\\
+        .51 & .49 & -.51 & -.48\\
+        .51 & .49 & 0 &  -1\\
+        .35 & .33 & .32& -1
+      \end{array}\right)
+    \end{displaymath}
+  \end{minipage}
+\end{tabular}
+
 \end{frame}
 
 
@@ -345,7 +376,10 @@ For a family of two-sided
 
 \item Pairwise comparisons
 
-\item The flats of the complete graph correspond to the partitions of $\{1,...,m\}$
+\item The flats of the complete graph correspond to the partitions of
+  $\{1,...,m\}$
+\item This provides efficient methods to generate all flats for
+  pairwise mean comparisons \cite{er1988fast,knuth2005art,kokosinski2006new}
 
 \item The flats of a matroid generate a lattice, procedures testing not all possible comparisons correspond to intervals on that lattice
 
@@ -359,7 +393,20 @@ For a family of two-sided
 
 \textbf{Old wine in new bottles ((c) L. Hothorn)}
 \begin{itemize}
+\item \cite{westfall1997multiple} checks each intersection hypotheses
+  whether it is flat using dependence arguments.
+\item \cite{westfall2007multiple} provide a branch and bound algorithm
+  to generate all flats. They note that for pairwise comparisons all
+  exhaustive hypotheses are {\em partition hypotheses} 
+\item \cite{bergmann1988improvements} define the concepts of an
+  exhaustive sets
+\item \cite{bernhard1991computergestuetzte} shows properties of
+  exhaustive sets that are basically {\em closure axioms} of a matroid
+  and provides algorithms to check each intersection hypotheses if
+  flat using rank function.
 
+  \cite{hommel1999bonferroni} show {\em closure axioms} for exhaustive
+  sets 
 \item Flats <-> Weakly Exhaustive set (Hommel, Bergmann)
 
 \item Lemma 1.5 in (Bernhard) about weakly exhaustive sets are ``closure axioms'' of a matroid
@@ -463,4 +510,6 @@ For a family of two-sided
 
 \end{frame}
 
+\bibliographystyle{alpha}
+\bibliography{\parentd paper/cleanrefs}
 \end{document}
