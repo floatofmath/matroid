@@ -775,32 +775,33 @@ intersection.
 \end{theorem}
 
 \begin{proof}
-  We show by that given $p_{r+k} < \alpha$ all $E \in \mathscr{L}_{r+k} =
-  \{I \in \mathscr{L}: r+k \in I\}$ are rejected by the stepwise
-  procedure. First, notice that for all $E$ such that $\min E = r+k$
-  rejection follows immediately and if $\min E \leq r$ rejection
-  follows by rejection of $H_i$ for $i \leq r$. It remains to be shown
-  that the stepwise procedure also rejects $H_E$ for $r < \min E <
-  r+k$. 
+  We show that given $p_{r+k} \leq \alpha$ for some $1 \leq k \leq s$
+  all exhaustive sets $E \in \mathscr{L}_{r+k} = \{E \in \mathscr{L}:
+  r+k \in E\}$ are rejected by the stepwise procedure. It remains to
+  be shown that the stepwise procedure also rejects $H_E$ for all
+  exhaustive sets with $\min E < r+k$. Note that $\{E \in \mathscr{L}:
+  \min E < r+k\} = \overline{\underline{E}}_1^r \cup
+  \overline{\underline{E}}^{r+k-1}_{r+1}$ where
+  $\overline{\underline{E}}^b_a := \{\sigma I: \text{for all } I
+  \subseteq S, a \leq \min I \leq b\}$. For $ E \in
+  \overline{\underline{E}}_1^r$ follows since $p_i \leq \alpha$ for $i
+  \leq r$.
 
-  First we show by contradiction that some $k \leq t$ we have $i \in
-  \sigma \{r+l,r+k\}$ for some $i \leq r$ and all $1 \leq l < k$.  We
-  need to show that for all $s,t$, $k+1 < s < t \leq k+l$, follows
-  $i_s \sim K \cup i_t$:
-
-  Assume that there is an $l$ such that there is on $i \leq r$ with $i
-  \in \sigma \{r+l,r+k\}$. Consequently for all $i \leq r$ $i \nsim
+  We show by contradiction that we have $i \in \sigma \{r+l,r+k\}$ for
+  some $i \leq r$ and all $1 \leq l < k$.  Assume that there is an $l$
+  such that there is no $i \leq r$ with $i \in \sigma
+  \{r+l,r+k\}$. Consequently for all $i \leq r$, we have $i \nsim
   \{r+l,r+k\}$. Since $M(\mathscr{H})$ has no loops or parallels also
-  $r+l \nsim r+k$. Consequently, for any maximally independent set in
+  $(r+l) \nsim (r+k)$. Consequently, for any maximally independent set
   $I \subset \{1,...,r\}$, $I \cup \{r+l, r+k\}$ is independent and
   has cardinality $\rho\{1,...,r\}+2$ which contradicts
-  (\ref{eq:cond.hierarchical}). 
+  (\ref{eq:cond.hierarchical}).
 
-  Above argument can be repeated for any set $J \cup r+k$ where $J
-  \subseteq \{r+1,...,r+k-1\}$. Therefore, we have $i \in E$, $i \leq
-  r$ for all exhaustive set containing $r+k$ with $r < \min E <
-  r+k$. Rejection of these sets follows from rejection of $H_i$, $i
-  \leq r$, which completes the proof. 
+  Above argument can be repeated for any set $I$ with $r+1 \leq \min I
+  < k$. Therefore, we have $i \in E$ for all $E \in
+  \overline{\underline{E}}^{r+k-1}_{r+1}$. Rejection of these sets
+  follows from rejection of $H_i$, $i \leq r$, which completes the
+  proof. 
 \end{proof}
 
 Note that the condition that $M(\mathscr{H})$ contains neither loops
