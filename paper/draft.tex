@@ -401,6 +401,7 @@ Next we show an important connection between matroid theory and
 multiple testing theory
 
 \begin{theorem}
+  \label{the:strictly.exhaustive}
   Consider a family of null hypotheses for which conditions
   (\ref{cond:matroida}-\ref{cond:matroidb}) hold. Then an index set $I \subseteq S$ is
   weakly exhaustive if and only if $I$ is a flat in $M$.
@@ -732,28 +733,90 @@ intersection.
 
 \subsection{Hierarchical testing of pairwise comparisons}
 
+% \begin{theorem}
+%   Consider a hierarchical testing procedure that tests $H_{i_r}$ at
+%   level $\alpha$ according to a prefixed order $(i_1,...,i_n)$. Assume
+%   that hypotheses with indeces $i_1$ through $i_k$ have been
+%   rejected. If for $k+1$ to $k+l$ there is $i_s$, $s \leq k$ such that
+%   \begin{equation}
+%     \label{eq:condh}
+%     \rho \{i_s,i_{k+1}\} = \rho \{i_s,i_{k+1}...,i_{k+l}\},
+%   \end{equation}
+%   hypotheses each $H_{i_{k+1}}$ through   $H_{i_{k+l}}$ can be tested
+%   simultaneously at full level $\alpha$. 
+% \end{theorem}
+
+% \begin{proof}
+%   Due to \ref{eq:condh} for any $k+1 \leq m' < m \leq k+l$, $i_m \in
+%   \sigma \{i_s,i_{m'}\}$ and consequently also $i_s \in \sigma
+%   \{i_m,i_{m'}\}$. Therefore $i_s \in \sigma J$ for all $J$ with
+%   $i_m,i_{m'} \in J$. Since $p_s \leq \alpha$ all intersection
+%   hypotheses corresponding to exhaustive sets containing $i_{m}$
+%   and $i_{m'}$ for all $k+1 \leq m' < m$ have been rejected. Such that
+%   $p_{i_{m}} \leq \alpha$ rejects $H_{i_{m}}$.
+% \end{proof}
+
 \begin{theorem}
-  Consider a hierarchical testing procedure that tests $H_{i_r}$ at
-  level $\alpha$ according to a prefixed order $(i_1,...,i_n)$. Assume
-  that hypotheses with indeces $i_1$ through $i_k$ have been
-  rejected. If for $k+1$ to $k+l$ there is $i_s$, $s \leq k$ such that
+  Consider a system of logically dependent hypotheses $\mathscr{H}$
+  with dependence relation $\sim$ and associated matroid
+  $M(\mathscr{H})$. Assume that $M(\mathscr{H})$ neither contains
+  loops nor parallels. Consider a hierarchical testing procedure that
+  tests $H_{i}$ at level $\alpha$ according to a prefixed
+  order. Without loss of generality assume that $H_i$ are indexed
+  according to the fixed rejection sequence $(1,...,n)$. Given 
+  that hypotheses with indeces $1$ through $r$ have been
+  rejected and if for $r+1$ to $r+s$ holds
   \begin{equation}
-    \label{eq:condh}
-    \rho \{i_s,i_{k+1}\} = \rho \{i_s,i_{k+1}...,i_{k+l}\},
+    \label{eq:cond.hierarchical}
+    \rho \{1,...,r\} + 1 = \rho \{1,...,r+1\} = \rho \{1,...,r+s\},
   \end{equation}
-  hypotheses each $H_{i_{k+1}}$ through   $H_{i_{k+l}}$ can be tested
-  simultaneously at full level $\alpha$. 
+  hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
+  at full level $\alpha$.
 \end{theorem}
 
 \begin{proof}
-  Due to \ref{eq:condh} for any $k+1 \leq m' < m \leq k+l$, $i_m \in
-  \sigma \{i_s,i_{m'}\}$ and consequently also $i_s \in \sigma
-  \{i_m,i_{m'}\}$. Therefore $i_s \in \sigma J$ for all $J$ with
-  $i_m,i_{m'} \in J$. Since $p_s \leq \alpha$ all intersection
-  hypotheses corresponding to exhaustive sets containing $i_{m}$
-  and $i_{m'}$ for all $k+1 \leq m' < m$ have been rejected. Such that
-  $p_{i_{m}} \leq \alpha$ rejects $H_{i_{m}}$.
+  We show by that given $p_{r+k} < \alpha$ all $E \in \mathscr{L}_{r+k} =
+  \{I \in \mathscr{L}: r+k \in I\}$ are rejected by the stepwise
+  procedure. First, notice that for all $E$ such that $\min E = r+k$
+  rejection follows immediately and if $\min E \leq r$ rejection
+  follows by rejection of $H_i$ for $i \leq r$. It remains to be shown
+  that the stepwise procedure also rejects $H_E$ for $r < \min E <
+  r+k$. 
+
+  First we show by contradiction that some $k \leq t$ we have $i \in
+  \sigma \{r+l,r+k\}$ for some $i \leq r$ and all $1 \leq l < k$.  We
+  need to show that for all $s,t$, $k+1 < s < t \leq k+l$, follows
+  $i_s \sim K \cup i_t$:
+
+  Assume that there is an $l$ such that there is on $i \leq r$ with $i
+  \in \sigma \{r+l,r+k\}$. Consequently for all $i \leq r$ $i \nsim
+  \{r+l,r+k\}$. Since $M(\mathscr{H})$ has no loops or parallels also
+  $r+l \nsim r+k$. Consequently, for any maximally independent set in
+  $I \subset \{1,...,r\}$, $I \cup \{r+l, r+k\}$ is independent and
+  has cardinality $\rho\{1,...,r\}+2$ which contradicts
+  (\ref{eq:cond.hierarchical}). 
+
+  Above argument can be repeated for any set $J \cup r+k$ where $J
+  \subseteq \{r+1,...,r+k-1\}$. Therefore, we have $i \in E$, $i \leq
+  r$ for all exhaustive set containing $r+k$ with $r < \min E <
+  r+k$. Rejection of these sets follows from rejection of $H_i$, $i
+  \leq r$, which completes the proof. 
 \end{proof}
+
+Note that the condition that $M(\mathscr{H})$ contains neither loops
+nor parallels is not a serious restriction. A loop in terms of systems
+of hypotheses would be a set in the parameter space that contains all
+hypotheses. Thich corresponds to the alternative that at least one
+null hypotheses is true which is the domain of intersection-union
+tests. The condition that $M(\mathscr{H})$ does not contain parallels
+is more restrictive, however, considering that the absence of
+parallels is a sufficient condition such that the correspondence
+between flats of the matroid and strictly exhaustive sets (Theorem
+\ref{the:strictly.exhaustive}) this is also not serious. Once we turn
+to one-sided problems where we will use oriented matroids to describe
+the structure of systems of null hypotheses these problems will seem
+even less problematic.
+
 
 \subsection{Graphical procedure for pairwise comparison problems}
 
