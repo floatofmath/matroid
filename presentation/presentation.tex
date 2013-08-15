@@ -26,9 +26,13 @@
 \newcommand{\parentd}{../}
 
 \providecommand{\alert}[1]{\textbf{#1}}
+\usetheme{Novartis}
+\doNotUseNovartisLogoOnAllSlides
+\doNotUseNovartisLogoOnTitlePage
+
 
 \title{Matroids from families of null hypotheses}
-\author{Willi Maurer, Florian Klinglmueller}
+\author{Florian Klinglmueller, Willi Maurer}
 \date{\today}
 \hypersetup{
   pdfkeywords={},
@@ -73,7 +77,7 @@ Testing hypotheses of no difference in pairwise comparisons of 3 treatments (cat
 \frametitle{Pairwise comparisons, some history}
 
 Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments (categories):\\
-Shaffer (1986) : Modified Sequentially Rejective Multiple test procedures; Example: Modified Bonferroni-Holm
+\cite{shaffer1986modified}: Modified Sequentially Rejective Multiple test procedures; Example: Modified Bonferroni-Holm
 \begin{itemize}
   \item "Static":  After j rejections, test remaining hypotheses at level $\alpha/t_j$, $t_j$ = max number of true hypotheses if $j$ are false.
   \item "Dynamic": After rejecting $H_{i_1},...,H_{i_j}$, test remaining hypotheses at level $\alpha/t^*_j$,  $t^*_j$ = number of true hypotheses if $H_{i_1},...,H_{i_j}$ are false.
@@ -231,15 +235,23 @@ Shaffer (1986) : Modified Sequentially Rejective Multiple test procedures; Examp
 \begin{frame}
 \frametitle{Circuit axioms}
 
-Consider $S$ and a collection of subsets $\mathscr{C}$ for which holds
-\begin{enumerate}
-\item $C_1 \neq C_2 \in \mathscr{C}$, then $C_1 \nsubseteq C_2$,
-\item $C_1 \neq C_2 \in \mathscr{C}$, and $i \in C_1 \cap C_2$ then
-   $\exists C_3 \subseteq (C_1 \cup C_2)$,
-\end{enumerate}
-then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
 
-\input{cycle}
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \input{cycle}
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    Consider $S$ and a collection of subsets $\mathscr{C}$ for which holds
+    \begin{enumerate}
+    \item $C_1 \neq C_2 \in \mathscr{C}$, then $C_1 \nsubseteq C_2$,
+    \item $C_1 \neq C_2 \in \mathscr{C}$, and $i \in C_1 \cap C_2$ then
+      $\exists C_3 \subseteq (C_1 \cup C_2)$,
+    \end{enumerate}
+    then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
+  \end{minipage}
+\end{tabular}
+
+
 
 \end{frame}
 
@@ -251,7 +263,14 @@ then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
 
 \begin{frame}
 \frametitle{Independence axioms}
-\begin{block}{Independence}
+
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+  \only<1>{\input{independent}}
+  \only<2>{\input{cycle}}
+  \invisible<1>{\alert{\footnotesize minimally dependent set!}}
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
   Consider $S$ and a collection of subsets $\mathscr{I}$ for which
   holds
   \begin{enumerate}
@@ -264,30 +283,37 @@ then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
   then $\mathscr{I}$ is the set of independent sets of a matroid $M$
   on $S$. This defines an independence relation $i \nsim_M I$ iff
   $I\cap i \in \mathscr{I}$. 
-\end{block}
 
-\begin{block}{Circuit}
-  $C \subset S$ is a circuit iff $C \neq \mathscr{I}$ and for all $I
-  \subset C$, $I \in \mathscr{I}$ (\ie minimally dependent set)
-\end{block}
+  \end{minipage}
+\end{tabular}
+
+
+
+
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Dependence axioms}
 
-\begin{block}{Dependence}
-  Consider $S$ and a relation $\sim_M$ on elements and subsets of $S$,
-  then if for any $x,y_1,...,y_n,z_1,...,z_m$ holds
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \input{dependent}
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+  Relation $\sim_M$ on elements and subsets of $S$,
+  if for any $x \in S$, and sets $Y,Z \subseteq S$ holds
   \begin{enumerate}
-  \item $y_i \sim \{y_1,...,y_n\}$ for all $i \leq n$
-  \item if $n\geq 1$, $x \sim_M \{y_1,...,y_n\}$ and $x \nsim_M
-    \{y_1,...,y_{n-1}$ then $y_n \sim \{y_1,...,y_{n-1},x\}$
-  \item if $x \sim_M \{y_1,...,y_n\}$ and for all $i \leq n$ $y_i
-    \sim_M \{z_1,...,z_m\}$ then $x \sim_M \{z_1,...,z_m\}$
+  \item $y \sim Y$ for all $y \in Y$
+  \item if $x \sim_M Y$ and $x \nsim_M Y\setminus y$
+    then $y \sim x \cup (Y \setminus y)$
+  \item if $x \sim_M Y$ and for all $y \in Y$, $y \sim_M Z$ then $x \sim_M Z$
   \end{enumerate}
-  then $\sim_M$ defines a dependence relation of a matroid on $S$.
-\end{block}
+  then $\sim_M$ defines a matroid on $S$.
+  \end{minipage}
+\end{tabular}
+
+
 
 \end{frame}
 
@@ -456,14 +482,92 @@ For a family of two-sided
 
 \begin{frame}
 \frametitle{Reminder: Graphical approaches}
-\end{frame}
 
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
+    \end{tikzpicture}
+
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    \begin{itemize}
+    \item Provides weights $w_{i,I}$ for each elementary hypotheses
+      $H_i$ and each non-empty subset $I \subset S$
+    \item Weights are used to define a closed test procedure of
+      weighted intersection hypotheses tests
+    \item We have $\sum_{i \in S} w_{i,I} \leq 1$ (conservative),
+    \item and $w_{i,I} \leq w_{i,J}$ for $J \subseteq I$ (consonance).
+    \end{itemize}
+  \end{minipage}
+\end{tabular}
+\end{frame}
 
 
 \begin{frame}
-\frametitle{Hierarchical tests}
+  \frametitle{Example: Hierarchical LSD}
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \input{lsd2.tex}
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    \begin{itemize}
+    \item 3 Hypotheses:
+      \begin{enumerate}
+      \item Placebo vs. High Dose
+      \item Placebo vs. Low Dose
+      \item High Dose vs. Low Dose
+      \end{enumerate}
+    \item Prefixed sequence: $H_1 \rightarrow H_2 \rightarrow H_3$
+    \item Test $H_1$ at level $\alpha$
+    \item If we reject $H_1$ test $H_2$ and $H_3$ at level $\alpha$
+      simultaneously
+    \item Can we generalize this?
+    \end{itemize}
+  \end{minipage}
+\end{tabular}
+
 \end{frame}
 
+\begin{frame}
+  \frametitle{Fixed sequence test of pairwise mean comparisons}
+\begin{itemize}
+\item {\bf Picture of hierarchical test hereabouts}
+\end{itemize}
+
+\begin{block}{Theorem}
+  Assume that $M(\mathscr{H})$ neither contains loops nor
+  parallels. Assume that hypotheses $H_1$ through $H_r$ have been
+  rejected. Consider that hypotheses $H_{r+1}$ through $H_{r+t}$ are to
+  be tested using at level $\alpha_r$ according to a prefixed order.
+  If for some $1 \leq s \leq t$ holds
+  \begin{equation}
+    \label{eq:cond.hierarchical}
+    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{l,k\},
+  \end{equation}
+  hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
+  at full level $\alpha_ra$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Multiple doses}
+
+
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \begin{tikzpicture}[overlay]
+      \node[yshift=70bp,xshift=-40bp] at (current page.south west){\input{lsd4.tex}};
+    \end{tikzpicture}
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[yshift=100bp,xshift=160bp] at (current page.north west){\input{lsd4t.tex}};
+    \end{tikzpicture}
+  \end{minipage}
+\end{tabular}
+\end{frame}
 
 
 \begin{frame}
