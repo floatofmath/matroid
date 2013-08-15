@@ -1,4 +1,5 @@
 \documentclass[a4paper,12pt]{article}
+\usepackage{amsthm}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{graphicx}
@@ -21,7 +22,8 @@
 \newtheorem{bsp}{Example}
 \usepackage{natbib}
 \usepackage{color}
-\newenvironment{proof}[1][Proof]{\noindent\textbf{#1:} }{}
+
+%\newenvironment{proof}[1][Proof]{\noindent\textbf{#1:} }{}
 \newcommand{\bs}[1]{\boldsymbol{#1}}
 \usepackage{authblk}
 \usepackage{lineno}
@@ -488,7 +490,7 @@ For convenience we reproduce here some of the properties of the cycle
 matroid $M$ of a graph $G$. 
 
 \begin{proposition}{Properties of $M$ (Welsh, 2010)}
-\label{the:cyclemat}
+  The following properties hold for the cycle matroid of a graph $G$:
   \begin{enumerate}
   \item The cycles of $G$ are the circuits of $M$ 
   \item The spanning forests of $G$ are the bases of $M$
@@ -513,6 +515,7 @@ matroid $M$ of a graph $G$.
     \end{displaymath}
 
   \end{enumerate}
+\label{the:cyclemat}
 \end{proposition}
 
 Next we give some useful notation and results on exhaustive index sets
@@ -657,7 +660,7 @@ they are the same matroid
   of the comparigram $G(\dot{S})$
 \end{corollary}
 
-Accordingly all porperties given in \ref{the:cyclemat} also hold for
+Accordingly all porperties given in Proposition \ref{the:cyclemat} also hold for
 the matroid on exhaustive sets. 
 
 The following theorem shows an important connection between the flats
@@ -759,16 +762,20 @@ intersection.
 \begin{theorem}
   Consider a system of logically dependent hypotheses $\mathscr{H}$
   with dependence relation $\sim$ and associated matroid
-  $M(\mathscr{H})$. Assume that $M(\mathscr{H})$ neither contains
-  loops nor parallels. Consider a hierarchical testing procedure that
-  tests $H_{i}$ at level $\alpha$ according to a prefixed
-  order. Without loss of generality assume that $H_i$ are indexed
-  according to the fixed rejection sequence $(1,...,n)$. Given 
-  that hypotheses with indeces $1$ through $r$ have been
-  rejected and if for $r+1$ to $r+s$ holds
+  $M(\mathscr{H})$.   Assume that $M(\mathscr{H})$ neither contains loops nor
+  parallels. Assume that hypotheses $H_1$ through $H_r$ have been
+  rejected. Consider that hypotheses $H_{r+1}$ through $H_{r+t}$ are to
+  be tested at level $\alpha$ according to a prefixed order.
+  If for some $1 \leq s \leq t$ holds
   \begin{equation}
     \label{eq:cond.hierarchical}
-    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{l,k\},
+    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{(r+l),(r+k)\},
+  \end{equation}
+  hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
+  at full level $\alpha$.
+  \begin{equation}
+    \label{eq:cond.hierarchical}
+    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{r+l,k\},
   \end{equation}
   hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
   at full level $\alpha$.
@@ -777,24 +784,26 @@ intersection.
 \begin{proof}
   We show that given $p_{r+k} \leq \alpha$ for some $1 \leq k \leq s$
   all exhaustive sets $E \in \mathscr{L}_{r+k} = \{E \in \mathscr{L}:
-  r+k \in E\}$ are rejected by the stepwise procedure. Since $p_{r+k}
-  \leq \alpha$ implies rejection of all $E$ such that $\min E \geq
-  r+k$, it remains to be shown that the stepwise procedure rejects
-  $H_E$ for all exhaustive sets with $\min E < r+k$. Note that $\{E
-  \in \mathscr{L}: \min E < r+k\} = \overline{\underline{E}}_1^r \cup
-  \overline{\underline{E}}^{r+k-1}_{r+1}$ where
-  $\overline{\underline{E}}^b_a := \{\sigma I: \text{for all } I
-  \subseteq S, a \leq \min I \leq b\}$. For $ E \in
-  \overline{\underline{E}}_1^r$ follows since $p_i \leq \alpha$ for $i
-  \leq r$.
+  r+k \in E\}$ are rejected by the stepwise procedure. We have
+  $\mathscr{L}_{r+k} = \{\sigma I:I \subseteq S, (r+k) \in
+  I\}$. $p_{r+k} \leq \alpha$ implies rejection of all $I \subseteq S$ such that
+  $\min I = r+k$. It remains to be shown that the stepwise procedure
+  rejects $H_E$ for all exhaustive sets with $\min E < r+k$. We have 
+  $\{E \in \mathscr{L}_{r+k}: \min E < r+k\} = \{\sigma I: I \subseteq
+  S, \min I \leq r\} \cup \{\sigma I: I \subseteq S, r < \min I <
+  r+k\}$. For all $E \in \{\sigma I: I \subseteq
+  S, \min I \leq r\}$ rejection of $H_E$ follows from rejection of
+  $H_i$, $i \leq r$. 
 
-  Consider any set $I$ with $r < \min I < k$ then there is an $i \sim
-  \{\min I,k\}$ with $i \leq r$. Consequently, $i \in \sigma \{\min
-  I,k\}$ and also $\sigma I$. Therefore, we have $i \in E$ for all $E
-  \in \overline{\underline{E}}^{r+k-1}_{r+1}$. Rejection of these sets
-  follows from rejection of $H_i$, $i \leq r$, which completes the
-  proof.
+  Consider any set $I$ with $r < \min I < r+k$ then there is an $i
+  \leq r$ such that $i \sim \{\min I,k\}$. Consequently, $i \in \sigma
+  \{\min I,k\} \subseteq \sigma I$. Therefore, we have $i \in E$ for
+  all $E \in \{\sigma I: I \subseteq S, r < \min I < r+k\}$. Rejection
+  of the corresponding intersection hypotheses follows from rejection
+  of $H_i$, $i \leq r$, which completes the proof.
 \end{proof}
+
+
 
 Note that the condition that $M(\mathscr{H})$ contains neither loops
 nor parallels is not a serious restriction. A loop in terms of systems
