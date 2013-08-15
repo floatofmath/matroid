@@ -543,7 +543,7 @@ For a family of two-sided
   If for some $1 \leq s \leq t$ holds
   \begin{equation}
     \label{eq:cond.hierarchical}
-    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{l,k\},
+    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{(r+l),(r+k)\},
   \end{equation}
   hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
   at full level $\alpha_ra$.
@@ -569,6 +569,25 @@ For a family of two-sided
 \end{tabular}
 \end{frame}
 
+\begin{frame}
+  \frametitle{General weighting strategies}
+  \framesubtitle{QVA Example}
+
+
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
+    \end{tikzpicture}
+
+  \end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[yshift=-50bp,xshift=-180bp] at (current page.north east){\input{qvameans}};
+  \end{tikzpicture}
+  \end{minipage}
+\end{tabular}
+\end{frame}
 
 \begin{frame}
 \frametitle{General weighting strategies}

@@ -1,0 +1,18 @@
+\begin{tikzpicture}[transform canvas={scale=.8},scale=.6]
+
+\node (H1) at (75bp,-225bp)[draw,circle,fill=white] {$H1$};
+\node (D1) at (225bp,-375bp)[draw,circle,fill=white] {$D1$};
+\node (D2) at (375bp,-325bp)[draw,circle,fill=white] {$D2$};
+\node (D3) at (375bp,-125bp)[draw,circle,fill=white] {$D3$};
+\node (D4) at (225bp,-75bp)[draw,circle,fill=white] {$D4$};
+\draw [line width=1pt] (H1) to (112bp, -262bp) node[fill=blue!20] {$H_{5}$} to (D1);
+\draw [line width=1pt] (H1) to (150bp, -250bp) node[fill=blue!20] {$H_{3}$} to (D2);
+\draw [line width=1pt] (H1) to (150bp, -200bp) node[fill=blue!20] {$H_{2}$} to (D3);
+\draw [line width=1pt] (H1) to (112bp, -188bp) node[fill=blue!20] {$H_{1}$} to (D4);
+\draw [line width=1pt] (D2) to (338bp, -337bp) node[fill=blue!20] {$H_{9}$} to (D1);
+\draw [line width=1pt] (D3) to (338bp, -187bp) node[fill=blue!20] {$H_{7}$} to (D1);
+\draw [line width=1pt] (D3) to (375bp, -175bp) node[fill=blue!20] {$H_{10}$} to (D2);
+\draw [line width=1pt] (D4) to (225bp, -150bp) node[fill=blue!20] {$H_{6}$} to (D1);
+\draw [line width=1pt] (D4) to (262bp, -137bp) node[fill=blue!20] {$H_{8}$} to (D2);
+\draw [line width=1pt] (D4) to (262bp, -87bp) node[fill=blue!20] {$H_{4}$} to (D3);
+\end{tikzpicture}

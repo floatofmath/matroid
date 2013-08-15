@@ -1,0 +1,16 @@
+\begin{tikzpicture}[transform canvas={scale=0.6},scale=.7]
+
+\node (QVA) at (75bp,-275bp)[draw,circle,fill=white] {$QVA$};
+\node (QAB) at (225bp,-225bp)[draw,circle,fill=white] {$QAB$};
+\node (NVA) at (375bp,-275bp)[draw,circle,fill=white] {$NVA$};
+\node (Pl) at (225bp,-75bp)[draw,circle,fill=white] {$Pl$};
+\node (Tio) at (225bp,-375bp)[draw,circle,fill=white] {$Tio$};
+\node (SE) at (75bp,-425bp)[draw,circle,fill=white] {$SE$};
+\draw [line width=1pt] (QVA) to (112bp, -263bp) node[fill=blue!20] {$H_{4}$} to (QAB);
+\draw [line width=1pt] (QVA) to (150bp, -275bp) node[fill=blue!20] {$H_{5}$} to (NVA);
+\draw [line width=1pt] (QVA) to (112bp, -300bp) node[fill=blue!20] {$H_{6}$} to (Tio);
+\draw [line width=1pt] (QVA) to (75bp, -350bp) node[fill=blue!20] {$H_{7}$} to (SE);
+\draw [line width=1pt] (Pl) to (188bp, -125bp) node[fill=blue!20] {$H_{1}$} to (QVA);
+\draw [line width=1pt] (Pl) to (225bp, -150bp) node[fill=blue!20] {$H_{2}$} to (QAB);
+\draw [line width=1pt] (Pl) to (262bp, -125bp) node[fill=blue!20] {$H_{3}$} to (NVA);
+\end{tikzpicture}
