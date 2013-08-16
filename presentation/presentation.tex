@@ -40,6 +40,7 @@
   pdfcreator={Emacs Org-mode version 7.8.11}}
 
 \begin{document}
+\frametitle{Matroids}
 
 \maketitle
 
@@ -90,10 +91,6 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Example 1: 4 Groups}
-\input{full4ext}
-\end{frame}
 
 
 \begin{frame}
@@ -117,15 +114,17 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \end{itemize} % ends low level
 \end{frame}
 
-
-
-
-
-
 \begin{frame}
-\frametitle{Example 1: 4 Means}
-\input{full4}
+\frametitle{Example 1: 4 Groups}
+\input{full4ext}
 \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{Example 1: 4 Means}
+% \input{full4}
+% \end{frame}
 
 
 
@@ -198,7 +197,9 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \item $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$, induces a
   dependence relation $\sim_H$ on $\mathcal{P}(S)$
 \item $H_I$ independent iff for all $i \in I$, $i \nsim_H I$,
-\item $I$ independent $\Leftrightarrow$ $H_{I} \subsetneq  H_{I\setminus i}$
+\item $I$ independent $\Leftrightarrow$ $H_{I} \subsetneq
+  H_{I\setminus i}$ for all $i \in I$
+\pause
 \item For pairwise comparisons $I$ independent iff there are no cycles in $\mathscr{G}_I$
 \item For general contrast tests $I$ independent iff $\bs{C_I}$ has full
   column rank
@@ -215,18 +216,16 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \frametitle{Matroids}
 \begin{itemize}
 
-
-\item A matroid on $S$ endows $\mathcal{P}(S)$ with an algebraic
-  structure 
 \item Matroids generalize the structures of graphs and vector spaces,
-  \eg circuits, bases, independent sets
-\item Many ways to define a matroid
+  \eg cycles, bases, independent sets
+\item A matroid $M$ on $S$ endows $\mathcal{P}(S)$ with an algebraic
+  structure 
+\item Cryptomorphism: many ways to define a matroid: 
   \begin{itemize}
-  \item From a graph perspective: Circuit axioms
-  \item From a vector space perspective: Independence axioms
+  \item From a graph perspective: Circuit axioms.
+  \item From a vector space perspective: Independence axioms.
   \end{itemize}
 \item There is a dual matroid $M^*$ which can be helpful for proofs and algorithms 
-\item \textbf{/Some illustration hereabouts/}
 \end{itemize} % ends low level
 \end{frame}
 
@@ -238,7 +237,8 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 
 \begin{tabular}{ll}
   \begin{minipage}{.4\textwidth}
-    \input{cycle}
+    \only<2->{\input{cycle}}
+.
   \end{minipage} &
   \begin{minipage}{.6\textwidth}
     Consider $S$ and a collection of subsets $\mathscr{C}$ for which holds
@@ -317,7 +317,50 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 
 \end{frame}
 
-\begin{frame}{Maximally independent sets}
+\section{Matroids from logically dependent hypotheses}
+\begin{frame}
+  \frametitle{Dependent hypotheses}
+  \begin{block}{Equivalence of dependence relations $\sim_H = \sim_M$}
+    \begin{itemize}
+    \item<1-> $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$
+    \item<2-> Does this mean $\mathscr{H}$ defines a matroid $M$, such that
+      $\sim_H = \sim_M$?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Matroids from logically dependent hypotheses}
+
+  \begin{block}{Two-sided pariwise comparisons}
+    For a family of two-sided pairwise mean comparisons $H_i$, $i \in
+    S$, an elementary hypotheses $H_j$ depends on intersection
+    hypotheses $H_I$ iff the corresponding edge $e_j$ is dependent on
+    the edge set $\{e_i:i \in I\}$ of the cycle matroid defined by 
+    $\mathscr{G}_I$.   
+  \end{block}
+
+  \begin{block}{Two-sided linear contrast tests}
+    For a family of two-sided general contrast tests $H_i$, $i \in S$,
+    an elementary hypothesis $H_j$ depends on intersection hypotheses
+    $H_I$ iff the corresponding contrast vector $\bs{c_j}$ is
+    dependent on the column vectors of the matrix $\bs{C}_I$ in the
+    vectorial matroid defined by $\bs{C}$ on $\mathbb{R}^m$.
+  \end{block}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Matroids from null hypotheses}
+  {\Large What is it good for?\\
+  \invisible<1>{Structure}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Maximally independent sets}
   \begin{itemize}
   \item Bases are maximally independent sets of $S$
   \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
@@ -326,11 +369,13 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
   \end{itemize}
 \end{frame}
 
+
+
 \begin{frame}
 \frametitle{Maximally dependent sets}
 \begin{itemize}
 \item The closure of a set $\sigma I = \{i \in S: i \sim I\}$
-\item Closed sets {\em flats}: $\mathscr{L} = \{I \subseteq S: \sigma I = I\}$
+\item Closed sets {\em flats}: $\mathscr{L} = \{\sigma I: I \subseteq S\}$
 \item Hyperplanes are flats of rank $\rho S - 1$
 \item All flats are given by closing hyperplanes under intersection
 \item Circuits in $M^*$ are the complements of hyperplanes in $M$
@@ -352,65 +397,93 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \only<5>{\input{closure}}
 \end{frame}
 
-\section{Matroids from logically dependent hypotheses}
 
 
 
-\begin{frame}
-\frametitle{Matroids from logically dependent hypotheses}
 
-  \begin{block}{Theorem}
-    For a family of two-sided pairwise mean comparisons $H_i$, $i \in
-    S$, an intersection hypotheses $H_I$ is independent iff the
-    corresponding edge set $\{e_i:i \in I\}$ is independent in the
-    cycle matroid on $\mathscr{G}_I$.  
-
-For a family of two-sided
-    general contrast tests $H_i$, $i \in S$, an intersection
-    hypotheses $H_I$ is independent iff the corresponding contrast
-    matrix $\bs{C}_I$ is independent in the vectorial matroid on
-    $\mathbb{R}^m$.
-
-    \begin{displaymath}
-      i \sim_H I \Leftrightarrow i \sim_M I
-    \end{displaymath}
-  \end{block}
-
-
-\end{frame}
 
 
 
 \begin{frame}
-\frametitle{Closed test procedure}
+\frametitle{Flats}
 \begin{itemize}
 
 \item The flats of a matroid are closed under intersection
 
 \item Every elementary hypothesis is a flat
+\item For each $I \subseteq S$, $H_I = H_{\sigma I}$
+\item Define a stepwise procedure on the flats of $M$
 
-\item Using local level-$\alpha$ tests for each flat we have a closed test procedure that controls the FWER in the strong sense (Closed test principle)
 
 \end{itemize} % ends low level
 \end{frame}
-
-
 
 \begin{frame}
-\frametitle{Examples}
-\begin{itemize}
+  \frametitle{Stepwise test procedure}
+  \begin{block}{Multiple testing procedure for logically related hypotheses}
+    Assume that $\mathscr{H}$ with dependence relation $\sim_H$
+    defines a matroid on $M$ on $S$. Then a test procedure that
+    rejects elementary hypotheses $H_i$ if all $H_E$, $i \in E$, $E
+    \in \mathscr{L}$ are rejected using a local level-$\alpha$ test
+    controls the FWER in the strong sense.
+  \end{block}
 
-\item Pairwise comparisons
-
-\item The flats of the complete graph correspond to the partitions of
-  $\{1,...,m\}$
-\item This provides efficient methods to generate all flats for
-  pairwise mean comparisons \cite{er1988fast,knuth2005art,kokosinski2006new}
-
-\item The flats of a matroid generate a lattice, procedures testing not all possible comparisons correspond to intervals on that lattice
-
-\end{itemize} % ends low level
 \end{frame}
+
+\begin{frame}
+  \frametitle{Stepwise multiple testing procedure on the lattice of
+    flats}
+
+\begin{tabular}{ll}
+  \begin{minipage}{.3\textwidth}
+    \includegraphics<1>[width=1.2\textwidth]{lattice4.pdf}
+    \includegraphics<2>[width=1.2\textwidth]{lattice4accept.pdf}
+    \includegraphics<3>[width=1.2\textwidth]{lattice4reject.pdf}
+    \includegraphics<4>[width=1.2\textwidth]{lattice4rejacc.pdf}\\
+    {\tiny wikipedia:Partition\_of\_a\_Set}
+  \end{minipage} &
+  \begin{minipage}{.7\textwidth}
+  \begin{itemize}
+  \item All flats are given by intersections of hyperpanes
+    $\rightarrow$ knowing all hyperplanes remaining flats are given by
+    intersection of index sets
+  \item Hyperplanes can by found by algorithms that enumerate the
+    circuits of the dual matroid \cite{boros2003algorithms}
+  \item The partial order of flats defined by inclusion defines a
+    geometric lattice
+  \item<2-> Testing only a subset of elementary hypotheses corresponds
+    to intervals
+  \item<3-> Rejection of elementary hypotheses removes intervals
+  \end{itemize}
+
+  \end{minipage}
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}{Matroid procedures for pairwise mean comparisons}
+\begin{tabular}{ll}
+  \begin{minipage}{.3\textwidth}
+    \includegraphics[width=1.1\textwidth]{setpartitions.pdf} \\
+     {\tiny wikipedia:Bell\_number}
+  \end{minipage} &
+  \begin{minipage}{.7\textwidth}
+  \begin{itemize}
+  \item Two-sided comparisons of $m$ means
+  \item The cycle matroid of the graph representation
+    provides equivalent dependence structure
+  \item The flats of a (simple) complete graph are
+    isomporphic to the partitions of a set of size $m$
+  \item Efficient algorithms to generate all exhaustive sets by
+    enumeration of set partitions \cite{er1988fast,knuth2005art,kokosinski2006new} 
+  \item The number of flats are $m$-th Bellnumber $-1$ \ie 4, 14,
+    51, 202, 876, 4139, ... 
+  \end{itemize}
+  \end{minipage}
+\end{tabular}
+  
+\end{frame}
+
 
 
 
@@ -419,61 +492,35 @@ For a family of two-sided
 
 \textbf{Old wine in new bottles ((c) L. Hothorn)}
 \begin{itemize}
-\item \cite{westfall1997multiple} checks each intersection hypotheses
-  whether it is flat using dependence arguments.
-\item \cite{westfall2007multiple} provide a branch and bound algorithm
-  to generate all flats. They note that for pairwise comparisons all
-  exhaustive hypotheses are {\em partition hypotheses} 
+\item \cite{shaffer1986modified} represents pairwise comparisons
+  by set partitions 
 \item \cite{bergmann1988improvements} define the concepts of an
   exhaustive sets
 \item \cite{bernhard1991computergestuetzte} shows properties of
   exhaustive sets that are basically {\em closure axioms} of a matroid
   and provides algorithms to check each intersection hypotheses if
   flat using rank function.
-
-  \cite{hommel1999bonferroni} show {\em closure axioms} for exhaustive
-  sets 
-\item Flats <-> Weakly Exhaustive set (Hommel, Bergmann)
-
-\item Lemma 1.5 in (Bernhard) about weakly exhaustive sets are ``closure axioms'' of a matroid
-
-\item Graphical procedures for pairwise comparisons (Weichert) identify dependence using cycle in the graph
-
-
-\item \emph{However:}
-\begin{itemize}
-\item proofs are shorter (more elegant),
-\item efficient algorithms exist to find the flats of matroids,
-\item we may define procedures using independent sets,
-\item \ldots{}
+\item \cite{westfall1997multiple} checks each intersection hypotheses
+  whether it is flat using dependence arguments.
+\item \cite{weichert2000robuste} suggest an MTP based on clique
+  decomposition of the graph
+\item \cite{westfall2007multiple} provide a branch and bound algorithm
+  to generate all flats. They note that for pairwise comparisons all
+  exhaustive hypotheses are {\em partition hypotheses} 
 \end{itemize}
-
-\end{itemize} % ends low level
 \end{frame}
 
 
-\begin{frame}{Matroid procedures for pairwise mean comparisons}
-
-\begin{tabular}{ll}
-  \begin{minipage}{.3\textwidth}
-    \includegraphics[width=1.1\textwidth]{setpartitions.pdf} \\
-     {\tiny wikipedia:Bell\_number}
-  \end{minipage} &
-  \begin{minipage}{.7\textwidth}
+\begin{frame}
+\frametitle{Matroid representation}
   \begin{itemize}
-  \item Two-sided comparisons between $m$ means
-  \item The cycle matroid of the corresponding graph representation
-    provides an equivalent dependence structure
-  \item The flats of a (simple) complete graph are
-    isomporphic to the partitions of a set of size $m$
-  \item Provides an efficient way to generate all exhaustive sets by
-    enumeration of all partitions or hyperplanes \cite{er1988fast,knuth2005art,kokosinski2006new} 
-  \item The number of flats is given by the Bell-numbers \ie 5, 15,
-    52, 203, 877, 4140, ... 
+  \item proofs are shorter (more elegant),
+  \item efficient algorithms exist to find the flats of matroids,
+  \item {\em Scumm principle}\cite{welsh2010matroid} everything
+    important happens at the top (hyperplanes)
+  \item we may define procedures using independent sets,
+  \item \ldots{}
   \end{itemize}
-  \end{minipage}
-\end{tabular}
-  
 \end{frame}
 
 \section{Graphical approaches for logically dependent hypotheses}
@@ -492,8 +539,8 @@ For a family of two-sided
   \end{minipage} &
   \begin{minipage}{.6\textwidth}
     \begin{itemize}
-    \item Provides weights $w_{i,I}$ for each elementary hypotheses
-      $H_i$ and each non-empty subset $I \subset S$
+    \item Provides weights $w_{i,I}$ for each index $i$ and each
+      non-empty subset $I \subset S$
     \item Weights are used to define a closed test procedure of
       weighted intersection hypotheses tests
     \item We have $\sum_{i \in S} w_{i,I} \leq 1$ (conservative),
