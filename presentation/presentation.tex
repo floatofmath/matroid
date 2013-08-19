@@ -17,21 +17,23 @@
 \usepackage{amssymb}
 \usepackage{hyperref}
 \usepackage{bm}
+\usepackage{ulem}
 \tolerance=1000
 \usepackage{amsmath} \usepackage{algorithm} \usepackage{graphicx}
 \usepackage{amssymb} \usepackage{mathrsfs} 
 \newcommand{\bs}[1]{\bm{#1}}
-\newcommand{\ie}{{\em i.e.},~}
-\newcommand{\eg}{{\em e.g.},~}
+\newcommand{\ie}{{\sl i.e.},~}
+\newcommand{\eg}{{\sl e.g.},~}
 \newcommand{\parentd}{../}
-
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\indf}[1]{\mathbf{1}_{\left\{#1\right\}}}
 \providecommand{\alert}[1]{\textbf{#1}}
 \usetheme{Novartis}
 \doNotUseNovartisLogoOnAllSlides
 \doNotUseNovartisLogoOnTitlePage
+\setbeamertemplate{blocks}[rounded][shadow=true]
 
-
-\title{Matroids from families of null hypotheses}
+\title{Matroids \& testing in families of dependent hypotheses}
 \author{Florian Klinglmueller, Willi Maurer}
 \date{\today}
 \hypersetup{
@@ -40,6 +42,7 @@
   pdfcreator={Emacs Org-mode version 7.8.11}}
 
 \begin{document}
+\frametitle{Matroids}
 
 \maketitle
 
@@ -54,78 +57,162 @@
 
 
 
-\section{Logically dependent hypotheses}
+\section{Algebraically dependent hypotheses}
 
 
 \begin{frame}
-\frametitle{Pairwise comparisons, some history }
+\frametitle{Some history:}
+\framesubtitle{Testing hypotheses of no differences in pairwise
+  comparisons of 3 treatments}
 
-Testing hypotheses of no difference in pairwise comparisons of 3 treatments (categories):
-\begin{itemize}
-  \item Parameters: $\mu_1,\mu_2,\mu_3$ ; \\ Hypotheses: $H_1:\mu_1=\mu_2,H_2:\mu_2=\mu_3;H_3:\mu_1=\mu_3$
-  \item A level-$\alpha$ test of $H_ {\{1,2,3\}} = H_1\cap H_2 \cap H_3 : \mu_1=\mu_2=\mu_3$. followed by level-$\alpha$ tests of $H_1,H_2,H_3$ protects the FWER at level $\alpha$.
+% Testing hypotheses of no difference in pairwise comparisons of 3 treatments (categories):
+
+\begin{block}{$H_1:\mu_1=\mu_2,\; H_2:\mu_2=\mu_3,\;H_3:\mu_1=\mu_3$}
+  \begin{enumerate}
+  \item Test $H_ {\{1,2,3\}} = H_1\cap H_2 \cap H_3 :
+    \mu_1=\mu_2=\mu_3$ at level $\alpha$,
+  \item test each $H_1,H_2,H_3$ at level $\alpha$,
+  \end{enumerate}
+  protects the FWER at level $\alpha$.
+\end{block}
+\pause
   \begin{itemize}
-    \item  essentially closed test; no need to test pairwise intersection hypotheses since $H_{{i,j}} = H_{\{1,2,3\}}, i\neq j$,
+    \item  essentially closed test, since %; no need to test pairwise
+                                %intersection hypotheses since 
+        $H_{{i,j}} = H_{\{1,2,3\}}, i\neq j,$
+
     \item  Bonferroni: if one of the hypotheses is rejected at level $\alpha/3$ the others can be tested at level alpha.
     \item  Hierarchical: if a predetermined primary hypothesis is rejected at level $\alpha$ the other two can be tested at level $\alpha$.
     \item  $\Rightarrow$ improves respective Bonferroni-Holm or fixed sequence tests.
   \end{itemize}
-\end{itemize}
+
 \end{frame}
 
 \begin{frame}
-\frametitle{Pairwise comparisons, some history}
+\frametitle{Some history}
+\framesubtitle{Testing hypotheses of no difference in pairwise
+    comparisons of $m>3$ treatments:}
 
-Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments (categories):\\
-\cite{shaffer1986modified}: Modified Sequentially Rejective Multiple test procedures; Example: Modified Bonferroni-Holm
-\begin{itemize}
-  \item "Static":  After j rejections, test remaining hypotheses at level $\alpha/t_j$, $t_j$ = max number of true hypotheses if $j$ are false.
-  \item "Dynamic": After rejecting $H_{i_1},...,H_{i_j}$, test remaining hypotheses at level $\alpha/t^*_j$,  $t^*_j$ = number of true hypotheses if $H_{i_1},...,H_{i_j}$ are false.
-  \item Example: $m=4, n=6$ :
-    \begin{itemize}
-      \item Static: $t_0=6, t_1,t_2,t_3 = 3, t_4=2, t_5=1$
-      \item Dynamic: if, e.g., $H_{\{1,2\}}$ and $H_{\{3,4\}}$ are rejected then only $H_{\{1,3\}}$ and $H_{\{2,3\}}$, or $H_{\{1,4\}}$ and $H_{\{2,3\}}$ can be simultaneously true, hence $t^*_2 = 2 < t_2 =3$ in this case.
-       \end{itemize}
-\end{itemize}
+  Modified Sequentially Rejective
+  Multiple test procedures \cite{shaffer1986modified} % Example: Modified Bonferroni-Holm
+      \begin{itemize}
+      \item "Static":  After j rejections, test remaining hypotheses at level $\alpha/t_j$, $t_j$ = max number of true hypotheses if $j$ are false.
+      \item "Dynamic": After rejecting $H_{i_1},...,H_{i_j}$, test
+        remaining hypotheses at level $\alpha/t^*_j$,  $t^*_j$ =
+        max. number of true hypotheses if $H_{i_1},...,H_{i_j}$ are
+        false.
+      \end{itemize}
+
+
 \end{frame}
 
-
-\begin{frame}
-\frametitle{Example 1: 4 Groups}
-\input{full4ext}
-\end{frame}
 
 
 \begin{frame}
 \frametitle{Pairwise mean comparisons (two-sided)}
-\begin{itemize}
+\begin{tabular}{ll}
 
-\item Consider $\mu_i, i \in \{1,...,m\}$
+  \begin{minipage}{.5\textwidth}
+    \input{full4}
+  \end{minipage} 
+  \begin{minipage}{.5\textwidth}
+    \begin{block}{Graphical representation}
+      \begin{itemize}
+      \item $H_k: \mu_i = \mu_j, k \in S = \{1,...,n\}$, where $n \leq
+        m*(m-1)/2$
 
-\item $H_k: \mu_i = \mu_j, k \in S = \{1,...,n\}$, where $n \leq m*(m-1)/2$
+      \item Undirected graph %$\mathscr{G} = (V,E)$:
+        \begin{itemize}
+        \item vertices correspond to means, 
+          %\emph{i.e.}, $V = \{\mu_1,...,\mu_m\}$,
+        \item edges correspond to hypotheses, 
+          % \emph{i.e.}, $E = \left\{e_1,...,e_n\} \right\}$, $e_\ell = \{\mu_i,\mu_j\}$, $i
+          % \neq j$, and $e_\ell \neq e_k$ for $\ell \neq k$
+        \end{itemize}
+      \item Let $H_I = \bigcap_{k \in I} H_k$, $I \subseteq S$
+      \item $I$ induces a subgraph %$\mathscr{G}_I$ 
+        on the edge set
+        %$E_I=\{e_i: i \in I\}$
+      \end{itemize} % ends low level
+    \end{block}
+  \end{minipage} 
 
-\item Can be represented by an undirected graph $\mathscr{G} = (V,E)$:
-\begin{itemize}
-\item vertices correspond to means, \emph{i.e.}, $V = \{\mu_1,...,\mu_m\}$,
-\item edges correspond to hypotheses, \emph{i.e.}, $E =
-      \left\{e_1,...,e_n\} \right\}$, $e_l = \{\mu_i,\mu_j\}$, $i \neq
-      j$, and $e_l \neq e_k$ for $l \neq k$
-\end{itemize}
-\item Let $H_I = \bigcap_{k \in I} H_k$, $I \subseteq S$
-\item $I$ induces a subgraph $\mathscr{G}_I$ on the edge set $E_I=\{e_i: i
-  \in I\}$
-\end{itemize} % ends low level
+\end{tabular}
 \end{frame}
 
-
-
+% \begin{block}{Example: $m=4, n=6$ :}
+%       \begin{itemize}
+%       \item Static: $t_0=6, t_1,t_2,t_3 = 3, t_4=2, t_5=1$
+%       \item Dynamic: $t^*_j \le t_j$, hence more powerful than
+%         "static"
+%       \end{itemize}
+%   \end{block}
 
 
 
 \begin{frame}
-\frametitle{Example 1: 4 Means}
-\input{full4}
+\frametitle{Example: Modified Bonferroni Holm \cite{shaffer1986modified}}
+\begin{tabular}{ll}
+  \begin{minipage}{.4\textwidth}
+
+    \input{shaffer}
+\end{minipage} &
+  \begin{minipage}{.6\textwidth}
+    \begin{block}{$m=4, n=6, \only<2->{j=2}$}
+      % \begin{itemize}
+      % \item "Static": $t_j$ = max number of true hypotheses if $j$ are
+      %   false.
+      % \item "Dynamic": $t^*_j $ = max. number of true hypotheses if
+      %   $H_{i_1},...,H_{i_j}$ are false.
+%      \item Example:  \only<3->{$ j = 2$ :}
+        \begin{description}
+        \item<3->[Static:]  $H_1$ and $H_2$ are false
+            $\Rightarrow$ $t_2 = 3$ (at most $H_4, H_5 $ and $H_6$ can be
+            simultaneously true)
+        \item<7->[Dynamic:] $H_1$ and $H_6$ are false $\Rightarrow$
+          $t^*_2 = 2 < t_2 =3$ (only $H_3$, $H_4$, or $H_2$, $H_5$ can be
+            simultaneously true)
+        \end{description}
+      
+ %     \end{itemize} % ends low level
+    \end{block}
+  \end{minipage}
+\end{tabular}
 \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Pairwise mean comparisons (two-sided)}
+% \begin{itemize}
+
+% \item Consider $\mu_i, i \in \{1,...,m\}$
+
+% \item $H_k: \mu_i = \mu_j, k \in S = \{1,...,n\}$, where $n \leq m*(m-1)/2$
+
+% \item Can be represented by an undirected graph $\mathscr{G} = (V,E)$:
+% \begin{itemize}
+% \item vertices correspond to means, \emph{i.e.}, $V = \{\mu_1,...,\mu_m\}$,
+% \item edges correspond to hypotheses, \emph{i.e.}, $E =
+%      \left\{e_1,...,e_n\} \right\}$, $e_l = \{\mu_i,\mu_j\}$, $i \neq
+%      j$, and $e_l \neq e_k$ for $l \neq k$
+% \end{itemize}
+% \item Let $H_I = \bigcap_{k \in I} H_k$, $I \subseteq S$
+% \item $I$ induces a subgraph $\mathscr{G}_I$ on the edge set $E_I=\{e_i: i
+%  \in I\}$
+% \end{itemize} % ends low level
+% \end{frame}
+
+% \begin{frame}
+% \frametitle{Example 1: 4 Groups}
+% \input{full4ext}
+% \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{Example 1: 4 Means}
+% \input{full4}
+% \end{frame}
 
 
 
@@ -136,15 +223,15 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \item Consider $m$-variate random variable $\bs{X} \sim F(\bs{\mu})$, $\bs{\mu} = (\mu_1,...,\mu_m)^t$
 
 \item Contrasts $\bs{c}_i = (c_{i1},...,c_{im})^t$, $\sum_{j = 1}^m
-  c_{ij} = 0$
+ c_{ij} = 0$
 \item Contrast matrix  $\bs{C} = \left( \bs{c}_1,...,\bs{c}_n\right)$,
-  with sub-matrix $\bs{C}_I = \left( \bs{c}_i \right)_{i \in
-    I}$
+ with sub-matrix $\bs{C}_I = \left( \bs{c}_i \right)_{i \in
+   I}$
 \item Elementary hypotheses $H_i: \bs{c}_i^t\bs{\mu} = 0$,
 \item Intersection hypotheses $H_I: \bs{C}_I^t\bs{\mu} = 0$
 
 \item Elementary hypotheses are represented by column vectors,
-  intersection hypotheses by sub-matrices of the contrast matrix
+ intersection hypotheses by sub-matrices of the contrast matrix
 
 \end{itemize} % ends low level
 \end{frame}
@@ -156,35 +243,40 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 
 
 \begin{tabular}{ll}
-  \begin{minipage}{.45\textwidth}
-    All pairwise comparisons of 4 means 
-    \begin{displaymath}
-    \bs{C}^t = \left(
-      \begin{array}{llll}
-      -1 & 1 & 0 & 0 \\
-      -1 & 0 & 1 & 0 \\
-      -1 & 0 & 0 & 1 \\
-      0 & -1 & 1 & 0 \\
-      0 & -1 & 0 & 1 \\
-      0 & 0 & -1 & 1 
-    \end{array}
-    \right)
-    \end{displaymath}
-  \end{minipage} &
-  \begin{minipage}{.55\textwidth}
-    Modified Williams Contrasts for Dose Response
-    \begin{displaymath}
-      \bs{C}^t=\left(
-      \begin{array}{llll}
-        1 & 0 & 0 & -1\\
-        1 & 0 &-.51 & -.49 \\
-        1 & -.35 & -.33 & -.32\\
-        .51 & .49 & -.51 & -.48\\
-        .51 & .49 & 0 &  -1\\
-        .35 & .33 & .32& -1
-      \end{array}\right)
-    \end{displaymath}
-  \end{minipage}
+ \begin{minipage}{.44\textwidth}
+   \begin{block}{\footnotesize Pairwise comparisons of 4 means}
+     {\footnotesize
+       \begin{displaymath}
+         \bs{C}^t = \left(
+           \begin{array}{rrrr}
+             -1 & 1 & 0 & 0 \\
+             -1 & 0 & 1 & 0 \\
+             -1 & 0 & 0 & 1 \\
+             0 & -1 & 1 & 0 \\
+             0 & -1 & 0 & 1 \\
+             0 & 0 & -1 & 1
+           \end{array}
+         \right)
+       \end{displaymath}}
+   \end{block}
+ \end{minipage} &
+ \begin{minipage}{.56\textwidth}
+\pause
+   \begin{block}{\footnotesize Modified Williams Contrasts for Dose Response \cite{bretz2010multiple}}
+      {\footnotesize
+       \begin{displaymath}
+         \bs{C}^t=\left(
+           \begin{array}{rrrr}
+             1 & 0 & 0 & -1\\
+             1 & 0 &-.51 & -.49 \\
+             1 & -.35 & -.33 & -.32\\
+             .51 & .49 & -.51 & -.48\\
+             .51 & .49 & 0 &  -1\\
+             .35 & .33 & .32& -1
+           \end{array}\right)
+       \end{displaymath}}
+   \end{block}
+ \end{minipage}
 \end{tabular}
 
 \end{frame}
@@ -195,13 +287,14 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \frametitle{Dependent null hypotheses}
 
 \begin{itemize}
-\item $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$, induces a
-  dependence relation $\sim_H$ on $\mathcal{P}(S)$
-\item $H_I$ independent iff for all $i \in I$, $i \nsim_H I$,
-\item $I$ independent $\Leftrightarrow$ $H_{I} \subsetneq  H_{I\setminus i}$
+\item $H_i$ depends on $H_I$: $H_{I \cup i} = H_{I}$
+\item induces a dependence relation $i \sim_H I$ on index sets $I \in \mathcal{P}(S)$
+\item $I$ independent iff for all $i
+  \in I$ $i \nsim_H I\setminus i$ (\ie $H_{I} \subsetneq H_{I\setminus i}$)
+\pause
 \item For pairwise comparisons $I$ independent iff there are no cycles in $\mathscr{G}_I$
 \item For general contrast tests $I$ independent iff $\bs{C_I}$ has full
-  column rank
+ column rank
 \end{itemize} % ends low level
 \end{frame}
 
@@ -215,18 +308,16 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \frametitle{Matroids}
 \begin{itemize}
 
-
-\item A matroid on $S$ endows $\mathcal{P}(S)$ with an algebraic
-  structure 
 \item Matroids generalize the structures of graphs and vector spaces,
-  \eg circuits, bases, independent sets
-\item Many ways to define a matroid
-  \begin{itemize}
-  \item From a graph perspective: Circuit axioms
-  \item From a vector space perspective: Independence axioms
-  \end{itemize}
-\item There is a dual matroid $M^*$ which can be helpful for proofs and algorithms 
-\item \textbf{/Some illustration hereabouts/}
+ \eg cycles, bases, independent sets
+\item A matroid $M$ on $S$ endows $\mathcal{P}(S)$ with an algebraic
+ structure
+\item {\em Cryptomorphism} \ie many ways to define a matroid:
+ \begin{itemize}
+ \item From a graph perspective: Circuit axioms.
+ \item From a vector space perspective: Independence axioms.
+ \end{itemize}
+%\item There is a dual matroid $M^*$ which can be helpful for proofs and algorithms
 \end{itemize} % ends low level
 \end{frame}
 
@@ -237,59 +328,67 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \input{cycle}
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-    Consider $S$ and a collection of subsets $\mathscr{C}$ for which holds
-    \begin{enumerate}
-    \item $C_1 \neq C_2 \in \mathscr{C}$, then $C_1 \nsubseteq C_2$,
-    \item $C_1 \neq C_2 \in \mathscr{C}$, and $i \in C_1 \cap C_2$ then
-      $\exists C_3 \subseteq (C_1 \cup C_2)$,
-    \end{enumerate}
-    then $\mathscr{C}$ is the set of circuits of a matroid $M$ on $S$
-  \end{minipage}
+ \begin{minipage}{.5\textwidth}
+   \begin{block}{Circuits of a matroid $M$ on $S$:}
+       A collection $\mathscr{C}$ of subsets of $S$
+       for which holds
+     \begin{enumerate}
+     \item $C_1 \neq C_2 \in \mathscr{C}$, then $C_1 \nsubseteq C_2$,
+     \item $C_1 \neq C_2 \in \mathscr{C}$, and $i \in C_1 \cap C_2$
+       then $\exists C_3 \subseteq (C_1 \cup C_2)\setminus i$,
+     \end{enumerate}
+   \end{block}
+
+ \end{minipage} &
+
+ \begin{minipage}{.5\textwidth}
+   \only<2->{\input{cycle}}
+ \end{minipage} 
 \end{tabular}
-
-
 
 \end{frame}
 
-% \item \textbf{/Some illustration hereabouts/}
-
-% \end{itemize} % ends low level
-% \end{frame}
 
 
 \begin{frame}
 \frametitle{Independence axioms}
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-  \only<1>{\input{independent}}
-  \only<2>{\input{cycle}}
-  \invisible<1>{\alert{\footnotesize minimally dependent set!}}
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-  Consider $S$ and a collection of subsets $\mathscr{I}$ for which
-  holds
-  \begin{enumerate}
-  \item $\emptyset \in \mathscr{I}$,
-  \item $I \in \mathscr{I}$ and $J \subseteq I$ then $J \in
-    \mathscr{I}$,
-  \item $I,J \in \mathscr{I}$, $|I| = |J + 1|$ then $\exists j \in I
-    \setminus J$ such that $J \cup i \in \mathscr{I}$,
-  \end{enumerate}
-  then $\mathscr{I}$ is the set of independent sets of a matroid $M$
-  on $S$. This defines an independence relation $i \nsim_M I$ iff
-  $I\cap i \in \mathscr{I}$. 
+ \begin{minipage}{.5\textwidth}
+   \begin{block}{Independent sets of a matroid $M$ on $S$}
+     A a collection $\mathscr{I}$ of subsets of $S$ for which
+     holds
+     \begin{enumerate}
+     \item $\emptyset \in \mathscr{I}$,
+     \item $I \in \mathscr{I}$ and $J \subseteq I$ then $J \in
+       \mathscr{I}$,
+     \item $I,J \in \mathscr{I}$, $|I| = |J + 1|$ then $\exists j \in
+       I \setminus J$ such that $J \cup i \in \mathscr{I}$,
+     \end{enumerate}
+   \end{block}
+ \end{minipage} &
 
-  \end{minipage}
+ \begin{minipage}{.5\textwidth}
+ \only<1>{\input{independent}}
+ \only<2>{\input{cycle}}
+ \invisible<1>{\alert{\footnotesize minimally dependent set!}}
+ \end{minipage} 
 \end{tabular}
 
+\end{frame}
 
-
-
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item Circuits are minimally dependent sets (remove any element to
+    get an independent set)
+  \item Independent sets are sets for which no subset of elements is a
+    circuit
+  \item Maximally independent sets are bases (Base axioms)
+  \item Cardinality of largest independent subset is the rank of a set
+    (Rank axioms)
+  \item Maximally dependent sets are called flats (Closure axioms)
+  \end{itemize}
 \end{frame}
 
 
@@ -297,40 +396,85 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \frametitle{Dependence axioms}
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \input{dependent}
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-  Relation $\sim_M$ on elements and subsets of $S$,
-  if for any $x \in S$, and sets $Y,Z \subseteq S$ holds
-  \begin{enumerate}
-  \item $y \sim Y$ for all $y \in Y$
-  \item if $x \sim_M Y$ and $x \nsim_M Y\setminus y$
-    then $y \sim x \cup (Y \setminus y)$
-  \item if $x \sim_M Y$ and for all $y \in Y$, $y \sim_M Z$ then $x \sim_M Z$
-  \end{enumerate}
-  then $\sim_M$ defines a matroid on $S$.
-  \end{minipage}
+ \begin{minipage}{.4\textwidth}
+   \input{dependent}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+ Relation $\sim_M$ on elements and subsets of $S$,
+ if for any $x \in S$, and sets $Y,Z \subseteq S$ holds
+ \begin{enumerate}
+ \item $y \sim Y$ for all $y \in Y$
+ \item if $x \sim_M Y$ and $x \nsim_M Y\setminus y$
+   then $y \sim x \cup (Y \setminus y)$
+ \item if $x \sim_M Y$ and for all $y \in Y$, $y \sim_M Z$ then $x \sim_M Z$
+ \end{enumerate}
+ then $\sim_M$ defines a matroid on $S$.
+ \end{minipage}
 \end{tabular}
 
 
 
 \end{frame}
 
-\begin{frame}{Maximally independent sets}
-  \begin{itemize}
-  \item Bases are maximally independent sets of $S$
-  \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
-  \item Circuits are minimally dependent sets, \ie each subset of $C$
-    with rank $\rho C - 1$ is a maximally independent set of $C$
-  \end{itemize}
+\section{Matroids from algebraically dependent hypotheses}
+\begin{frame}
+ \frametitle{Dependent hypotheses}
+ \begin{block}{Equivalence of dependence relations $\sim_H = \sim_M$}
+   \begin{itemize}
+   \item<1-> $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$
+   \item<2-> Does this mean $\mathscr{H}$ defines a matroid $M$, such that
+     $\sim_H = \sim_M$?
+   \end{itemize}
+ \end{block}
 \end{frame}
+
+
+
+\begin{frame}
+\frametitle{Matroids from algebraically dependent hypotheses}
+
+ \begin{block}{Two-sided pariwise comparisons}
+   For a family of two-sided pairwise mean comparisons $H_i$, $i \in
+   S$, an elementary hypotheses $H_j$ depends on intersection
+   hypotheses $H_I$ iff the corresponding edge $e_j$ is dependent on
+   the edge set $\{e_i:i \in I\}$ of the cycle matroid defined by
+   $\mathscr{G}_I$.
+ \end{block}
+
+ \begin{block}{Two-sided linear contrast tests}
+   For a family of two-sided general contrast tests $H_i$, $i \in S$,
+   an elementary hypothesis $H_j$ depends on intersection hypotheses
+   $H_I$ iff the corresponding contrast vector $\bs{c_j}$ is
+   dependent on the column vectors of the matrix $\bs{C}_I$ in the
+   vectorial matroid defined by $\bs{C}$ on $\mathbb{R}^m$.
+ \end{block}
+
+\end{frame}
+
+
+\begin{frame}
+ \frametitle{Matroids from null hypotheses}
+ {\Large What is it good for?\\
+ \invisible<1>{Structure}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Maximally independent sets}
+ \begin{itemize}
+ \item Bases are maximally independent sets of $S$
+ \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
+ \item Circuits are minimally dependent sets, \ie each subset of $C$
+   with rank $\rho C - 1$ is a maximally independent set of $C$
+ \end{itemize}
+\end{frame}
+
+
 
 \begin{frame}
 \frametitle{Maximally dependent sets}
 \begin{itemize}
 \item The closure of a set $\sigma I = \{i \in S: i \sim I\}$
-\item Closed sets {\em flats}: $\mathscr{L} = \{I \subseteq S: \sigma I = I\}$
+\item Closed sets {\em flats}: $\mathscr{L} = \{\sigma I: I \subseteq S\}$
 \item Hyperplanes are flats of rank $\rho S - 1$
 \item All flats are given by closing hyperplanes under intersection
 \item Circuits in $M^*$ are the complements of hyperplanes in $M$
@@ -340,11 +484,11 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 
 
 \begin{frame}{Examples}
-\framesubtitle<1>{Independent set}  
-\framesubtitle<2>{Base}  
-\framesubtitle<4>{Dependent set}  
-\framesubtitle<3>{Cycle}  
-\framesubtitle<5>{Closure}  
+\framesubtitle<1>{Independent set}
+\framesubtitle<2>{Base}
+\framesubtitle<4>{Dependent set}
+\framesubtitle<3>{Cycle}
+\framesubtitle<5>{Closure}
 \only<1>{\input{independent}}
 \only<2>{\input{base}}
 \only<4>{\input{dependent}}
@@ -352,65 +496,93 @@ Testing hypotheses of no difference in pairwise comparisons of $m>3$ treatments 
 \only<5>{\input{closure}}
 \end{frame}
 
-\section{Matroids from logically dependent hypotheses}
 
 
 
-\begin{frame}
-\frametitle{Matroids from logically dependent hypotheses}
 
-  \begin{block}{Theorem}
-    For a family of two-sided pairwise mean comparisons $H_i$, $i \in
-    S$, an intersection hypotheses $H_I$ is independent iff the
-    corresponding edge set $\{e_i:i \in I\}$ is independent in the
-    cycle matroid on $\mathscr{G}_I$.  
-
-For a family of two-sided
-    general contrast tests $H_i$, $i \in S$, an intersection
-    hypotheses $H_I$ is independent iff the corresponding contrast
-    matrix $\bs{C}_I$ is independent in the vectorial matroid on
-    $\mathbb{R}^m$.
-
-    \begin{displaymath}
-      i \sim_H I \Leftrightarrow i \sim_M I
-    \end{displaymath}
-  \end{block}
-
-
-\end{frame}
 
 
 
 \begin{frame}
-\frametitle{Closed test procedure}
+\frametitle{Flats}
 \begin{itemize}
 
 \item The flats of a matroid are closed under intersection
 
 \item Every elementary hypothesis is a flat
+\item For each $I \subseteq S$, $H_I = H_{\sigma I}$
+\item Define a stepwise procedure on the flats of $M$
 
-\item Using local level-$\alpha$ tests for each flat we have a closed test procedure that controls the FWER in the strong sense (Closed test principle)
 
 \end{itemize} % ends low level
 \end{frame}
-
-
 
 \begin{frame}
-\frametitle{Examples}
-\begin{itemize}
+ \frametitle{Stepwise test procedure}
+ \begin{block}{Multiple testing procedure for algebraically related hypotheses}
+   Assume that $\mathscr{H}$ with dependence relation $\sim_H$
+   defines a matroid on $M$ on $S$. Then a test procedure that
+   rejects elementary hypotheses $H_i$ if all $H_E$, $i \in E$, $E
+   \in \mathscr{L}$ are rejected using a local level-$\alpha$ test
+   controls the FWER in the strong sense.
+ \end{block}
 
-\item Pairwise comparisons
-
-\item The flats of the complete graph correspond to the partitions of
-  $\{1,...,m\}$
-\item This provides efficient methods to generate all flats for
-  pairwise mean comparisons \cite{er1988fast,knuth2005art,kokosinski2006new}
-
-\item The flats of a matroid generate a lattice, procedures testing not all possible comparisons correspond to intervals on that lattice
-
-\end{itemize} % ends low level
 \end{frame}
+
+\begin{frame}
+ \frametitle{Stepwise multiple testing procedure on the lattice of
+   flats}
+
+\begin{tabular}{ll}
+ \begin{minipage}{.3\textwidth}
+   \includegraphics<1>[width=1.2\textwidth]{lattice4.pdf}
+   \includegraphics<2>[width=1.2\textwidth]{lattice4accept.pdf}
+   \includegraphics<3>[width=1.2\textwidth]{lattice4reject.pdf}
+   \includegraphics<4>[width=1.2\textwidth]{lattice4rejacc.pdf}\\
+   {\tiny wikipedia:Partition\_of\_a\_Set}
+ \end{minipage} &
+ \begin{minipage}{.7\textwidth}
+ \begin{itemize}
+ \item All flats are given by intersections of hyperplanes
+   $\rightarrow$ knowing all hyperplanes remaining flats are given by
+   intersection of index sets
+ \item Hyperplanes can by found by algorithms that enumerate the
+   circuits of the dual matroid \cite{boros2003algorithms}
+ \item The partial order of flats defined by inclusion defines a
+   geometric lattice
+ \item<2-> Testing only a subset of elementary hypotheses corresponds
+   to intervals
+ \item<3-> Rejection of elementary hypotheses removes intervals
+ \end{itemize}
+
+ \end{minipage}
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}{Matroid procedures for pairwise mean comparisons}
+\begin{tabular}{ll}
+ \begin{minipage}{.3\textwidth}
+   \includegraphics[width=1.1\textwidth]{setpartitions.pdf} \\
+    {\tiny wikipedia:Bell\_number}
+ \end{minipage} &
+ \begin{minipage}{.7\textwidth}
+ \begin{itemize}
+ \item Two-sided comparisons of $m$ means
+ \item The cycle matroid of the graph representation
+   provides equivalent dependence structure
+ \item The flats of a (simple) complete graph are
+   isomporphic to the partitions of a set of size $m$
+ \item Efficient algorithms to generate all exhaustive sets by
+   enumeration of set partitions \cite{er1988fast,knuth2005art,kokosinski2006new}
+ \item The number of flats are $m$-th Bell-Number $-1$ \ie 4, 14,
+   51, 202, 876, 4139, ...
+ \end{itemize}
+ \end{minipage}
+\end{tabular}
+
+\end{frame}
+
 
 
 
@@ -419,64 +591,39 @@ For a family of two-sided
 
 \textbf{Old wine in new bottles ((c) L. Hothorn)}
 \begin{itemize}
-\item \cite{westfall1997multiple} checks each intersection hypotheses
-  whether it is flat using dependence arguments.
-\item \cite{westfall2007multiple} provide a branch and bound algorithm
-  to generate all flats. They note that for pairwise comparisons all
-  exhaustive hypotheses are {\em partition hypotheses} 
+\item \cite{shaffer1986modified} represents pairwise comparisons
+ by set partitions
 \item \cite{bergmann1988improvements} define the concepts of an
-  exhaustive sets
+ exhaustive sets
 \item \cite{bernhard1991computergestuetzte} shows properties of
-  exhaustive sets that are basically {\em closure axioms} of a matroid
-  and provides algorithms to check each intersection hypotheses if
-  flat using rank function.
-
-  \cite{hommel1999bonferroni} show {\em closure axioms} for exhaustive
-  sets 
-\item Flats <-> Weakly Exhaustive set (Hommel, Bergmann)
-
-\item Lemma 1.5 in (Bernhard) about weakly exhaustive sets are ``closure axioms'' of a matroid
-
-\item Graphical procedures for pairwise comparisons (Weichert) identify dependence using cycle in the graph
-
-
-\item \emph{However:}
-\begin{itemize}
-\item proofs are shorter (more elegant),
-\item efficient algorithms exist to find the flats of matroids,
-\item we may define procedures using independent sets,
-\item \ldots{}
+ exhaustive sets that are basically {\em closure axioms} of a matroid
+ and provides algorithms to check each intersection hypotheses if is
+ a flat using rank function.
+\item \cite{westfall1997multiple} generates flats using dependence
+ arguments in vector spaces.
+\item \cite{weichert2000robuste} suggest an MTP based on clique
+ decomposition of the graph, cliques in the graph are flats
+\item \cite{westfall2007multiple} provide a branch and bound algorithm
+ to generate all flats. They note that for pairwise comparisons all
+ exhaustive hypotheses are {\em partition hypotheses}
 \end{itemize}
-
-\end{itemize} % ends low level
 \end{frame}
 
 
-\begin{frame}{Matroid procedures for pairwise mean comparisons}
-
-\begin{tabular}{ll}
-  \begin{minipage}{.3\textwidth}
-    \includegraphics[width=1.1\textwidth]{setpartitions.pdf} \\
-     {\tiny wikipedia:Bell\_number}
-  \end{minipage} &
-  \begin{minipage}{.7\textwidth}
-  \begin{itemize}
-  \item Two-sided comparisons between $m$ means
-  \item The cycle matroid of the corresponding graph representation
-    provides an equivalent dependence structure
-  \item The flats of a (simple) complete graph are
-    isomporphic to the partitions of a set of size $m$
-  \item Provides an efficient way to generate all exhaustive sets by
-    enumeration of all partitions or hyperplanes \cite{er1988fast,knuth2005art,kokosinski2006new} 
-  \item The number of flats is given by the Bell-numbers \ie 5, 15,
-    52, 203, 877, 4140, ... 
-  \end{itemize}
-  \end{minipage}
-\end{tabular}
-  
+\begin{frame}
+\frametitle{Matroid representation}
+ \begin{itemize}
+ \item proofs are shorter (more elegant),
+ \item efficient algorithms exist to find the flats of matroids,
+ \item {\em Scum principle}\cite{welsh2010matroid} everything
+   important happens at the top (hyperplanes)
+ \item we may define procedures using independent sets,
+ \item \ldots{}
+ \end{itemize}
 \end{frame}
 
-\section{Graphical approaches for logically dependent hypotheses}
+\section{Graphical approaches for algebraically dependent and
+  contextually related hypotheses}
 
 
 
@@ -484,108 +631,109 @@ For a family of two-sided
 \frametitle{Reminder: Graphical approaches}
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \begin{tikzpicture}[remember picture,overlay]
-      \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
-    \end{tikzpicture}
+ \begin{minipage}{.4\textwidth}
+   \begin{tikzpicture}[remember picture,overlay]
+     \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
+   \end{tikzpicture}
 
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-    \begin{itemize}
-    \item Provides weights $w_{i,I}$ for each elementary hypotheses
-      $H_i$ and each non-empty subset $I \subset S$
-    \item Weights are used to define a closed test procedure of
-      weighted intersection hypotheses tests
-    \item We have $\sum_{i \in S} w_{i,I} \leq 1$ (conservative),
-    \item and $w_{i,I} \leq w_{i,J}$ for $J \subseteq I$ (consonance).
-    \end{itemize}
-  \end{minipage}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+   \begin{itemize}
+   \item Provides weights $w_{i,I}$ for each index $i$ and each
+     non-empty subset $I \subset S$
+   \item Weights are used to define a closed test procedure of
+     weighted intersection hypotheses tests
+   \item We have $\sum_{i \in S} w_{i,I} \leq 1$ (conservative),
+   \item and $w_{i,I} \leq w_{i,J}$ for $J \subseteq I$ (consonance).
+   \end{itemize}
+ \end{minipage}
 \end{tabular}
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Example: Hierarchical LSD}
+ \frametitle{Example: Hierarchical LSD}
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \input{lsd2.tex}
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-    \begin{itemize}
-    \item 3 Hypotheses:
-      \begin{enumerate}
-      \item Placebo vs. High Dose
-      \item Placebo vs. Low Dose
-      \item High Dose vs. Low Dose
-      \end{enumerate}
-    \item Prefixed sequence: $H_1 \rightarrow H_2 \rightarrow H_3$
-    \item Test $H_1$ at level $\alpha$
-    \item If we reject $H_1$ test $H_2$ and $H_3$ at level $\alpha$
-      simultaneously
-    \item Can we generalize this?
-    \end{itemize}
-  \end{minipage}
+ \begin{minipage}{.4\textwidth}
+   \input{lsd2.tex}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+   \begin{itemize}
+   \item 3 Hypotheses:
+     \begin{enumerate}
+     \item Placebo vs. High Dose
+     \item Placebo vs. Low Dose
+     \item High Dose vs. Low Dose
+     \end{enumerate}
+   \item Prefixed sequence: $H_1 \rightarrow H_2 \rightarrow H_3$
+   \item Test $H_1$ at level $\alpha$
+   \item If we reject $H_1$ test $H_2$ and $H_3$ at level $\alpha$
+     simultaneously
+   \item Can we generalize this?
+   \end{itemize}
+ \end{minipage}
 \end{tabular}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Fixed sequence test of pairwise mean comparisons}
+ \frametitle{Fixed sequence test of pairwise mean comparisons}
 \begin{itemize}
 \item {\bf Picture of hierarchical test hereabouts}
 \end{itemize}
 
 \begin{block}{Theorem}
-  Assume that $M(\mathscr{H})$ neither contains loops nor
-  parallels. Assume that hypotheses $H_1$ through $H_r$ have been
-  rejected. Consider that hypotheses $H_{r+1}$ through $H_{r+t}$ are
-  to be tested at level $\alpha_r$ according to a prefixed order.  If
-  for some $1 \leq s \leq t$ holds
-  \begin{equation}
-    \label{eq:cond.hierarchical}
-    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{(r+l),(r+k)\},
-  \end{equation}
-  hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
-  at full level $\alpha_ra$.
+ Assume that $M(\mathscr{H})$ neither contains loops nor
+ parallels. Assume that hypotheses $H_1$ through $H_r$ have been
+ rejected. Consider that hypotheses $H_{r+1}$ through $H_{r+t}$ are
+ to be tested at level $\alpha_r$ according to a prefixed order.  If
+ for some $1 \leq s \leq t$ holds
+ \begin{equation}
+   \label{eq:cond.hierarchical}
+   \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{(r+l),(r+k)\},
+ \end{equation}
+ hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
+ at full level $\alpha_ra$.
 \end{block}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example: Multiple doses}
+ \frametitle{Example: Multiple doses}
+
 
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \begin{tikzpicture}[overlay]
-      \node[yshift=70bp,xshift=-40bp] at (current page.south west){\input{lsd4.tex}};
-    \end{tikzpicture}
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-    \begin{tikzpicture}[remember picture,overlay]
-      \node[yshift=100bp,xshift=160bp] at (current page.north west){\input{lsd4t.tex}};
-    \end{tikzpicture}
-  \end{minipage}
+ \begin{minipage}{.4\textwidth}
+   \begin{tikzpicture}[overlay]
+     \node[yshift=70bp,xshift=-40bp] at (current page.south west){\input{lsd4.tex}};
+   \end{tikzpicture}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+   \begin{tikzpicture}[remember picture,overlay]
+     \node[yshift=100bp,xshift=160bp] at (current page.north west){\input{lsd4t.tex}};
+   \end{tikzpicture}
+ \end{minipage}
 \end{tabular}
 \end{frame}
 
 \begin{frame}
-  \frametitle{General weighting strategies}
-  \framesubtitle{QVA Example}
+ \frametitle{General weighting strategies}
+ \framesubtitle{QVA Example}
 
 
 \begin{tabular}{ll}
-  \begin{minipage}{.4\textwidth}
-    \begin{tikzpicture}[remember picture,overlay]
-      \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
-    \end{tikzpicture}
+ \begin{minipage}{.4\textwidth}
+   \begin{tikzpicture}[remember picture,overlay]
+     \node[yshift=-2.5cm,xshift=-1.4cm] at (current page.north west){\input{qvatest}};
+   \end{tikzpicture}
 
-  \end{minipage} &
-  \begin{minipage}{.6\textwidth}
-    \begin{tikzpicture}[remember picture,overlay]
-      \node[yshift=-50bp,xshift=-180bp] at (current page.north east){\input{qvameans}};
-  \end{tikzpicture}
-  \end{minipage}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+   \begin{tikzpicture}[remember picture,overlay]
+     \node[yshift=-50bp,xshift=-180bp] at (current page.north east){\input{qvameans}};
+ \end{tikzpicture}
+ \end{minipage}
 \end{tabular}
 \end{frame}
 
@@ -594,14 +742,14 @@ For a family of two-sided
 
 \begin{enumerate}
 \item Pretest using weighted Bonferroni or conventional graphical
-  approach $R = \{i \in S: H_i \textrm{ rejected by pretest}\}$
+ approach $R = \{i \in S: H_i \textrm{ rejected by pretest}\}$
 \item Compute all matroid hyperplanes $\mathscr{H}$ for the matroid on
-  the remaining hypotheses $I$
+ the remaining hypotheses $I$
 \item $R \gets R \cup \{i: p_i \leq \min_J w_{i,J} \alpha, J \in \mathscr{H}\}$
-\item $A \gets \{\bigcup J: \min_j (p_j / w_{j,J}) > \alpha\}$ 
+\item $A \gets \{\bigcup J: \min_j (p_j / w_{j,J}) > \alpha\}$
 \item $I \gets I \setminus R$
 \item Refine: $\mathscr{H} \gets \{J\in \mathscr{L}: \rho J = \rho
-  \mathscr{H} - 1\}$ 
+ \mathscr{H} - 1\}$
 \item Prune: $\mathscr{H} \gets \{J \in \mathscr{H}: J \cap R = \emptyset\}$
 \item Repeat until $\rho \mathscr {H} = 0$
 \item Reject $R$ and $I \setminus A$
@@ -612,35 +760,162 @@ For a family of two-sided
 
 
 \begin{frame}
-\frametitle{Matroid conditions}
+\frametitle{General Results}
+\begin{itemize}
+\item We give sufficient (and probably necessary) conditions for a
+ general family of hypotheses $\mathscr{H}$ to define a matroid
+\item We give sufficient (and probably necessary) conditions on
+ $\mathscr{H}$ for $\mathscr{L}$ to be the set of strictly exhaustive
+ sets
+\item Systems with one sided hypotheses, and parallel hypotheses (\eg
+ combined non-inferiority/superiority) do not give matroids with
+ $\mathscr{L}$ all strictly exhaustive
+\end{itemize}
+
+
 \end{frame}
 
+\begin{frame}
+ \frametitle{One sided hypotheses}
+ \begin{block}{One-sided linear contrast hypotheses}
+   A family of {\em one sided linear contrast hypotheses} is defined
+   by a contrast matrix $\bs{A} \in \mathbb{R}^{m\times n}$ and
+   vector $\bs{b} \in \mathbb{R}^n$ that define a  family of null
+   hypotheses of the form $\mathscr{H} = \{H_i: \bs{A_i}^t\bs{\mu}
+   \leq b_i,i \in \{1,...,n\}\}$, where $\bs{A}_i$ denotes the $i$-th
+   column of $\bs{A}$ and $b_i$ the $i$-th componenth of $\bs{b}$.
+ \end{block}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Hyperplane arrangement}
+ \begin{itemize}
+ \item Each hypothesis $H_i$ corresponds to a hyperplane $h_i =
+   \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} = b_i\}$
+ \item Each hyperplane $h_i$ divides $\mathbb{R}^m$ into two regions
+   \begin{itemize}
+   \item $h_i^+ = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x} <
+     b_i\}$
+   \item $h_i^- = \{\bs{x} \in \mathbb{R}^m: \bs{A}_i^t\bs{x}
+     > b_i\}$
+   \end{itemize}
+ \item Defines a sign pattern
+   \begin{equation}
+     \label{eq:sign}
+     \delta_i(\bs{x}) = \left\{
+       \begin{array}{ll}
+         + & \text{if } \bs{x} \in h_i^+\\
+         0 & \text{if } \bs{x} \in h_i \\
+         - & \text{if } \bs{x} \in h_i^-\\
+       \end{array}\right.
+   \end{equation}
+ \item $\delta_i$ is $-$ if $H_i$ false at $x$, or $0$ or $+$
+   otherwise. $(\delta_1,...,\delta_n)$ tells us to which combination
+   of true and false null hypotheses some $\bs{x}$ belongs.
+
+ \item Set of all sign patterns defined by $\mathscr{H}$:
+   \begin{equation}
+     \label{eq:faces}
+     \mathcal{F}(\mathscr{H}) = \{\bs{\delta}(\bs{x}): \bs{x} \in \R^m\}
+   \end{equation}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Example}
+
+\begin{tabular}{ll}
+ \begin{minipage}{.4\textwidth}
+ \includegraphics[height=1\textwidth]{spheresfukuda.pdf}
+ \end{minipage} &
+ \begin{minipage}{.6\textwidth}
+   \begin{itemize}
+   \item 4 contrast hypotheses about 3 means
+   \item Cut the hyperplanes with the sphere in $\R^3$ (makes
+     visualisation easier)
+   \item Cells of the sphere arrangment correspond to sign patterns
+     of $\mathscr{H}$
+   \item The abstraction of such an arrangement is an \alert{Oriented Matroid}
+   \end{itemize}
+ \end{minipage}
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Stepwise multiple testing procedure for one-sided linear
+   contrast hypotheses}
+
+ Consider a family of general contrast hypotheses $\mathscr{H} =
+ \{H_i: \bs{A_i}^t\bs{\mu} \leq b_i,i \in \{1,...,n\}\}$ and let
+ $\mathscr{F}(\mathscr{H}) = \{ \bs{\delta}(\bs{x}): \bs{x} \in
+ \R^m\}$ denote the corresponding set of sign patterns. Consider a
+ set of decision rules $\varphi_F: \R^n \rightarrow \{0,1\}$ for
+ which hold $P(\varphi_F = 1 | H_i: F_i \geq 0) \leq \alpha$. Then a
+ corresponding decision rule for each elementary hypotheses $H_i$ is
+ given by
+ \begin{equation}
+   \label{eq:signtest}
+   \psi_i = \min_{F: F_i \geq 0} \varphi_F,
+ \end{equation}
+ which controls the FWER at level $\alpha$ in the strong sense.
+
+
+\end{frame}
 
 
 \begin{frame}
-\frametitle{Flats <-> Weakliy exhaustive sets}
+ \frametitle{Computation of $\mathscr{F}$}
+ The question remains how to compute $\mathcal{F}$. For this observe
+that the $h_i$ define a hyperplane configuration and $\mathcal{F}$ is
+just the face lattice of the corresponding oriented
+matroid. Consequently, $\mathcal{F}$ can be found using algorithms
+for arrangement construction from polyhedral programming
+\cite{Avis-KF-92,Avis-KF-96,Ferrez-KF-Liebling-01} which are
+polynomial in time and input size and compact in space!
+
 \end{frame}
-
-
 
 \begin{frame}
-\frametitle{Flats <-> Strictly exhaustive sets}
+ \frametitle{Example}
+ 3 ordered means
 \end{frame}
+
 \section{Summary \& Outlook}
 
 
 
 \begin{frame}
 \frametitle{Summary}
+\begin{itemize}
+\item Matroids provide usefull abstraction for systems of algebraically dependent hypotheses
+\item Efficient algorithms from the realms of combinatorics and algebraic geometry
+\item {\em Scum principle} everything important happens at the top
+\item Stepwise procedure for algebraically dependent and contextually
+  related hypotheses (graphical approach)
+\item Promising results also for one-sided hypotheses
+\end{itemize}
 \end{frame}
 
 
 
 \begin{frame}
 \frametitle{Outlook}
-
+\begin{itemize}
+\item Inclusion of procedures for two-sided tests in \texttt{gMCP} 
+\item Implementation of one-sided problems using polyhedral
+  programming libraries
+\item Potential applications:
+  \begin{itemize}
+  \item \texttt{MCPmod} on \sout{steroids} matroids
+  \item Model selection
+  \item Logic regression
+  \end{itemize}
+\item Tests for intersection hypotheses based on maximally independent
+  sets 
+\end{itemize}
 \end{frame}
 
 \bibliographystyle{alpha}
 \bibliography{\parentd paper/cleanrefs}
-\end{document}
+\end{document} 
