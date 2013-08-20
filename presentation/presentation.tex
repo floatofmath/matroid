@@ -79,7 +79,7 @@
   \begin{itemize}
     \item  essentially closed test, since %; no need to test pairwise
                                 %intersection hypotheses since 
-        $H_{{i,j}} = H_{\{1,2,3\}}, i\neq j,$
+        $H_{\{i,j\}} = H_{\{1,2,3\}}, i\neq j,$
 
     \item  Bonferroni: if one of the hypotheses is rejected at level $\alpha/3$ the others can be tested at level alpha.
     \item  Hierarchical: if a predetermined primary hypothesis is rejected at level $\alpha$ the other two can be tested at level $\alpha$.
@@ -287,12 +287,13 @@
 \frametitle{Dependent null hypotheses}
 
 \begin{itemize}
-\item $H_i$ depends on $H_I$: $H_{I \cup i} = H_{I}$
-\item induces a dependence relation $i \sim_H I$ on index sets $I \in \mathcal{P}(S)$
-\item $I$ independent iff for all $i
+\item $H_i$ \alert{depends} on $H_I$: $H_{I \cup i} = H_{I}$
+\item induces a \alert{dependence relation} $i \alert{\sim_H} I$ on index sets $I \in \mathcal{P}(S)$
+\item $I$ \alert{independent} iff for all $i
   \in I$ $i \nsim_H I\setminus i$ (\ie $H_{I} \subsetneq H_{I\setminus i}$)
 \pause
-\item For pairwise comparisons $I$ independent iff there are no cycles in $\mathscr{G}_I$
+\item For pairwise comparisons $I$ independent iff there are no cycles
+  in the corresponding graph
 \item For general contrast tests $I$ independent iff $\bs{C_I}$ has full
  column rank
 \end{itemize} % ends low level
@@ -312,7 +313,7 @@
  \eg cycles, bases, independent sets
 \item A matroid $M$ on $S$ endows $\mathcal{P}(S)$ with an algebraic
  structure
-\item {\em Cryptomorphism} \ie many ways to define a matroid:
+\item \alert{Cryptomorphism} \ie many ways to define a matroid:
  \begin{itemize}
  \item From a graph perspective: Circuit axioms.
  \item From a vector space perspective: Independence axioms.
@@ -342,6 +343,9 @@
  \end{minipage} &
 
  \begin{minipage}{.5\textwidth}
+
+** TODO shorten animation 
+
    \only<2->{\input{cycle}}
  \end{minipage} 
 \end{tabular}
@@ -369,44 +373,50 @@
  \end{minipage} &
 
  \begin{minipage}{.5\textwidth}
- \only<1>{\input{independent}}
- \only<2>{\input{cycle}}
- \invisible<1>{\alert{\footnotesize minimally dependent set!}}
+
+** TODO animate independent sets
+
+ \input{independent}
+% \only<2>{\input{cycle}}
+% \invisible<1>{\alert{\footnotesize minimally dependent set!}}
  \end{minipage} 
 \end{tabular}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{}
+  \frametitle{Matroid structure}
+
+** TODO add some pictures detailing general structure
+
   \begin{itemize}
-  \item Circuits are minimally dependent sets (remove any element to
+  \item \alert{Circuits} are minimally dependent sets (remove any element to
     get an independent set)
-  \item Independent sets are sets for which no subset of elements is a
+  \item \alert{Independent sets} are sets for which no subset of elements is a
     circuit
-  \item Maximally independent sets are bases (Base axioms)
-  \item Cardinality of largest independent subset is the rank of a set
+  \item Maximally independent sets are \alert{bases} (Base axioms)
+  \item Cardinality of largest independent subset is the \alert{rank} of a set
     (Rank axioms)
-  \item Maximally dependent sets are called flats (Closure axioms)
+  \item Maximally dependent sets are called \alert{flats} (Closure axioms)
   \end{itemize}
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Dependence axioms}
-
+** TODO animate dependence
 \begin{tabular}{ll}
  \begin{minipage}{.4\textwidth}
    \input{dependent}
  \end{minipage} &
  \begin{minipage}{.6\textwidth}
  Relation $\sim_M$ on elements and subsets of $S$,
- if for any $x \in S$, and sets $Y,Z \subseteq S$ holds
+ if for any $j \in S$, and sets $I,K \subseteq S$ holds
  \begin{enumerate}
- \item $y \sim Y$ for all $y \in Y$
- \item if $x \sim_M Y$ and $x \nsim_M Y\setminus y$
-   then $y \sim x \cup (Y \setminus y)$
- \item if $x \sim_M Y$ and for all $y \in Y$, $y \sim_M Z$ then $x \sim_M Z$
+ \item $i \sim_M I$ for all $i \in I$
+ \item if $j \sim_M I$ and $j \nsim_M I\setminus \{i\}$
+   then $i \sim \{j\} \cup (I \setminus \{i\})$
+ \item if $j \sim_M I$ and for all $i \in I$, $i \sim_M K$ then $j \sim_M K$
  \end{enumerate}
  then $\sim_M$ defines a matroid on $S$.
  \end{minipage}
@@ -422,8 +432,8 @@
  \begin{block}{Equivalence of dependence relations $\sim_H = \sim_M$}
    \begin{itemize}
    \item<1-> $H_i$ depends on $H_I$ iff $H_{I \cup i} = H_{I}$
-   \item<2-> Does this mean $\mathscr{H}$ defines a matroid $M$, such that
-     $\sim_H = \sim_M$?
+   \item<2-> Does this mean a family of algebraically dependent
+     hypotheses defines a matroid $M$, such that $\sim_H = \sim_M$?
    \end{itemize}
  \end{block}
 \end{frame}
@@ -437,64 +447,64 @@
    For a family of two-sided pairwise mean comparisons $H_i$, $i \in
    S$, an elementary hypotheses $H_j$ depends on intersection
    hypotheses $H_I$ iff the corresponding edge $e_j$ is dependent on
-   the edge set $\{e_i:i \in I\}$ of the cycle matroid defined by
-   $\mathscr{G}_I$.
+   the edge set $\{e_i:i \in I\}$ of the \alert{cycle matroid} defined by
+   the corresponding graph.
  \end{block}
 
  \begin{block}{Two-sided linear contrast tests}
    For a family of two-sided general contrast tests $H_i$, $i \in S$,
    an elementary hypothesis $H_j$ depends on intersection hypotheses
-   $H_I$ iff the corresponding contrast vector $\bs{c_j}$ is
-   dependent on the column vectors of the matrix $\bs{C}_I$ in the
-   vectorial matroid defined by $\bs{C}$ on $\mathbb{R}^m$.
+   $H_I$ iff the contrast vector $\bs{c_j}$ is a linear combination of
+   column vectors of contrast matrix $\bs{C}_I$ which corresponds to
+   the \alert{vectorial matroid} defined by $\bs{C}$ on $\mathbb{R}^m$.
  \end{block}
 
 \end{frame}
 
 
 \begin{frame}
- \frametitle{Matroids from null hypotheses}
+ \frametitle{Matroids from algebraically dependent hypotheses}
  {\Large What is it good for?\\
  \invisible<1>{Structure}}
 \end{frame}
 
-\begin{frame}
-\frametitle{Maximally independent sets}
- \begin{itemize}
- \item Bases are maximally independent sets of $S$
- \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
- \item Circuits are minimally dependent sets, \ie each subset of $C$
-   with rank $\rho C - 1$ is a maximally independent set of $C$
- \end{itemize}
-\end{frame}
+% \begin{frame}
+% \frametitle{Maximally independent sets}
+%  \begin{itemize}
+%  \item Bases are maximally independent sets of $S$
+%  \item Rank $\rho I$ is the cardinality of a maximally indepedendent set in $I$
+%  \item Circuits are minimally dependent sets, \ie each subset of $C$
+%    with rank $\rho C - 1$ is a maximally independent set of $C$
+%  \end{itemize}
+% \end{frame}
 
 
 
-\begin{frame}
-\frametitle{Maximally dependent sets}
-\begin{itemize}
-\item The closure of a set $\sigma I = \{i \in S: i \sim I\}$
-\item Closed sets {\em flats}: $\mathscr{L} = \{\sigma I: I \subseteq S\}$
-\item Hyperplanes are flats of rank $\rho S - 1$
-\item All flats are given by closing hyperplanes under intersection
-\item Circuits in $M^*$ are the complements of hyperplanes in $M$
-\end{itemize} % ends low level
-\end{frame}
+% \begin{frame}
+% \frametitle{Maximally dependent sets}
+% \begin{itemize}
+% \item The closure of a set $\sigma I = \{i \in S: i \sim I\}$
+% \item Closed sets {\em flats}: $\mathscr{L} = \{\sigma I: I \subseteq S\}$
+% \item Hyperplanes are flats of rank $\rho S - 1$
+% \item All flats are given by closing hyperplanes under intersection
+% \item Circuits in $M^*$ are the complements of hyperplanes in $M$
+% \end{itemize} % ends low level
+% \end{frame}
 
 
 
-\begin{frame}{Examples}
-\framesubtitle<1>{Independent set}
-\framesubtitle<2>{Base}
-\framesubtitle<4>{Dependent set}
-\framesubtitle<3>{Cycle}
-\framesubtitle<5>{Closure}
-\only<1>{\input{independent}}
-\only<2>{\input{base}}
-\only<4>{\input{dependent}}
-\only<3>{\input{cycle}}
-\only<5>{\input{closure}}
-\end{frame}
+% \begin{frame}{Examples}
+% \framesubtitle<1>{Independent set}
+% \framesubtitle<2>{Base}
+% \framesubtitle<4>{Dependent set}
+% \framesubtitle<3>{Cycle}
+% \framesubtitle<5>{Closure}
+% \only<1>{\input{independent}}
+% \only<2>{\input{base}}
+% \only<4>{\input{dependent}}
+% \only<3>{\input{cycle}}
+% \only<5>{\input{closure}}
+% \end{frame}
 
 
 
@@ -507,27 +517,71 @@
 \frametitle{Flats}
 \begin{itemize}
 
+\item Flats are maximally dependent sets \ie $j \nsim I \forall j \in
+  S\setminus I$
 \item The flats of a matroid are closed under intersection
-
-\item Every elementary hypothesis is a flat
-\item For each $I \subseteq S$, $H_I = H_{\sigma I}$
+\item $S$ (global null hypothesis) is a flat
+\item Every single element of $S$ (elementary hypothesis) is a flat
+\item For each $I \subseteq S$, the $H_I$ as a subset of the parameter
+  space is identical to the intersection hypotheses defined by it
+  closure $H_{\sigma I}$ (\ie flats correspond to weakly exhaustive
+  sets \cite{bergmann1988improvements})
 \item Define a stepwise procedure on the flats of $M$
-
-
 \end{itemize} % ends low level
 \end{frame}
 
 \begin{frame}
  \frametitle{Stepwise test procedure}
  \begin{block}{Multiple testing procedure for algebraically related hypotheses}
-   Assume that $\mathscr{H}$ with dependence relation $\sim_H$
-   defines a matroid on $M$ on $S$. Then a test procedure that
-   rejects elementary hypotheses $H_i$ if all $H_E$, $i \in E$, $E
-   \in \mathscr{L}$ are rejected using a local level-$\alpha$ test
-   controls the FWER in the strong sense.
+   Assume that a family of null hypotheses $\mathscr{H}$ with
+   dependence relation $\sim_H$ defines a matroid $M$ on $S$. Then a
+   test procedure that rejects elementary hypotheses $H_i$ if for all
+   flats $E \subseteq S$ with $i \in E$, $H_E$ is rejected using a
+   local level-$\alpha$ test, controls the FWER in the strong sense.
  \end{block}
 
 \end{frame}
+
+\begin{frame}
+\frametitle{Old wine in new bottles?}
+
+\begin{itemize}
+\item \cite{shaffer1986modified} represents pairwise comparisons
+ by set partitions
+\item \cite{bergmann1988improvements} define the concepts of an
+ exhaustive sets
+\item \cite{bernhard1991computergestuetzte} shows properties of
+ exhaustive sets that are basically \alert{closure axioms} of a matroid
+ and provides algorithms to check each intersection hypotheses if is
+ a flat using rank function.
+\item \cite{westfall1997multiple} generates flats using dependence
+ arguments in vector spaces.
+\item \cite{weichert2000robuste} suggest an MTP based on clique
+ decomposition of the graph, cliques in the graph are flats
+\item \cite{westfall2007multiple} provide a branch and bound algorithm
+ to generate all flats. They note that for pairwise comparisons all
+ exhaustive hypotheses are \alert{partition hypotheses}
+\item \cite{brannath2010shortcuts} provide shortcuts for stepwise
+  procedures on \eg the set of exhaustive index sets
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Added benefits}
+ \begin{itemize}
+ \item Many results about exhaustive sets follow directly from
+   corresponding results in matroid theory.
+ \item Efficient algorithms to find the flats of specific and general
+   matroids are available from matroid theory.
+ \item \alert{Scum principle} \cite{welsh2010matroid} everything
+   important happens at the top \ie it is sufficient to find the
+   \alert{hyperplanes} of the corresponding matroid.
+ \item The structure of flats provides some intuition to procedures
+   that operate on exhaustive sets. 
+ \end{itemize}
+\end{frame}
+
+
 
 \begin{frame}
  \frametitle{Stepwise multiple testing procedure on the lattice of
@@ -584,44 +638,6 @@
 \end{frame}
 
 
-
-
-\begin{frame}
-\frametitle{Connections to existing procedures}
-
-\textbf{Old wine in new bottles ((c) L. Hothorn)}
-\begin{itemize}
-\item \cite{shaffer1986modified} represents pairwise comparisons
- by set partitions
-\item \cite{bergmann1988improvements} define the concepts of an
- exhaustive sets
-\item \cite{bernhard1991computergestuetzte} shows properties of
- exhaustive sets that are basically {\em closure axioms} of a matroid
- and provides algorithms to check each intersection hypotheses if is
- a flat using rank function.
-\item \cite{westfall1997multiple} generates flats using dependence
- arguments in vector spaces.
-\item \cite{weichert2000robuste} suggest an MTP based on clique
- decomposition of the graph, cliques in the graph are flats
-\item \cite{westfall2007multiple} provide a branch and bound algorithm
- to generate all flats. They note that for pairwise comparisons all
- exhaustive hypotheses are {\em partition hypotheses}
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Matroid representation}
- \begin{itemize}
- \item proofs are shorter (more elegant),
- \item efficient algorithms exist to find the flats of matroids,
- \item {\em Scum principle}\cite{welsh2010matroid} everything
-   important happens at the top (hyperplanes)
- \item we may define procedures using independent sets,
- \item \ldots{}
- \end{itemize}
-\end{frame}
-
 \section{Graphical approaches for algebraically dependent and
   contextually related hypotheses}
 
@@ -639,12 +655,12 @@
  \end{minipage} &
  \begin{minipage}{.6\textwidth}
    \begin{itemize}
-   \item Provides weights $w_{i,I}$ for each index $i$ and each
+   \item Provides weights $w(I)_i$ for each index $i$ and each
      non-empty subset $I \subset S$
    \item Weights are used to define a closed test procedure of
      weighted intersection hypotheses tests
-   \item We have $\sum_{i \in S} w_{i,I} \leq 1$ (conservative),
-   \item and $w_{i,I} \leq w_{i,J}$ for $J \subseteq I$ (consonance).
+   \item We have $\sum_{i \in S} w(I)_{i} \leq 1$ (conservative),
+   \item and $w(I)_{i} \leq w(J)_{i}$ for $J \subseteq I$ (consonance).
    \end{itemize}
  \end{minipage}
 \end{tabular}
@@ -678,9 +694,9 @@
 
 \begin{frame}
  \frametitle{Fixed sequence test of pairwise mean comparisons}
-\begin{itemize}
-\item {\bf Picture of hierarchical test hereabouts}
-\end{itemize}
+
+** TODO Picture of hierarchical test hereabouts
+
 
 \begin{block}{Theorem}
  Assume that $M(\mathscr{H})$ neither contains loops nor
@@ -741,17 +757,20 @@
 \frametitle{General weighting strategies}
 
 \begin{enumerate}
-\item Pretest using weighted Bonferroni or conventional graphical
- approach $R = \{i \in S: H_i \textrm{ rejected by pretest}\}$
-\item Compute all matroid hyperplanes $\mathscr{H}$ for the matroid on
- the remaining hypotheses $I$
-\item $R \gets R \cup \{i: p_i \leq \min_J w_{i,J} \alpha, J \in \mathscr{H}\}$
-\item $A \gets \{\bigcup J: \min_j (p_j / w_{j,J}) > \alpha\}$
+\item Pretest using consonant weighted closed test procedure (\eg
+  graphical approach), let $R = \{i \in S: H_i \textrm{ rejected by pretest}\}$
+\item Compute all matroid hyperplanes $\mathscr{L}$ for the matroid
+  restricted to the remaining hypotheses $I$
+\item $R \gets R \cup \{i: p_i \leq \min\{ w(J)_{i}\alpha: J \in
+  \mathscr{L} \} \}$
+\item $A \gets \{\bigcup J: \min\{p_j / w(J)_{j}: j \in J\} > \alpha,
+J \in \mathscr{L} \}$
 \item $I \gets I \setminus R$
-\item Refine: $\mathscr{H} \gets \{J\in \mathscr{L}: \rho J = \rho
- \mathscr{H} - 1\}$
-\item Prune: $\mathscr{H} \gets \{J \in \mathscr{H}: J \cap R = \emptyset\}$
-\item Repeat until $\rho \mathscr {H} = 0$
+\item Compute hyperplanes of next smaller rank: $\mathscr{L} \gets \{J\in \mathscr{L}: \rho J = \rho
+ \mathscr{L} - 1\}$
+\item Remove interval of rejected hypotheses: $\mathscr{L} \gets \{J \in \mathscr{L}: J \cap R = \emptyset\}$
+\item Reduce to interval of not accepted: $\mathscr{L} \gets \{J \in \mathscr{L}: L \nsubseteq A\}$
+\item Repeat until $\rho \mathscr{L} = 0$
 \item Reject $R$ and $I \setminus A$
 \end{enumerate}
 \end{frame}
@@ -762,14 +781,13 @@
 \begin{frame}
 \frametitle{General Results}
 \begin{itemize}
-\item We give sufficient (and probably necessary) conditions for a
- general family of hypotheses $\mathscr{H}$ to define a matroid
-\item We give sufficient (and probably necessary) conditions on
- $\mathscr{H}$ for $\mathscr{L}$ to be the set of strictly exhaustive
- sets
+\item We give sufficient necessary conditions for a general family of
+  hypotheses $\mathscr{H}$ to define a matroid
 \item Systems with one sided hypotheses, and parallel hypotheses (\eg
  combined non-inferiority/superiority) do not give matroids with
  $\mathscr{L}$ all strictly exhaustive
+\item It is an open question under which conditions the set of
+  strictly exhaustive sets is given by the flats of a matroid
 \end{itemize}
 
 
@@ -871,7 +889,7 @@ that the $h_i$ define a hyperplane configuration and $\mathcal{F}$ is
 just the face lattice of the corresponding oriented
 matroid. Consequently, $\mathcal{F}$ can be found using algorithms
 for arrangement construction from polyhedral programming
-\cite{Avis-KF-92,Avis-KF-96,Ferrez-KF-Liebling-01} which are
+\cite{avis1992pivoting,avis1996reverse,ferrez2001cuts} which are
 polynomial in time and input size and compact in space!
 
 \end{frame}
