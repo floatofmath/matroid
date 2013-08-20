@@ -517,7 +517,7 @@
 \frametitle{Flats}
 \begin{itemize}
 
-\item Flats are maximally dependent sets \ie $j \nsim I \forall j \in
+\item Flats are maximally dependent sets \ie $j \nsim I$ $\forall j \in
   S\setminus I$
 \item The flats of a matroid are closed under intersection
 \item $S$ (global null hypothesis) is a flat
@@ -526,7 +526,7 @@
   space is identical to the intersection hypotheses defined by it
   closure $H_{\sigma I}$ (\ie flats correspond to weakly exhaustive
   sets \cite{bergmann1988improvements})
-\item Define a stepwise procedure on the flats of $M$
+%\item Define a stepwise procedure on the flats of $M$
 \end{itemize} % ends low level
 \end{frame}
 
@@ -709,7 +709,7 @@
    \forall 1 \leq l < k \leq s: \; \exists i \leq r: i \sim \{(r+l),(r+k)\},
  \end{equation}
  hypotheses $H_{r+1}$ through $H_{r+s}$ can be tested simultaneously
- at full level $\alpha_ra$.
+ at full level $\alpha_r$.
 \end{block}
 
 \end{frame}
@@ -763,13 +763,12 @@
   restricted to the remaining hypotheses $I$
 \item $R \gets R \cup \{i: p_i \leq \min\{ w(J)_{i}\alpha: J \in
   \mathscr{L} \} \}$
-\item $A \gets \{\bigcup J: \min\{p_j / w(J)_{j}: j \in J\} > \alpha,
-J \in \mathscr{L} \}$
+\item $A \gets \{\bigcup J: \forall j \in J,\, p_j > w(J)_{j}\alpha, J \in \mathscr{L} \}$
 \item $I \gets I \setminus R$
 \item Compute hyperplanes of next smaller rank: $\mathscr{L} \gets \{J\in \mathscr{L}: \rho J = \rho
  \mathscr{L} - 1\}$
 \item Remove interval of rejected hypotheses: $\mathscr{L} \gets \{J \in \mathscr{L}: J \cap R = \emptyset\}$
-\item Reduce to interval of not accepted: $\mathscr{L} \gets \{J \in \mathscr{L}: L \nsubseteq A\}$
+\item Reduce to interval of not accepted: $\mathscr{L} \gets \{J \in \mathscr{L}: J \nsubseteq A\}$
 \item Repeat until $\rho \mathscr{L} = 0$
 \item Reject $R$ and $I \setminus A$
 \end{enumerate}
@@ -783,7 +782,7 @@ J \in \mathscr{L} \}$
 \begin{itemize}
 \item We give sufficient necessary conditions for a general family of
   hypotheses $\mathscr{H}$ to define a matroid
-\item Systems with one sided hypotheses, and parallel hypotheses (\eg
+\item Systems with one-sided hypotheses, and parallel hypotheses (\eg
  combined non-inferiority/superiority) do not give matroids with
  $\mathscr{L}$ all strictly exhaustive
 \item It is an open question under which conditions the set of
@@ -794,9 +793,9 @@ J \in \mathscr{L} \}$
 \end{frame}
 
 \begin{frame}
- \frametitle{One sided hypotheses}
+ \frametitle{One-sided hypotheses}
  \begin{block}{One-sided linear contrast hypotheses}
-   A family of {\em one sided linear contrast hypotheses} is defined
+   A family of {\em one-sided linear contrast hypotheses} is defined
    by a contrast matrix $\bs{A} \in \mathbb{R}^{m\times n}$ and
    vector $\bs{b} \in \mathbb{R}^n$ that define a  family of null
    hypotheses of the form $\mathscr{H} = \{H_i: \bs{A_i}^t\bs{\mu}
