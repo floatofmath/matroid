@@ -40,7 +40,8 @@
 %\newcommand{\text}[1]{\textrm{#1}}
 \newcommand{\R}{\mathbb{R}}
 
-\title{Multiple testing with logical dependencies}
+\title{Matroids \& testing in families of algebraically dependent and
+  contextually related hypotheses}
 
 \author{Florian Klinglmueller, Willi Maurer}
 
@@ -73,18 +74,37 @@ procedures.
 
 \section{Examples}
 
+History 
+\begin{itemize}
+\item \cite{shaffer1986modified} represents pairwise comparisons
+ by set partitions
+\item \cite{bergmann1988improvements} define the concepts of an
+ exhaustive sets
+\item \cite{bernhard1991computergestuetzte} shows properties of
+ exhaustive sets that are basically {\em closure axioms} of a matroid
+ and provides algorithms to check each intersection hypotheses if is
+ a flat using rank function.
+\item \cite{westfall1997multiple} generates flats using dependence
+ arguments in vector spaces.
+\item \cite{weichert2000robuste} suggest an MTP based on clique
+ decomposition of the graph, cliques in the graph are flats
+\item \cite{westfall2007multiple} provide a branch and bound algorithm
+ to generate all flats. They note that for pairwise comparisons all
+ exhaustive hypotheses are {\em partition hypotheses}
+\end{itemize}
+
 \subsection{Pairwise comparisons of population means}
 \begin{itemize}
-\item All pairwise
-\item Gold standard designs
-\item Change point analysis
-\item General treatment control - treatment treatment situations
+\item All pairwise \citep{shaffer1986modified,weichert2000robuste}
+\item Gold standard designs \citep{bauer1998testing,pigeot2003assessing}
+\item Change point analysis (?)
+\item General treatment control - treatment treatment situations 
 \end{itemize}
 
 \subsection{General linear contrast tests}
 \begin{itemize}
-\item Cost effectiveness (Georg)
-\item SNP Studies (Hothorn-Hothorn)
+\item Cost effectiveness \citep{haller2011cost,gutjahr2012multiple}
+\item SNP Studies (Hothorn-Hothorn) \citep{hothorn2009order}
 \item Order restriction contrasts (Williams, ...)
 \end{itemize}
 
@@ -98,120 +118,6 @@ procedures.
 \end{description}
 
 \section{Two sided hypotheses}
-
-\subsection{Some observations on pairwise comparisons}
-
-\begin{definition}
-  Let $X$ be a random variable taking values in $\mathbb{R}^m$ with
-  multivariate distribution $F(\bs{\mu})$ having mean vector $\bs{\mu}
-  \in \mathbb{R}^m$. Let $R \subset \{1,...,m\}^2$, such that $i <
-  j$ for all $(i,j) \in R$. For $(i,j) \in R$ $H_{ij} = \mu_i =
-  \mu_j$. We call the family of elementary hypotheses $\dot{R}
-  = \{H_{ij}: (i,j) \in R\}$ a {\bf two-sided pairwise comparison
-    problem. (tPCP)} Let $\dot{\mathcal{T}}(m)$ denote the set of all
-  possible pairwise comparison problems of $m$ means.
-\end{definition}
-
-\begin{bsp}
-  Consider $X \sim N((\mu_1,\mu_2,\mu_3,\mu_4),\sigma \mathbb{I}_4)$
-  let $R = \{(1,2),(1,3),(1,4)\}$ and $S =
-  \{(1,4),(2,4),(3,4),(1,3),(1,2),(2,3)\}$. Then the
-  corresponding tPCP's $\dot{R},\dot{S} \in \dot{\mathcal{T}}(4)$.
-\end{bsp}
-
-\begin{definition}
-  A two-sided pairwise comparison problem $\dot{S}$ defines an
-  undirected graph $G(\dot{S}) = \{M,T\}$ with Nodes $M = \{1,...,m\}$
-  and Edges $T$. We call $G(\dot{S})$ the {\bf comparigram}. We denote
-  by $V(G(\dot{S})$, $E(G(\dot{S})$ the vertex and edge sets of the
-  corresponding comparigram. If clear from the context we may just use
-  $E(\dot{S}),V(\dot{S})$. 
-\end{definition}
-
-\begin{bsp}
-  $\dot{R}$ in above Example is represented by a claw with 3 edges,
-  $\dot{S}$ is represented by the complete graph $K_4$ with 4 vertices.
-\end{bsp}
-
-\begin{definition}
-  Let $h_{lk}:  M^2 \rightarrow \dot{\mathcal{T}}(m)$,
-  $(l,k) \mapsto \{H_{ij}: (i,j) \in T\setminus \{(l,j)\}\}$ define the
-  {\bf rejection operator}. We write $h_{lk} \circ \dot{S} =
-  \dot{S}\setminus (l,k)$. Clearly   $h_{a} \circ h_{b} \circ \dot{S}
-  = h_{b} \circ h_{a} \circ \dot{S}$.
-\end{definition}
-
-\begin{definition}
-  Consider $\dot{R},\dot{S} \in \dot{\mathcal{T}}(m)$ with associated
-  comparigrams $L = G(\dot{R}), K = G(\dot{R})$ respectively. We say
-  that $\dot{R}$ {\bf isomorphic} to $\dot{S}$, $\dot{R} \cong
-  \dot{S}$ if $L$ is isomorphic to $K$, that is there exists a
-  bijection between nodes of the graphs $f:V(K) \rightarrow V(L)$, $a
-  \mapsto u$ such that for $a,b \in V(K)$, $f(a)$ is adjacent to
-  $f(b)$, if and only if $a$ and $b$ are adjacent to each other.
-\end{definition}
-
-\begin{definition}
-  Consider $\dot{S} \in \dot{\mathcal{T}}(m)$ and $h_a,h_b$, $a,b \in
-  E(S)$ we say that $h_a \cong h_b$ are {\bf equivalent rejections} if $h_a
-  \circ \dot{S} \cong h_b \circ \dot{S}$.
-\end{definition}
-
-\begin{definition}
-  Let $h = (h_1,...,h_n)$ whith $h_i \in T$ and $n \leq |T|$ define a
-  {\bf fixed rejection sequence} of length $n$.
-\end{definition}
-
-\begin{definition}
-  Consider PCP $\dot{S}$. Two fixed rejection sequences $h, e$ are
-  called {\bf equivalent} if $h_1\circ ... \circ h_i \circ \dot{S} \cong e_1 \circ
-  ... \circ e_i \circ \dot{S}$ for all   $i \in \{1,...,n\}$
-\end{definition}
-\begin{definition}
-  Let $\dot{K}_n$ denote the $tPCP$ consisting of all pairwise
-  comparisons of $n$ different means.
-\end{definition}
-
-\begin{theorem}
-  Properties of $\circ$:
-  \begin{enumerate}
-    \item $\dot{S} \circ e_1 \circ e_2 \dot{S} \circ e_2 \circ e_1$
-    \item For $e,f,u,v \in E(\dot{S})$, such that $\dot{S} \circ e
-      \cong \dot{S} \circ f$, and $\dot{S} \circ e \circ u \cong
-      \dot{S} \circ u \circ v$ then $\exists z \in E(\dot{S} \circ f)$
-      such that $\dot{S} \circ f \circ z \cong \dot{S} \circ e \circ
-      u$. 
-  \end{enumerate}
-\end{theorem}
-
-\begin{theorem}
-  The tPCP $\dot{K}_4$ has 6 distinct (up to isomorphism) fixed
-  rejection sequences. Figure \ref{fig:k4} shows a graphical
-  representation of the distinct rejection sequences for
-  $K_4$. $\dot{K}_5$ has $657$ and $\dot{K}_6$ has $4836277$ it seems
-  that this sequence grows in the order of $\mathcal{O}(e^{n^2})$.
-\end{theorem}
-
-\begin{proof}
-  Proof by exhaustive computer search.
-\end{proof}
-
-\begin{figure}
-
-  \caption{Rejection tree for $\dot{K}_4$}
-  \label{fig:k4}
-\end{figure}
-
-\begin{theorem}
-  $\dot{K}_4$ can be represented by the complete graph $K_4$ with 4
-  vertices and 6 edges. The resulting null hypotheses are vertices of
-  the line-graph $\mathcal{L}{K_4}$. $\mathcal{L}{K_4}$ is an
-  octahedron. The exhaustive sets of $\dot{K_4}$ correspond to
-  $\mathcal{L}(K_4)$, the 3 faces of the octahedron with differently
-  labeled edges representing cliques of size 3 in $K_4$, the 3 edges
-  in the complementary graph of $\mathcal{L}(K_4)$, and the $6$
-  vertices themselves.
-\end{theorem}
 
 
 \subsection{Connections to matroid theory}
@@ -410,45 +316,57 @@ multiple testing theory
 \end{theorem}
 
 \begin{proof}
-  Not yet done!
+  First assume that $I$ exhaustive, then for every $j \in S \setminus
+  I$ $H_{I \cup j} \subsetneq H_{I}$, that is $j \nsim I$ for all $j
+  \in S\setminus I$ and therefore $I$ is flat.  
+
+  Next, consider $I \subseteq S$ and $I \in \mathscr{L}$, that is
+  $\sigma I = I$ assume that $I$ is not exhaustive, then $\exists J
+  \supersetneq I$ with $H_I \subset H_J$. Therefore, $\exists j \in J
+  \setminus I$ such that $H_I \in H_{J \setminus j}$ and therefore
+  also $H_I \subseteq H_j$. Consequently $H_{I \cup j} = H_{I}$, that
+  is $j \sim I$, which contradicts that $I$ is a flat and completes
+  the proof.
 \end{proof}
 
 To get a result on strictly exhaustive set we need to restrict
-condition (\ref{cond:matroida}) further.
+condition (\ref{cond:matroida}) further. {\sl It is an open question
+  whether one can find conditions that make it easier to show matroid
+  properties}. 
 
-\begin{theorem}
-  Consider a family of null hypotheses $\mathcal{H}$ for which above
-  the more stringent conditions hold:
-  \begin{align}
-    \label{cond:matroid2}
-    \bigcap_J \Theta_i &\nsubseteq \bigcup_{I\setminus J} \Theta_i,
-    \text{ and} \\
-    \bigcap_{J}\Theta_i &\nsupseteq     \bigcup_{I \setminus J} \Theta_i ,
-  \end{align}
-  % and additionally $\bigcap_S \Theta_i^C \neq
-  % \emptyset$ (practically that means that all alternatives may be true
-  % at the same time).
-  Then independence as defined in Definition \ref{def:indep} gives a
-  matroid for   which every flat corresponds to a strictly exhaustive
-  index set and vice versa.
-\end{theorem}
+% \begin{theorem}
+%   Consider a family of null hypotheses $\mathcal{H}$ for which above
+%   the more stringent conditions hold:
+%   \begin{align}
+%     \label{cond:matroid2}
+%     \bigcap_J \Theta_i &\nsubseteq \bigcup_{I\setminus J} \Theta_i,
+%     \text{ and} \\
+%     \bigcap_{J}\Theta_i &\nsupseteq     \bigcup_{I \setminus J} \Theta_i ,
+%   \end{align}
+%   % and additionally $\bigcap_S \Theta_i^C \neq
+%   % \emptyset$ (practically that means that all alternatives may be true
+%   % at the same time).
+%   Then independence as defined in Definition \ref{def:indep} gives a
+%   matroid for   which every flat corresponds to a strictly exhaustive
+%   index set and vice versa.
+% \end{theorem}
 
-\begin{proof}
-  Not yet done!
-  % We first show by contradiction that every flat is strictly
-  % exhaustive: Consider $I$ is a flat but that $I$ is not strictly
-  % exhaustive. As $I$ is a flat, we have for every $l \in S\setminus
-  % I$, $l \sim I$. Let $J \in \mathscr{I}$ be a maximally independent
-  % set in $I$. Then $J \cup l \in \mathscr{I}$ and $|J \cup l| =
-  % |J|+1$. If $I$ were not strictly exhaustive, then $\bigcap_{I}
-  % \Theta_i \cap \bigcap_{S\setminus I} \Theta^c_i = \emptyset$. 
-\end{proof}
+% \begin{proof}
+%   Not yet done!
+%   % We first show by contradiction that every flat is strictly
+%   % exhaustive: Consider $I$ is a flat but that $I$ is not strictly
+%   % exhaustive. As $I$ is a flat, we have for every $l \in S\setminus
+%   % I$, $l \sim I$. Let $J \in \mathscr{I}$ be a maximally independent
+%   % set in $I$. Then $J \cup l \in \mathscr{I}$ and $|J \cup l| =
+%   % |J|+1$. If $I$ were not strictly exhaustive, then $\bigcap_{I}
+%   % \Theta_i \cap \bigcap_{S\setminus I} \Theta^c_i = \emptyset$. 
+% \end{proof}
 
-\begin{comment}
-  Above restriction (\ref{cond:matroid2}), already for the simple case
-  of $|J|=1$, is no longer a statment about the parallels of
-  $M$. 
-\end{comment}
+% \begin{comment}
+%   Above restriction (\ref{cond:matroid2}), already for the simple case
+%   of $|J|=1$, is no longer a statment about the parallels of
+%   $M$. 
+% \end{comment}
 
 
 
@@ -1094,8 +1012,128 @@ that the $h_i$ define a hyperplane configuration and $\mathcal{F}$ is
 just the face lattice of the corresponding oriented
 matroid. Consequently, $\mathcal{F}$ can be found using algorithms
 for arrangement construction from polyhedral programming
-\cite{Avis-KF-92,Avis-KF-96,Ferrez-KF-Liebling-01} which are
+\citep{avis1992pivoting,avis1996reverse,ferrez2001cuts} which are
 polynomial in time and input size and compact in space!
 
 
+\bibliographystyle{alpha}
+\bibliography{cleanrefs}
+
+
+
 \end{document}
+
+\subsection{Some observations on pairwise comparisons}
+
+\begin{definition}
+  Let $X$ be a random variable taking values in $\mathbb{R}^m$ with
+  multivariate distribution $F(\bs{\mu})$ having mean vector $\bs{\mu}
+  \in \mathbb{R}^m$. Let $R \subset \{1,...,m\}^2$, such that $i <
+  j$ for all $(i,j) \in R$. For $(i,j) \in R$ $H_{ij} = \mu_i =
+  \mu_j$. We call the family of elementary hypotheses $\dot{R}
+  = \{H_{ij}: (i,j) \in R\}$ a {\bf two-sided pairwise comparison
+    problem. (tPCP)} Let $\dot{\mathcal{T}}(m)$ denote the set of all
+  possible pairwise comparison problems of $m$ means.
+\end{definition}
+
+\begin{bsp}
+  Consider $X \sim N((\mu_1,\mu_2,\mu_3,\mu_4),\sigma \mathbb{I}_4)$
+  let $R = \{(1,2),(1,3),(1,4)\}$ and $S =
+  \{(1,4),(2,4),(3,4),(1,3),(1,2),(2,3)\}$. Then the
+  corresponding tPCP's $\dot{R},\dot{S} \in \dot{\mathcal{T}}(4)$.
+\end{bsp}
+
+\begin{definition}
+  A two-sided pairwise comparison problem $\dot{S}$ defines an
+  undirected graph $G(\dot{S}) = \{M,T\}$ with Nodes $M = \{1,...,m\}$
+  and Edges $T$. We call $G(\dot{S})$ the {\bf comparigram}. We denote
+  by $V(G(\dot{S})$, $E(G(\dot{S})$ the vertex and edge sets of the
+  corresponding comparigram. If clear from the context we may just use
+  $E(\dot{S}),V(\dot{S})$. 
+\end{definition}
+
+\begin{bsp}
+  $\dot{R}$ in above Example is represented by a claw with 3 edges,
+  $\dot{S}$ is represented by the complete graph $K_4$ with 4 vertices.
+\end{bsp}
+
+\begin{definition}
+  Let $h_{lk}:  M^2 \rightarrow \dot{\mathcal{T}}(m)$,
+  $(l,k) \mapsto \{H_{ij}: (i,j) \in T\setminus \{(l,j)\}\}$ define the
+  {\bf rejection operator}. We write $h_{lk} \circ \dot{S} =
+  \dot{S}\setminus (l,k)$. Clearly   $h_{a} \circ h_{b} \circ \dot{S}
+  = h_{b} \circ h_{a} \circ \dot{S}$.
+\end{definition}
+
+\begin{definition}
+  Consider $\dot{R},\dot{S} \in \dot{\mathcal{T}}(m)$ with associated
+  comparigrams $L = G(\dot{R}), K = G(\dot{R})$ respectively. We say
+  that $\dot{R}$ {\bf isomorphic} to $\dot{S}$, $\dot{R} \cong
+  \dot{S}$ if $L$ is isomorphic to $K$, that is there exists a
+  bijection between nodes of the graphs $f:V(K) \rightarrow V(L)$, $a
+  \mapsto u$ such that for $a,b \in V(K)$, $f(a)$ is adjacent to
+  $f(b)$, if and only if $a$ and $b$ are adjacent to each other.
+\end{definition}
+
+\begin{definition}
+  Consider $\dot{S} \in \dot{\mathcal{T}}(m)$ and $h_a,h_b$, $a,b \in
+  E(S)$ we say that $h_a \cong h_b$ are {\bf equivalent rejections} if $h_a
+  \circ \dot{S} \cong h_b \circ \dot{S}$.
+\end{definition}
+
+\begin{definition}
+  Let $h = (h_1,...,h_n)$ whith $h_i \in T$ and $n \leq |T|$ define a
+  {\bf fixed rejection sequence} of length $n$.
+\end{definition}
+
+\begin{definition}
+  Consider PCP $\dot{S}$. Two fixed rejection sequences $h, e$ are
+  called {\bf equivalent} if $h_1\circ ... \circ h_i \circ \dot{S} \cong e_1 \circ
+  ... \circ e_i \circ \dot{S}$ for all   $i \in \{1,...,n\}$
+\end{definition}
+\begin{definition}
+  Let $\dot{K}_n$ denote the $tPCP$ consisting of all pairwise
+  comparisons of $n$ different means.
+\end{definition}
+
+\begin{theorem}
+  Properties of $\circ$:
+  \begin{enumerate}
+    \item $\dot{S} \circ e_1 \circ e_2 \dot{S} \circ e_2 \circ e_1$
+    \item For $e,f,u,v \in E(\dot{S})$, such that $\dot{S} \circ e
+      \cong \dot{S} \circ f$, and $\dot{S} \circ e \circ u \cong
+      \dot{S} \circ u \circ v$ then $\exists z \in E(\dot{S} \circ f)$
+      such that $\dot{S} \circ f \circ z \cong \dot{S} \circ e \circ
+      u$. 
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+  The tPCP $\dot{K}_4$ has 6 distinct (up to isomorphism) fixed
+  rejection sequences. Figure \ref{fig:k4} shows a graphical
+  representation of the distinct rejection sequences for
+  $K_4$. $\dot{K}_5$ has $657$ and $\dot{K}_6$ has $4836277$ it seems
+  that this sequence grows in the order of $\mathcal{O}(e^{n^2})$.
+\end{theorem}
+
+\begin{proof}
+  Proof by exhaustive computer search.
+\end{proof}
+
+\begin{figure}
+
+  \caption{Rejection tree for $\dot{K}_4$}
+  \label{fig:k4}
+\end{figure}
+
+\begin{theorem}
+  $\dot{K}_4$ can be represented by the complete graph $K_4$ with 4
+  vertices and 6 edges. The resulting null hypotheses are vertices of
+  the line-graph $\mathcal{L}{K_4}$. $\mathcal{L}{K_4}$ is an
+  octahedron. The exhaustive sets of $\dot{K_4}$ correspond to
+  $\mathcal{L}(K_4)$, the 3 faces of the octahedron with differently
+  labeled edges representing cliques of size 3 in $K_4$, the 3 edges
+  in the complementary graph of $\mathcal{L}(K_4)$, and the $6$
+  vertices themselves.
+\end{theorem}
+
