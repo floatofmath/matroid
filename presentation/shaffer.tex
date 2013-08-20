@@ -1,0 +1,41 @@
+
+\begin{tikzpicture}[scale=.4]
+\node (H1) at (025bp,-125bp)[draw,circle,fill=white] {$\mu_1$};
+\node (H2) at (225bp,-125bp)[draw,circle,fill=white] {$\mu_2$};
+\node (H3) at (225bp,-325bp)[draw,circle,fill=white] {$\mu_3$};
+\node (H4) at (025bp,-325bp)[draw,circle,fill=white] {$\mu_4$};
+\only<-2>{\draw [line width=1pt] (H1) to (125bp, -124bp) node[fill=blue!20] {$H_{1}$} to (H2);}
+\only<-2>{\draw [line width=1pt] (H1) to (075bp, -175bp) node[fill=blue!20] {$H_{2}$} to (H3);}
+\only<3>{\draw [line width=1pt] (H1) to (125bp, -124bp) node[fill=red!20] {$H_{1}$} to (H2);}
+\only<3>{\draw [line width=1pt] (H1) to (075bp, -175bp) node[fill=red!20] {$H_{2}$} to (H3);}
+\only<-5>{\draw [line width=1pt] (H4) to (025bp, -227bp) node[fill=blue!20] {$H_{3}$} to (H1);}
+\only<-4>{\draw [line width=1pt] (H2) to (225bp, -224bp) node[fill=blue!20] {$H_{4}$} to (H3);}
+\only<-4>{\draw [line width=1pt] (H4) to (174bp, -176bp) node[fill=blue!20] {$H_{5}$} to (H2);}
+\only<-4>{\draw [line width=1pt] (H3) to (126bp, -324bp) node[fill=blue!20] {$H_{6}$} to (H4);}
+\only<4,5>{\draw [line width=2pt] (H2) to (225bp, -224bp) node[fill=green!20] {$H_{4}$} to (H3);}
+\only<4,5>{\draw [line width=2pt] (H4) to (174bp, -176bp) node[fill=green!20] {$H_{5}$} to (H2);}
+\only<4,5>{\draw [line width=2pt] (H3) to (126bp, -324bp) node[fill=green!20] {$H_{6}$} to (H4);}
+
+\only<6>{\draw [line width=1pt] (H1) to (125bp, -124bp) node[fill=blue!20] {$H_{1}$} to (H2);}
+\only<7>{\draw [line width=1pt] (H1) to (125bp, -124bp) node[fill=red!20] {$H_{1}$} to (H2);}
+\only<6>{\draw [line width=2pt] (H3) to (126bp, -324bp) node[fill=blue!20] {$H_{6}$} to (H4);}
+\only<7>{\draw [line width=2pt] (H3) to (126bp, -324bp) node[fill=red!20] {$H_{6}$} to (H4);}
+
+\only<6,7,8,9>{\draw [line width=1pt] (H1) to (075bp, -175bp) node[fill=blue!20] {$H_{2}$} to (H3);}
+\only<6,7>{\draw [line width=1pt] (H4) to (025bp, -227bp) node[fill=blue!20] {$H_{3}$} to (H1);}
+\only<6,7>{\draw [line width=1pt] (H2) to (225bp, -224bp) node[fill=blue!20] {$H_{4}$} to (H3);}
+\only<6,7,8,9>{\draw [line width=1pt] (H4) to (174bp, -176bp) node[fill=blue!20] {$H_{5}$} to (H2);}
+\only<8>{\draw [line width=2pt] (H4) to (025bp, -227bp) node[fill=green!20] {$H_{3}$} to (H1);}
+\only<8>{\draw [line width=2pt] (H2) to (225bp, -224bp) node[fill=green!20] {$H_{4}$} to (H3);}
+\only<9>{\draw [line width=2pt] (H4) to (025bp, -227bp) node[fill=blue!20] {$H_{3}$} to (H1);}
+\only<9>{\draw [line width=2pt] (H2) to (225bp, -224bp) node[fill=blue!20] {$H_{4}$} to (H3);}
+
+
+\only<10>{\draw [line width=1pt] (H1) to (075bp, -175bp) node[fill=blue!20] {$H_{2}$} to (H3);}
+\only<10,11,12>{\draw [line width=1pt] (H4) to (025bp, -227bp) node[fill=blue!20] {$H_{3}$} to (H1);}
+\only<10,11,12>{\draw [line width=1pt] (H2) to (225bp, -224bp) node[fill=blue!20] {$H_{4}$} to (H3);}
+\only<10>{\draw [line width=1pt] (H4) to (174bp, -176bp) node[fill=blue!20] {$H_{5}$} to (H2);}
+\only<11,12>{\draw [line width=2pt] (H1) to (075bp, -175bp) node[fill=green!20] {$H_{2}$} to (H3);}
+\only<11,12>{\draw [line width=2pt] (H4) to (174bp, -176bp) node[fill=green!20] {$H_{5}$} to (H2);}
+
+\end{tikzpicture}
