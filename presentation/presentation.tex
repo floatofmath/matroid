@@ -42,8 +42,6 @@
   pdfcreator={Emacs Org-mode version 7.8.11}}
 
 \begin{document}
-\frametitle{Matroids}
-
 \maketitle
 
 
@@ -57,11 +55,11 @@
 
 
 
-\section{Algebraically dependent hypotheses}
+\section{Introduction}
 
 
 \begin{frame}
-\frametitle{Some history:}
+\frametitle{Algebraic dependence}
 \framesubtitle{Testing hypotheses of no differences in pairwise
   comparisons of 3 treatments}
 
@@ -69,24 +67,49 @@
 
 \begin{block}{$H_1:\mu_1=\mu_2,\; H_2:\mu_2=\mu_3,\;H_3:\mu_1=\mu_3$}
   \begin{enumerate}
-  \item Test $H_ {\{1,2,3\}} = H_1\cap H_2 \cap H_3 :
-    \mu_1=\mu_2=\mu_3$ at level $\alpha$,
-  \item test each $H_1,H_2,H_3$ at level $\alpha$,
+  \item Test each $H_1,H_2,H_3$ at level $\alpha/3$.
+  \item If any is rejected test the remaining at level $\alpha$.
   \end{enumerate}
   protects the FWER at level $\alpha$.
 \end{block}
 \pause
   \begin{itemize}
-    \item  essentially closed test, since %; no need to test pairwise
-                                %intersection hypotheses since 
-        $H_{\{i,j\}} = H_{\{1,2,3\}}, i\neq j,$
+    \item  essentially closed test, since %; 
+      \begin{enumerate}
+        \item Test $H_ {\{1,2,3\}} = H_1\cap H_2 \cap H_3 :
+          \mu_1=\mu_2=\mu_3$ at level $\alpha$,
+        \item No need to test pairwise intersection hypotheses, as
+          considered as subsets of the parameter space          
+          $H_{\{i,j\}} = H_{\{1,2,3\}}, i\neq j$
+      \end{enumerate}
 
-    \item  Bonferroni: if one of the hypotheses is rejected at level $\alpha/3$ the others can be tested at level alpha.
-    \item  Hierarchical: if a predetermined primary hypothesis is rejected at level $\alpha$ the other two can be tested at level $\alpha$.
-    \item  $\Rightarrow$ improves respective Bonferroni-Holm or fixed sequence tests.
+
+    \item  $\Rightarrow$ improves respective Bonferroni-Holm test.
   \end{itemize}
 
 \end{frame}
+\begin{frame}
+\frametitle{Contextual relationships}
+\framesubtitle{Testing hypotheses of no differences in pairwise
+  comparisons of 3 treatments}
+\begin{block}{$H_1:\mu_1=\mu_2,\; H_2:\mu_2=\mu_3,\;H_3:\mu_1=\mu_3$}
+  \begin{enumerate}
+  \item Test $H_1$ at level $\alpha$.
+  \item If $H_1$ is rejected, test $H_2,H_3$ at level $\alpha$ simultaneously.
+  \end{enumerate}
+  protects the FWER at level $\alpha$.
+\end{block}
+\pause
+  \begin{itemize}
+    \item  Uses a weighted Bonferroni test to reject $H_{1,2,3}$.
+    \item Requires choosing a pre-fixed ``primary'' hypotheses. This
+      depends on the context.
+    \item  $\Rightarrow$ improves respective fixed sequence tests (no
+      need to specify hierarchy for $H_2$ and $H_3$).
+  \end{itemize}
+
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Some history}
@@ -158,7 +181,7 @@
     \input{shaffer}
 \end{minipage} &
   \begin{minipage}{.6\textwidth}
-    \begin{block}{$m=4, n=6, \only<2->{j=2}$}
+    \begin{block}{$m=4, n=6, j=2$}
       % \begin{itemize}
       % \item "Static": $t_j$ = max number of true hypotheses if $j$ are
       %   false.
@@ -166,10 +189,10 @@
       %   $H_{i_1},...,H_{i_j}$ are false.
 %      \item Example:  \only<3->{$ j = 2$ :}
         \begin{description}
-        \item<3->[Static:]  $H_1$ and $H_2$ are false
+        \item<2->[Static:]  $H_1$ and $H_2$ are false
             $\Rightarrow$ $t_2 = 3$ (at most $H_4, H_5 $ and $H_6$ can be
             simultaneously true)
-        \item<7->[Dynamic:] $H_1$ and $H_6$ are false $\Rightarrow$
+        \item<5->[Dynamic:] $H_1$ and $H_6$ are false $\Rightarrow$
           $t^*_2 = 2 < t_2 =3$ (only $H_3$, $H_4$, or $H_2$, $H_5$ can be
             simultaneously true)
         \end{description}
@@ -284,11 +307,12 @@
 
 
 \begin{frame}
-\frametitle{Dependent null hypotheses}
+\frametitle{Algebraically dependent null hypotheses}
 
 \begin{itemize}
-\item $H_i$ \alert{depends} on $H_I$: $H_{I \cup i} = H_{I}$
-\item induces a \alert{dependence relation} $i \alert{\sim_H} I$ on index sets $I \in \mathcal{P}(S)$
+\item $H_j$ \alert{depends} on $H_I$: $H_{I \cup j} = \bigcap_{i \in
+    I} H_i \cap H_j = \bigcap_{i \in I} H_i = H_{I}$
+\item induces a \alert{dependence relation} $j \alert{\sim_H} I$ on index sets $I \in \mathcal{P}(S)$
 \item $I$ \alert{independent} iff for all $i
   \in I$ $i \nsim_H I\setminus i$ (\ie $H_{I} \subsetneq H_{I\setminus i}$)
 \pause
@@ -309,10 +333,9 @@
 \frametitle{Matroids}
 \begin{itemize}
 
-\item Matroids generalize the structures of graphs and vector spaces,
- \eg cycles, bases, independent sets
+\item Matroids generalize the structures of graphs and vector spaces.
 \item A matroid $M$ on $S$ endows $\mathcal{P}(S)$ with an algebraic
- structure
+ structure, \eg cycles, bases, independent sets, rank
 \item \alert{Cryptomorphism} \ie many ways to define a matroid:
  \begin{itemize}
  \item From a graph perspective: Circuit axioms.
@@ -715,20 +738,30 @@
 \end{frame}
 
 \begin{frame}
- \frametitle{Example: Multiple doses}
-
-
-
+ \frametitle{Example: QVA}
 \begin{tabular}{ll}
  \begin{minipage}{.4\textwidth}
-   \begin{tikzpicture}[overlay]
-     \node[yshift=70bp,xshift=-40bp] at (current page.south west){\input{lsd4.tex}};
-   \end{tikzpicture}
- \end{minipage} &
+   \only<1,3>{   \begin{tikzpicture}[overlay]
+       \node[yshift=100bp,xshift=-40bp] at (current page.south west){\input{qvameans.tex}};
+     \end{tikzpicture}
+   }   
+   \only<2>{\begin{tikzpicture}[overlay]
+       \node[yshift=-6cm,xshift=-1.4cm] at (current page.north west){\input{qvaalg.tex}};
+     \end{tikzpicture}
+   }
+\end{minipage} &
  \begin{minipage}{.6\textwidth}
-   \begin{tikzpicture}[remember picture,overlay]
-     \node[yshift=100bp,xshift=160bp] at (current page.north west){\input{lsd4t.tex}};
-   \end{tikzpicture}
+   \begin{block}{QVA Trial}
+     \begin{itemize}
+     \item QVA combination treatmend of QAB and NVA
+     \item Three treatment groups against placebo (Pl)
+     \item Fourth active comparator Tio
+     \item Some secondary endponts SE
+     \item<2-> If $H_1$ is rejected
+     \item<2-> Test $H_2$, $H_4$ and $H_3$, $H_5$ simultaneously at level $\alpha/2$
+     \item<2-> If only one is rejected no $\alpha$ may be passed on!
+     \end{itemize}
+   \end{block}
  \end{minipage}
 \end{tabular}
 \end{frame}
